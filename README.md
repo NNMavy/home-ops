@@ -22,8 +22,8 @@ Kubernetes cluster stats:
 
 Connectivity stats:
 
-[![Home-Internet](https://img.shields.io/endpoint?url=https%3A%2F%2Fhealthchecks.io%2Fb%2F2%2F28765d66-a973-4932-84e7-3b85cff4f80e.shields?color=brightgreeen&label=Home%20Internet&logo=ubiquiti&logoColor=white)](https://status.nnhome.eu)&nbsp;&nbsp;
-[![Status-Page](https://img.shields.io/endpoint?url=https%3A%2F%2Fhealthchecks.io%2Fb%2F2%2F52ac2ca4-4546-4b21-8c72-fe1d6cbe0f87.shields?color=brightgreeen&label=Status%20Page&logo=statuspage&logoColor=white)](https://status.nnhome.eu)
+[![Home-Internet](https://img.shields.io/endpoint?url=https%3A%2F%2Fhealthchecks.io%2Fb%2F2%2F28765d66-a973-4932-84e7-3b85cff4f80e.shields?color=brightgreeen&label=Home%20Internet&logo=ubiquiti&logoColor=white)](https://status.nnhome.eu)&nbsp;
+[![Status-Page](https://img.shields.io/endpoint?url=https%3A%2F%2Fhealthchecks.io%2Fb%2F2%2F52ac2ca4-4546-4b21-8c72-fe1d6cbe0f87.shields?color=brightgreeen&label=Status%20Page&logo=statuspage&logoColor=white)](https://status.nnhome.eu)&nbsp;
 [![Alertmanager](https://img.shields.io/endpoint?url=https%3A%2F%2Fhealthchecks.io%2Fb%2F3%2F7bdfa0c2-ad56-4a93-8424-7dfbea390cdc.shields?color=brightgreeen&label=Alertmanager&logo=prometheus&logoColor=white)](https://status.nnhome.eu)
 
 </div>
