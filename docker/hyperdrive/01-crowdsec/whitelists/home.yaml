@@ -4,4 +4,5 @@ description: "Allow home IP"
 whitelist:
   reason: "home IP"
   ip:
-     - "${HOME_IP}"
+      #- "${HOME_IP}"
+      - 127.0.0.1
