@@ -1,0 +1,16 @@
+---
+working_dir: ./docker/hyperdrive
+auto_discovery:
+  enabled: true
+  depth: 1
+  delete: true
+external_secrets:
+  CADDY_ACME_EMAIL: op://automation/towonel-tunnel/acme_email
+  TOWONEL_INVITE_HASH_KEY: op://automation/towonel-tunnel/invite_hash_key
+  VPS_IP: op://automation/towonel-tunnel/ip
+  HOME_IP: op://automation/crowdsec/home_ip
+force_recreate: false
+reconciliation:
+  enabled: true
+  interval: 3600
+

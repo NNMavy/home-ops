@@ -1,0 +1,7 @@
+---
+name: custom/home-allowlist
+description: "Allow home IP"
+whitelist:
+  reason: "home IP"
+  ip:
+    # - "{$HOME_IP}" This is probably broken

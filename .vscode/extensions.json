@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "hverlin.mise-vscode",
+    "tamasfe.even-better-toml",
+    "samuelcolvin.jinjahtml",
+    "oxc.oxc-vscode",
+    "nefrob.vscode-just-syntax"
+  ]
+}
+

@@ -1,0 +1,8 @@
+{
+  "prettier.configPath": ".prettierrc.yaml",
+  "prettier.ignorePath": ".prettierignore",
+  "yaml.schemas": {
+    "kubernetes": ["kubernetes/*.yml", "kubernetes/*.yaml"]
+  },
+}
+
