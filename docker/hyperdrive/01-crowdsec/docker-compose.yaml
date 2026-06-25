@@ -11,6 +11,7 @@ services:
       COLLECTIONS: "crowdsecurity/linux crowdsecurity/sshd crowdsecurity/iptables"
       PARSERS: "crowdsecurity/geoip-enrich"
       GID: "1000"
+      HOME_IP: ${HOME_IP}
     volumes:
       - /var/log:/var/log:ro
       - /run/systemd/journal:/run/systemd/journal:ro
