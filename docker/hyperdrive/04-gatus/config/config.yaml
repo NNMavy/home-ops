@@ -1,0 +1,48 @@
+---
+alerting:
+  telegram:
+    token: ${TELEGRAM_TOKEN}
+    default-alert:
+      description: health-check failed
+      failure-threshold: 3
+      minimum-reminder-interval: 1h
+      send-on-resolved: true
+      success-threshold: 2
+    priority: 1
+    resolved-priority: 0
+    title: Gatus
+    id: ${TELEGRAM_ID}
+
+endpoints:
+  - name: status page
+    group: home
+    url: https://${REMOTE_STATUS_HOSTNAME}
+    interval: 1m
+    ui:
+      hide-url: true
+      hide-hostname: true
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: telegram
+
+external-endpoints:
+  - name: heartbeat
+    group: home
+    token: ${REMOTE_HEARTBEAT_TOKEN}
+    heartbeat:
+      interval: 5m
+    alerts:
+      - type: telegram
+
+storage:
+  type: sqlite
+  caching: true
+  path: ${GATUS_CONFIG_PATH}/gatus.db
+
+ui:
+  title: Status | Gatus
+  header: Status
+
+web:
+  port: ${GATUS_WEB_PORT}

@@ -5,6 +5,9 @@ auto_discovery:
   depth: 1
   delete: true
 external_secrets:
+  GATUS_TELEGRAM_TOKEN: op://services/telegram/gatus_token
+  GATUS_TELEGRAM_ID: op://services/telegram/gatus_id
+  GATUS_REMOTE_HEARTBEAT_TOKEN: op://automation/gatus/hyperdrive_home_heartbeat_token
   CADDY_ACME_EMAIL: op://automation/towonel-tunnel/acme_email
   TOWONEL_INVITE_HASH_KEY: op://automation/towonel-tunnel/invite_hash_key
   VPS_IP: op://automation/towonel-tunnel/ip
