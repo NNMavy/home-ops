@@ -1,5 +1,6 @@
 services:
   urbackup:
+    container_name: urbackup
     environment:
       BROADCAST_INTERFACES: '""'
       NVIDIA_VISIBLE_DEVICES: void

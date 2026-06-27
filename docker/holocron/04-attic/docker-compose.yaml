@@ -1,5 +1,6 @@
 services:
   attic:
+    container_name: attic
     command: '-f /attic/server.toml --mode monolithic'
     image: ghcr.io/zhaofengli/attic:9eda345a743f50999de04f59a170806c3e029eea
     ports:
