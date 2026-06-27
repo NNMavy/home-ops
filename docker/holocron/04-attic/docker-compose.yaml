@@ -1,0 +1,22 @@
+services:
+  attic:
+    command: '-f /attic/server.toml --mode monolithic'
+    image: ghcr.io/zhaofengli/attic:9eda345a743f50999de04f59a170806c3e029eea
+    ports:
+      - '8080:8080'
+    healthcheck:
+      interval: 30s
+      retries: 3
+      start_period: 15s
+      test:
+        - CMD
+        - wget
+        - '--no-verbose'
+        - '--tries=1'
+        - '--spider'
+        - http://localhost:8080
+      timeout: 5s
+    volumes:
+      - /mnt/vmdata-ssd/container-data/nix-attic/data:/data
+      - /mnt/vmdata-ssd/container-data/nix-attic/cache:/cache
+      - /mnt/vmdata-ssd/container-data/nix-attic/server.toml:/attic/server.toml

@@ -1,0 +1,34 @@
+services:
+  urbackup:
+    environment:
+      BROADCAST_INTERFACES: '""'
+      NVIDIA_VISIBLE_DEVICES: void
+      TZ: Etc/UTC
+    group_add:
+      - 568
+    healthcheck:
+      disable: True
+    image: >-
+      uroni/urbackup-server:2.5.x@sha256:102fefa505bc497b963dde1e5493b6a06cfb18750b26b7c5b510facf62b6ec6e
+    network_mode: host
+    platform: linux/amd64
+    privileged: False
+    pull_policy: missing
+    restart: 'no'
+    stdin_open: False
+    tty: False
+    volumes:
+      - bind:
+          create_host_path: False
+          propagation: rprivate
+        read_only: False
+        source: /mnt/largepool/backups
+        target: /backups
+        type: bind
+      - bind:
+          create_host_path: False
+          propagation: rprivate
+        read_only: False
+        source: /mnt/vmdata-ssd/container-data/urbackup
+        target: /var/urbackup
+        type: bind
