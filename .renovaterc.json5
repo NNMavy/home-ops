@@ -1,0 +1,20 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: [
+    "local>starforge/renovate-config",
+    "local>starforge/home-ops//.renovate/customManagers.json5",
+    "local>starforge/home-ops//.renovate/groups.json5",
+    "local>starforge/home-ops//.renovate/autoMerge.json5",
+    "local>starforge/home-ops//.renovate/versions.json5",
+    "local>starforge/home-ops//.renovate/overrides.json5",
+  ],
+  flux: {
+    managerFilePatterns: ["/^kubernetes/.+\\.yaml(?:\\.j2)?$/"],
+  },
+  "helm-values": {
+    managerFilePatterns: ["/^kubernetes/.+\\.yaml(?:\\.j2)?$/"],
+  },
+  kubernetes: {
+    managerFilePatterns: ["/^kubernetes/.+\\.yaml(?:\\.j2)?$/"],
+  }
+}
