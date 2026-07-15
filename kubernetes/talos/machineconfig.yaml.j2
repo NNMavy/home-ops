@@ -106,7 +106,7 @@ cluster:
       runtime-config: admissionregistration.k8s.io/v1beta1=true
     certSANs:
       - 127.0.0.1 # KubePrism
-      - k8s.internal
+      - 172.16.60.10
     disablePodSecurityPolicy: true
   controllerManager:
     image: registry.k8s.io/kube-controller-manager:{{ ENV.K8S_VERSION }}
@@ -140,7 +140,7 @@ cluster:
     key: op://automation/talos/CLUSTER_CA_KEY
     {% endif %}
   controlPlane:
-    endpoint: https://k8s.internal:6443
+    endpoint: https://172.16.60.10:6443
   clusterName: home-ops
   discovery:
     enabled: true
@@ -158,6 +158,12 @@ cluster:
       - 10.96.0.0/12
   secret: op://automation/talos/CLUSTER_SECRET
   token: op://automation/talos/CLUSTER_TOKEN
+---
+apiVersion: v1alpha1
+kind: LinkAliasConfig
+name: net0
+selector:
+  match: link.driver == "igc" && mac(link.permanent_addr).startsWith("88:ae:dd:66:")
 ---
 apiVersion: v1alpha1
 kind: BondConfig
@@ -195,5 +201,5 @@ kind: RawVolumeConfig
 name: miroir
 provisioning:
   diskSelector:
-    match: disk.model == "Corsair MP600 MICRO" && !system_disk
+    match: disk.model == "Sabrent SB-2142-1TB" && !system_disk
   minSize: 1TB

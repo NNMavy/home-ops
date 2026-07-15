@@ -6,4 +6,4 @@ metadata:
   name: holocron
 spec:
   externalCIDRs:
-    - 171.16.20.2/32
+    - 172.16.20.2/32
