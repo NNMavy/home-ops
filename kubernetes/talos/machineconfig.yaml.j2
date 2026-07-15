@@ -180,8 +180,8 @@ nameservers:
 # IOT
 apiVersion: v1alpha1
 kind: VLANConfig
-name: bond0.303
-vlanID: 303
+name: bond0.15
+vlanID: 15
 parent: bond0
 mtu: 9000
 ---
@@ -189,3 +189,11 @@ apiVersion: v1alpha1
 kind: WatchdogTimerConfig
 device: /dev/watchdog0
 timeout: 5m
+---
+apiVersion: v1alpha1
+kind: RawVolumeConfig
+name: miroir
+provisioning:
+  diskSelector:
+    match: disk.model == "Corsair MP600 MICRO" && !system_disk
+  minSize: 1TB
