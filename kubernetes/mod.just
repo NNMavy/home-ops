@@ -9,7 +9,7 @@ kubernetes_dir := justfile_dir() + '/kubernetes'
 [private]
 [script]
 default:
-    just -l talos
+    just -l k8s
 
 [doc('Browse a PVC')]
 [script]
