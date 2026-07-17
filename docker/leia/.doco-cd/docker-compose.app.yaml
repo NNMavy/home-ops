@@ -42,6 +42,11 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.doco-cd.loadbalancer.server.port=8880"
+      - "traefik.http.routers.doco-cd.rule=Host(`leia-doco-cd.codewalker.dev`)"
+      - "traefik.http.routers.doco-cd.entrypoints=websecure"
 volumes:
   data: {}
 networks:
