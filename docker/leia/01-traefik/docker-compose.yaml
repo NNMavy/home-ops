@@ -1,8 +1,4 @@
 ---
-networks:
-  apps:
-    name: apps
-    external: false
 services:
   traefik:
     command:
@@ -25,8 +21,6 @@ services:
       - OVH_APPLICATION_SECRET=${OVH_APPLICATION_SECRET}
       - OVH_CONSUMER_KEY=${OVH_CONSUMER_KEY}
     image: traefik:v3.7.7
-    networks:
-      - apps
     ports:
       - 80:80
       - 443:443
@@ -34,4 +28,8 @@ services:
       - acme:/certs
       - /var/run/docker.sock:/var/run/docker.sock:ro
 volumes:
-  acme:
+  acme: {}
+networks:
+  default:
+    name: edge
+    external: true

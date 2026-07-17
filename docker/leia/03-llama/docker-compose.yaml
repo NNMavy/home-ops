@@ -6,8 +6,6 @@ services:
       - /dev/dri:/dev/dri
     volumes:
       - /opt/llama/models:/root/.cache/huggingface
-    ports:
-      - 8080:8080
     restart: always
     environment:
       - LLAMA_ARG_N_GPU_LAYERS=999
@@ -24,7 +22,17 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.\"llama.cpp\".loadbalancer.server.port=8080"
+      - "traefik.http.routers.\"llama.cpp\".rule=Host(`leia-qwen.codewalker.dev`)"
+      - "traefik.http.routers.\"llama.cpp\".entrypoints=websecure"
 
 configs:
   llamafile:
     file: ./config/config.ini
+
+networks:
+  default:
+    name: edge
+    external: true
