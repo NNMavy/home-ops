@@ -10,7 +10,7 @@ configMapGenerator:
   - name: gatus-configmap
     files:
       - config.yaml=./resources/config.yaml
-      - icarus.yaml=./resources/icarus.yaml
+      - hyperdrive.yaml=./resources/hyperdrive.yaml
 generatorOptions:
   disableNameSuffixHash: true
   annotations:
