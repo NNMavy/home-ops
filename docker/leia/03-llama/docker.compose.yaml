@@ -1,0 +1,30 @@
+services:
+  llama.cpp:
+    container_name: llama.cpp
+    image: ghcr.io/ggml-org/llama.cpp:server-cuda13
+    devices:
+      - /dev/dri:/dev/dri
+    volumes:
+      - /opt/llama/models:/root/.cache/huggingface
+    ports:
+      - 8080:8080
+    restart: always
+    environment:
+      - LLAMA_ARG_N_GPU_LAYERS=999
+    command:
+      - "--models-preset"
+      - "/config/config.ini"
+    configs:
+      - source: llamafile
+        target: /config/config.ini
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+configs:
+  llamafile:
+    file: ./config/config.ini
