@@ -24,9 +24,9 @@ services:
               capabilities: [gpu]
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.\"llama.cpp\".loadbalancer.server.port=8080"
-      - "traefik.http.routers.\"llama.cpp\".rule=Host(`leia-qwen.codewalker.dev`)"
-      - "traefik.http.routers.\"llama.cpp\".entrypoints=websecure"
+      - "traefik.http.services.llama-cpp.loadbalancer.server.port=8080"
+      - "traefik.http.routers.llama-cpp.rule=Host(`leia-qwen.codewalker.dev`)"
+      - "traefik.http.routers.llama-cpp.entrypoints=websecure"
 
 configs:
   llamafile:
