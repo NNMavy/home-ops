@@ -8,7 +8,7 @@ metadata:
     external-dns.alpha.kubernetes.io/target: &hostname ingress-ext.codewalker.dev
     gatus.home-operations.com/endpoint: |-
       client:
-        dns-resolver: tcp://1.1.1.1:53
+        dns-resolver: tcp://5.196.41.1:53
       group: external
 spec:
   gatewayClassName: envoy
