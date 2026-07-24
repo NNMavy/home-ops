@@ -24,7 +24,7 @@
       delegate_to: localhost
       become: false
       loop:
-        - key: Shared/Service accounts/doco-cd
+        - key: services/op-starforge/doco-cd-serviceaccount
           var: doco_1pw_sa_token
         - key: automation/doco-cd/api_secret
           var: doco_api_secret
