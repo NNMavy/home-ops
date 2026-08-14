@@ -12,7 +12,7 @@ spec:
     pools:
       - name: fast
         lvmthin:
-          device: /dev/disk/by-id/nvme-Samsung_SSD_980_1TB_.*
+          device: /dev/disk/by-partlabel/r-miroir-fast
       - name: slow
         lvmthin:
           device: /dev/disk/by-partlabel/r-miroir-slow
