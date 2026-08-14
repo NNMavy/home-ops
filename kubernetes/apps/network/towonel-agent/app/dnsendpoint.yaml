@@ -9,7 +9,7 @@ spec:
     - dnsName: ingress-ext.codewalker.dev
       recordType: A
       targets:
-        - &vps_ip 135.125.53.129
+        - &vps_ip 141.227.131.76
     - dnsName: twnl.codewalker.dev
       recordType: A
       targets:
