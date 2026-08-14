@@ -10,6 +10,9 @@ spec:
       node-role.kubernetes.io/control-plane: ""
   template:
     pools:
+      - name: fast
+        lvmthin:
+          device: /dev/disk/by-id/nvme-Samsung_SSD_980_1TB_.*
       - name: slow
         lvmthin:
           device: /dev/disk/by-partlabel/r-miroir-slow

@@ -58,7 +58,6 @@ machine:
   kernel:
     modules:
       - name: nbd
-      - name: zfs
   kubelet:
     defaultRuntimeSeccompProfileEnabled: true
     disableManifestsDirectory: true
@@ -68,7 +67,7 @@ machine:
     image: ghcr.io/siderolabs/kubelet:{{ ENV.K8S_VERSION }}
     nodeIP:
       validSubnets:
-        - 10.1.1.0/24
+        - 172.16.50.0/24
   sysctls:
     fs.inotify.max_user_instances: "8192"
     fs.inotify.max_user_watches: "1048576"
@@ -106,7 +105,7 @@ cluster:
       runtime-config: admissionregistration.k8s.io/v1beta1=true
     certSANs:
       - 127.0.0.1 # KubePrism
-      - 172.16.50.10
+      - k8s.codewalker.dev
     disablePodSecurityPolicy: true
   controllerManager:
     image: registry.k8s.io/kube-controller-manager:{{ ENV.K8S_VERSION }}
@@ -117,7 +116,7 @@ cluster:
     disabled: true
   etcd:
     advertisedSubnets:
-      - 10.1.1.0/24
+      - 172.16.50.0/24
     ca:
       crt: op://automation/talos/CLUSTER_ETCD_CA_CRT
       key: op://automation/talos/CLUSTER_ETCD_CA_KEY
@@ -140,7 +139,7 @@ cluster:
     key: op://automation/talos/CLUSTER_CA_KEY
     {% endif %}
   controlPlane:
-    endpoint: https://172.16.50.10:6443
+    endpoint: https://k8s.codewalker.dev:6443
   clusterName: home-ops
   discovery:
     enabled: true
@@ -181,7 +180,7 @@ clientIdentifier: mac
 apiVersion: v1alpha1
 kind: ResolverConfig
 nameservers:
-  - address: 10.1.1.1
+  - address: 172.16.50.254
 ---
 # IOT
 apiVersion: v1alpha1
@@ -203,3 +202,12 @@ provisioning:
   diskSelector:
     match: disk.model == "Sabrent SB-2142-1TB" && !system_disk
   minSize: 1TB
+---
+apiVersion: v1alpha1
+kind: ExtensionServiceConfig
+name: nut-client
+configFiles:
+  - content: |-
+        MONITOR ups@holocron.codewalker.dev 1 monuser secret secondary
+        SHUTDOWNCMD "/sbin/poweroff"
+    mountPath: /usr/local/etc/nut/upsmon.conf
