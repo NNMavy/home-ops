@@ -81,8 +81,8 @@ spec:
         globalMounts:
           - path: /config/config.yaml
             subPath: config.yaml
-          - path: /config/config-icarus.yaml
-            subPath: icarus.yaml
+          - path: /config/config-hyperdrive.yaml
+            subPath: hyperdrive.yaml
     rbac:
       roles:
         gatus:

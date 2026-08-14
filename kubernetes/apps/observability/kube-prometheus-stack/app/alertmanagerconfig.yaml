@@ -14,7 +14,7 @@ spec:
     receiver: pushover
     repeatInterval: 12h
     routes:
-      - receiver: icarus-heartbeat
+      - receiver: hyperdrive-heartbeat
         groupInterval: 2m
         groupWait: 0s
         repeatInterval: 2m30s
@@ -46,15 +46,15 @@ spec:
           matchType: =
   receivers:
     - name: blackhole
-    - name: icarus-heartbeat
+    - name: hyperdrive-heartbeat
       webhookConfigs:
         - httpConfig:
             bearerTokenSecret:
               name: alertmanager-secret
-              key: icarus_home_heartbeat_token
+              key: hyperdrive_home_heartbeat_token
           urlSecret:
             name: alertmanager-secret
-            key: icarus_home_heartbeat_url
+            key: hyperdrive_home_heartbeat_url
     - name: pushover
       pushoverConfigs:
         - html: true

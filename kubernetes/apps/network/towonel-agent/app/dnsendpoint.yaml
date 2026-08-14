@@ -14,11 +14,11 @@ spec:
       recordType: A
       targets:
         - *vps_ip
-    - dnsName: icarus-doco-cd.codewalker.dev
+    - dnsName: hyperdrive-doco-cd.codewalker.dev
       recordType: A
       targets:
         - *vps_ip
-    - dnsName: icarus-gatus.codewalker.dev
+    - dnsName: hyperdrive-gatus.codewalker.dev
       recordType: A
       targets:
         - *vps_ip
