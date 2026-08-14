@@ -27,7 +27,7 @@ spec:
           - name: LOG_LEVEL
             value: *logLevel
           - name: UNIFI_HOST
-            value: https://10.1.0.1
+            value: https://172.16.1.254
           - name: UNIFI_API_KEY
             valueFrom:
               secretKeyRef:
