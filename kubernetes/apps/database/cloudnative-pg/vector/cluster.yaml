@@ -1,0 +1,41 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres-vector
+  namespace: database
+spec:
+  instances: 1
+  imageName: ghcr.io/immich-app/postgres:16-vectorchord0.4.2-pgvectors0.2.1
+  postgresUID: 999
+  postgresGID: 999
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 20Gi
+    storageClass: miroir-local
+  superuserSecret:
+    name: cloudnative-pg-secret
+  enableSuperuserAccess: true
+  postgresql:
+    shared_preload_libraries:
+      - "vectors.so"
+      - "vchord.so"
+  monitoring:
+    enablePodMonitor: true
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: pgbackup-vector
+        serverName: "pgvector-v2"
+  # bootstrap:
+  #   recovery:
+  #     source: source
+  externalClusters:
+    - name: source
+      plugin:
+        name: barman-cloud.cloudnative-pg.io
+        parameters:
+          barmanObjectName: pgbackup-vector
+          servername: "pgvector"
