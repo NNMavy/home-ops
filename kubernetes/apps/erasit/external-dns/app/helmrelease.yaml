@@ -53,8 +53,8 @@ spec:
       - crd
       - gateway-httproute
       - service
-    txtOwnerId: main
-    txtPrefix: k8s.main.
+    txtOwnerId: default
+    txtPrefix: k8s.
     domainFilters: ["erasit.nl"]
     serviceMonitor:
       enabled: true
