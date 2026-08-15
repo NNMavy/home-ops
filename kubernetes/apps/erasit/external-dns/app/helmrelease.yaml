@@ -49,9 +49,12 @@ spec:
       - --gateway-name=erasit
     triggerLoopOnEvent: true
     policy: sync
-    sources: ["crd", "gateway-httproute"]
-    txtOwnerId: default
-    txtPrefix: k8s.
+    sources:
+      - crd
+      - gateway-httproute
+      - service
+    txtOwnerId: main
+    txtPrefix: k8s.main.
     domainFilters: ["erasit.nl"]
     serviceMonitor:
       enabled: true
