@@ -5,6 +5,8 @@ metadata:
   name: immich-ml-cache
 spec:
   storageClassName: miroir-slow
+  accessModes:
+    - ReadWriteOnce
   resources:
     requests:
       storage: "100Gi"
