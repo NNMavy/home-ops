@@ -1,8 +1,5 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
-  extends: [
-    "github>home-operations/renovate-presets//versioning/searxng.json5#7.0.0",
-  ],
   packageRules: [
     {
       "description": "Use custom versioning for Firefly",
