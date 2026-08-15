@@ -21,6 +21,8 @@ spec:
     substitute:
       APP: *app
       KOPIUR_CAPACITY: 1Gi
+      KOPIUR_MOVER_UID: "5050"
+      KOPIUR_MOVER_GID: "2000"
   prune: true
   retryInterval: 2m
   sourceRef:
