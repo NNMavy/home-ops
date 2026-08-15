@@ -67,7 +67,7 @@ spec:
 
     route:
       app:
-        hostnames: ["{{.Release.Name}}.nnhome.eu"]
+        hostnames: ["{{.Release.Name}}.codewalker.dev"]
         parentRefs:
           - name: envoy-internal
             namespace: network
