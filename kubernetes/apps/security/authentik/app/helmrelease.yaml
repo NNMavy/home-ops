@@ -1,0 +1,79 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: authentik
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: authentik
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  values:
+    global:
+      podAnnotations:
+        reloader.stakater.com/auto: "true"
+      deploymentStrategy:
+        type: RollingUpdate
+      envFrom:
+        - secretRef:
+            name: authentik-secret
+        - secretRef:
+            name: authentik-redis-secret
+
+    authentik:
+      log_level: info
+      email:
+        port: 25
+        use_tls: false
+      error_reporting:
+        enabled: false
+        send_pii: false
+      redis:
+        host: "authentik-redis.security.svc.cluster.local"
+        password: ""
+      postgresql:
+        host: "postgres-pgbouncer-rw.database.svc.cluster.local"
+        name: "authentik"
+
+    postgresql:
+      enabled: false
+
+    prometheus:
+      rules:
+        enabled: true
+
+    redis:
+      enabled: false
+
+    server:
+      initContainers:
+        - name: postgres-init
+          image: ghcr.io/home-operations/postgres-init:18.4
+          envFrom:
+            - secretRef:
+                name: authentik-secret
+      route:
+        main:
+          enabled: true
+          hostnames: ["{{ .Release.Name }}.codewalker.dev"]
+          parentRefs:
+            - name: envoy-external
+              namespace: network
+      metrics:
+        prometheus:
+          serviceMonitor:
+            enabled: true
+
+    worker:
+      autoscaling:
+        enabled: false
