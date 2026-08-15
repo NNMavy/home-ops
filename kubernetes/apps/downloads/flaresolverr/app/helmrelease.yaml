@@ -20,6 +20,15 @@ spec:
   values:
     controllers:
       flaresolverr:
+        pod:
+          annotations:
+            k8s.v1.cni.cncf.io/networks: |-
+              [{
+                "name": "multus-vpn",
+                "namespace": "network",
+                "ips": ["172.16.90.12/24"],
+                "mac": "0f:32:4b:aa:a5:1f"
+              }]
         replicas: 2
         strategy: RollingUpdate
         annotations:
@@ -33,8 +42,6 @@ spec:
               requests:
                 cpu: 15m
                 memory: 150Mi
-            env:
-              PROXY_URL: http://gluetun.network.svc.cluster.local:8888
     service:
       app:
         type: ClusterIP
