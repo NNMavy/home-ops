@@ -1,0 +1,122 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app radarr
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: radarr
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+
+  values:
+    controllers:
+      radarr:
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18.4
+            envFrom: &envFrom
+              - secretRef:
+                  name: radarr-secret
+
+        containers:
+          app:
+            image:
+              repository: ghcr.io/home-operations/radarr
+              tag: 6.4.1.10545
+            env:
+              RADARR__APP__INSTANCENAME: Radarr
+              RADARR__APP__THEME: dark
+              RADARR__AUTH__METHOD: External
+              RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              RADARR__LOG__DBENABLED: "False"
+              RADARR__LOG__LEVEL: info
+              RADARR__SERVER__PORT: &port 80
+              RADARR__UPDATE__BRANCH: develop
+              FF_URL: http://fileflows.media.svc.cluster.local:5000
+              FF_FLOW_ID: cb8a6cb1-cb48-42e0-bf1c-356882ac55b2
+            envFrom: *envFrom
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 100m
+              limits:
+                memory: 1Gi
+
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+
+    service:
+      radarr:
+        controller: radarr
+        ports:
+          http:
+            port: *port
+
+    route:
+      app:
+        hostnames: ["{{.Release.Name}}.codewalker.dev"]
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: "{{.Release.Name}}"
+                port: *port
+
+    persistence:
+      config:
+        existingClaim: radarr
+      scripts:
+        type: configMap
+        name: sonarr-configmap
+        defaultMode: 0775
+        globalMounts:
+          - path: /scripts/ff-autoscan.sh
+            subPath: ff-autoscan.sh
+            readOnly: true
+      media:
+        type: nfs
+        server: holocron.codewalker.dev
+        path: /mnt/largepool/media
+        globalMounts:
+          - path: /media
+      tmp:
+        type: emptyDir
