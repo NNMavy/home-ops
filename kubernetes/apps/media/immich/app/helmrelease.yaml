@@ -109,13 +109,13 @@ spec:
 
       route:
         app:
-          hostnames: ["{{.Release.Name}}.codewalker.dev"]
+          hostnames: ["immich.codewalker.dev"]
           parentRefs:
             - name: envoy-internal
               namespace: network
           rules:
             - backendRefs:
-                - name: "{{.Release.Name}}"
+                - name: "immich-server"
                   port: 2283
 
     machine-learning:
