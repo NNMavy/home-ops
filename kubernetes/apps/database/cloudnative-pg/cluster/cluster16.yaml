@@ -31,12 +31,12 @@ spec:
       isWALArchiver: true
       parameters: &parameters
         barmanObjectName: pgbackup
-        serverName: main-postgres16-v4
+        serverName: main-postgres16-v5
   # Note: previousCluster needs to be set to the name of the previous
   # cluster when recovering from an existing cnpg cluster
-  # bootstrap:
-  #   recovery:
-  #     source: &previousCluster main-postgres16-v2
+  bootstrap:
+    recovery:
+      source: &previousCluster main-postgres16-v3
   # Note: externalClusters is needed when recovering from an existing cnpg cluster
   externalClusters:
     - name: source

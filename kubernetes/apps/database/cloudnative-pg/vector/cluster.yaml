@@ -28,10 +28,10 @@ spec:
       isWALArchiver: true
       parameters:
         barmanObjectName: pgbackup-vector
-        serverName: "pgvector-v2"
-  # bootstrap:
-  #   recovery:
-  #     source: source
+        serverName: "pgvector-v3"
+  bootstrap:
+    recovery:
+      source: &previousCluster pgvector
   externalClusters:
     - name: source
       plugin:
