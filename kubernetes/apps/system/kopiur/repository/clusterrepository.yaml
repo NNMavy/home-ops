@@ -18,7 +18,7 @@ spec:
     allowed: true
   encryption:
     passwordSecretRef:
-      name: kopiur-nas-secret
+      name: kopiur-holocron-secret
       namespace: system
       key: KOPIA_PASSWORD
   identityDefaults:
