@@ -21,7 +21,7 @@ search:
     - nl-NL
 
 general:
-  instance_name: NNHome Search
+  instance_name: Codewalker Search
 
 ui:
   default_theme: simple
