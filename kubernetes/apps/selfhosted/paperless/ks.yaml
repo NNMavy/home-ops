@@ -20,7 +20,7 @@ spec:
     - apiVersion: dragonflydb.io/v1alpha1
       kind: Dragonfly
       failed: status.phase != 'ready'
-      current: status.phase == 'ready
+      current: status.phase == 'ready'
   interval: 1h
   path: ./kubernetes/apps/selfhosted/paperless/app
   postBuild:
