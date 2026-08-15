@@ -20,6 +20,15 @@ spec:
   values:
     controllers:
       prowlarr:
+        pod:
+          annotations:
+            k8s.v1.cni.cncf.io/networks: |-
+              [{
+                "name": "multus-vpn",
+                "namespace": "network",
+                "ips": ["172.16.90.11/24"],
+                "mac": "0f:46:4b:6d:a5:af"
+              }]
         annotations:
           reloader.stakater.com/auto: "true"
 
