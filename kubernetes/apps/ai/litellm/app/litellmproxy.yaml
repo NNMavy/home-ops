@@ -62,7 +62,7 @@ spec:
     port: 4000
   route:
     hostnames:
-      - litellm.nnhome.eu
+      - litellm.codewalker.dev
     parentRefs:
       - name: external
         namespace: kube-system

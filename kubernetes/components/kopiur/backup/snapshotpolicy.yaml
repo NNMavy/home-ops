@@ -17,7 +17,7 @@ spec:
       runAsGroup: ${KOPIUR_MOVER_GID:=2000}
   repository:
     kind: ClusterRepository
-    name: nas
+    name: holocron
   retention:
     keepDaily: 7
     keepHourly: 24

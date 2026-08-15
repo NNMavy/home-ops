@@ -89,7 +89,7 @@ spec:
             namespace: kube-system
             sectionName: https
         hostnames:
-          - memini.nnhome.eu
+          - memini.codewalker.dev
     serviceMonitor:
       main:
         enabled: true
