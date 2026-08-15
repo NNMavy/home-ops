@@ -1,0 +1,74 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app zipline
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      main:
+        type: deployment
+        replicas: 1
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18.4
+            envFrom: &envFrom
+              - secretRef:
+                  name: zipline-secret
+        containers:
+          main:
+            image:
+              repository: ghcr.io/diced/zipline
+              tag: 4.6.5@sha256:bfd5b0f7b5b8b3ed058a81667c78a14a7f997115d8433bec273620ec81be51d4
+            env: &env
+              CORE_PORT: &port 4000
+              DATASOURCE_TYPE: local
+              DATASOURCE_LOCAL_DIRECTORY: /uploads
+            envFrom: *envFrom
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+
+    route:
+      app:
+        hostnames: ["{{ .Release.Name }}.nnhome.eu"]
+        parentRefs:
+          - name: external
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+
+    persistence:
+      uploads:
+        enabled: true
+        existingClaim: *app

@@ -2,11 +2,8 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: media
+namespace: security
 components:
-  - ../../components/flux-alerts
-  - ../../components/kopiur/secret
+  - ../../components/common
 resources:
-  - ./namespace.yaml
-  #  - ./immich/ks.yaml
-  - ./jellyfin/ks.yaml
+  - ./authentik/ks.yaml

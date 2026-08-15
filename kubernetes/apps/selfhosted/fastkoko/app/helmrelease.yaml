@@ -1,0 +1,59 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: fastkoko
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      fastkoko:
+        replicas: 1
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/remsky/kokoro-fastapi-cpu
+              tag: v0.7.2@sha256:fa52dce920c3610c78fccde4f6fa064fb092ae95018cf42b42d84d876655e8d9
+            resources:
+              requests:
+                cpu: 5m
+                memory: 2Gi
+              limits:
+                memory: 4Gi
+    service:
+      app:
+        controller: fastkoko
+        ports:
+          http:
+            port: &port 8880
+
+    route:
+      app:
+        hostnames: ["{{.Release.Name}}.nnhome.eu"]
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: "{{.Release.Name}}"
+                port: *port
+
+    persistence:
+      tmp:
+        type: emptyDir
