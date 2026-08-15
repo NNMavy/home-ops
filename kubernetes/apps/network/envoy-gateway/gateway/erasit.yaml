@@ -108,6 +108,6 @@ spec:
   lua:
     - type: ValueRef
       valueRef:
-        name: envoy-erasit-extensions
+        name: envoy-external-extensions
         kind: ConfigMap
         group: v1
