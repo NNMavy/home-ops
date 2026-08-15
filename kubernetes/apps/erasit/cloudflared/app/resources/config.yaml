@@ -1,0 +1,10 @@
+---
+originRequest:
+  originServerName: external.erasit.nl
+
+ingress:
+  - hostname: erasit.nl
+    service: &svc https://cilium-gateway-erasit.kube-system.svc.cluster.local
+  - hostname: "*.erasit.nl"
+    service: *svc
+  - service: http_status:404

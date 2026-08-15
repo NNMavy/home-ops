@@ -1,0 +1,49 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: erasitwebsite
+  namespace: erasit
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: erasit-website
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      website:
+        replicas: 1
+        strategy: Recreate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          web:
+            image:
+              repository: ghcr.io/fluff2908/erasitwebsite
+              tag: 0.3.0@sha256:dbeae75bb1ffc82176c85c88156994668f856cd44513b09cc87c7622cd2fabd9
+            resources:
+              requests:
+                cpu: 5m
+                memory: 16Mi
+              limits:
+                memory: 64Mi
+    service:
+      app:
+        ports:
+          http:
+            port: 80
+    route:
+      app:
+        hostnames: ["www.erasit.nl"]
+        parentRefs:
+          - name: envoy-erasit
+            namespace: network
