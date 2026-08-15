@@ -26,8 +26,7 @@ spec:
               [{
                 "name": "multus-vpn",
                 "namespace": "network",
-                "ips": ["172.16.90.11/24"],
-                "mac": "0f:46:4b:6d:a5:af"
+                "ips": ["172.16.90.11/24"]
               }]
         annotations:
           reloader.stakater.com/auto: "true"
