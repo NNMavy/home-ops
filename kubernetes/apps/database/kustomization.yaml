@@ -7,4 +7,6 @@ components:
   - ../../components/flux-alerts
 resources:
   - ./namespace.yaml
+  - ./cloudnative-pg/ks.yaml
   - ./dragonfly-operator/ks.yaml
+  - ./pgadmin/ks.yaml
