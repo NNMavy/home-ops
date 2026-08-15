@@ -64,3 +64,6 @@ spec:
           parseMode: HTML
           disableNotifications: false
           sendResolved: true
+          message: '{{ template "telegram.tmpl" . }}'
+          httpConfig:
+            followRedirects: true
