@@ -11,13 +11,13 @@ spec:
   interval: 30m
   values:
     extraVolumes:
-      - name: repo
+      - name: repository
         nfs:
           path: /mnt/largepool/VolsyncKopia
           server: holocron.codewalker.dev
     extraVolumeMounts:
-      - name: repo
-        mountPath: /repo
+      - name: repository
+        mountPath: /repository
     monitoring:
       dashboards:
         enabled: true
