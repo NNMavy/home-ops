@@ -61,6 +61,6 @@ spec:
             name: alertmanager-secret
             key: telegram_gatus_token
           chatID: 234269172
-          parseMode: "MarkdownV2"
+          parseMode: HTML
           disableNotifications: false
           sendResolved: true
