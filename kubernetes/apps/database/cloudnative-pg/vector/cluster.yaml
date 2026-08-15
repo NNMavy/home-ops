@@ -31,7 +31,7 @@ spec:
         serverName: "pgvector-v3"
   bootstrap:
     recovery:
-      source: &previousCluster pgvector
+      source: source
   externalClusters:
     - name: source
       plugin:
