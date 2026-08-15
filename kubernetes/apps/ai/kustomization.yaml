@@ -9,8 +9,10 @@ components:
 resources:
   - ./namespace.yaml
   - ./context7-mcp/ks.yaml
+  - ./fastkoko/ks.yaml
   - ./ha-mcp/ks.yaml
   - ./litellm/ks.yaml
   - ./litellm-operator/ks.yaml
   - ./llmkube/ks.yaml
   - ./memini/ks.yaml
+  - ./wyoming/ks.yaml
