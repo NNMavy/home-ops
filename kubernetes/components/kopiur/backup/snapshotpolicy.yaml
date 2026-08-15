@@ -24,6 +24,7 @@ spec:
   sources:
     - pvc:
         name: "${KOPIUR_CLAIM:-${APP}}"
+      sourcePathOverride: /data
   verification:
     deep:
       schedule:
