@@ -40,7 +40,7 @@ spec:
               resources:
                 requests:
                   storage: 1Gi
-                storageClassName: miroir-slow
+              storageClassName: miroir-slow
 
     kubeApiServer:
       enabled: true
@@ -152,7 +152,7 @@ spec:
               resources:
                 requests:
                   storage: 55Gi
-                storageClassName: miroir-slow
+              storageClassName: miroir-slow
 
       route:
         main:
