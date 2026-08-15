@@ -11,4 +11,5 @@ resources:
   - ./external-dns/ks.yaml
   - ./envoy-gateway/ks.yaml
   - ./multus/ks.yaml
+  - ./proton-bridge/ks.yaml
   - ./towonel-agent/ks.yaml
