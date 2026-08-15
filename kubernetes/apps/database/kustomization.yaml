@@ -5,6 +5,7 @@ kind: Kustomization
 namespace: database
 components:
   - ../../components/flux-alerts
+  - ../../components/kopiur/secret
 resources:
   - ./namespace.yaml
   - ./cloudnative-pg/ks.yaml
