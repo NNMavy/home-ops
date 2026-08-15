@@ -28,7 +28,8 @@ spec:
       isWALArchiver: true
       parameters:
         barmanObjectName: pgbackup-vector
-        serverName: "pgvector-v10"
+        serverName: "pgvector-v20"
+
   bootstrap:
     recovery:
       source: source
@@ -38,4 +39,4 @@ spec:
         name: barman-cloud.cloudnative-pg.io
         parameters:
           barmanObjectName: pgbackup-vector
-          serverName: "pgvector"
+          serverName: "main-pgvector-v4"
