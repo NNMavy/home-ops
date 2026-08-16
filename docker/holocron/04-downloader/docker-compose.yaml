@@ -20,7 +20,7 @@ services:
       - "traefik.http.routers.downloader.rule=Host(`downloader.codewalker.dev`)"
       - "traefik.http.routers.downloader.entrypoints=websecure"
     volumes:
-      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
       - bind:
           create_host_path: False
           propagation: rprivate
