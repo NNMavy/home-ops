@@ -11,3 +11,11 @@ resources:
   - ./grafanadashboard.yaml
   - ./prometheusrules
   - ./scrapeconfigs
+configMapGenerator:
+  - name: alertmanager-templates
+    files:
+      - telegram.tmpl=./resources/telegram.tmpl
+generatorOptions:
+  disableNameSuffixHash: true
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled

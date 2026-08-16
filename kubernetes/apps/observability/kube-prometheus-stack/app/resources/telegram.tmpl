@@ -1,0 +1,59 @@
+{{ define "telegram.homelab.message" }}
+{{ range .Alerts }}
+{{ if eq .Status "firing" }}🚨 <b>DOWN {{ .Labels.service }}</b> 🚨
+{{ .Labels.instance }} failed three consecutive 1-minute HTTP probes.
+{{ else }}✅ <b>RESOLVED {{ .Labels.service }}</b> ✅
+{{ .Labels.instance }} is responding again.
+{{ end }}
+{{ end }}
+{{ end }}
+{{ define "telegram.argocd.message" }}
+{{ range .Alerts }}
+{{ if eq .Status "firing" }}⚠️ <b>ArgoCD: {{ .Labels.name }}</b>
+{{ .Annotations.summary }}
+{{ .Annotations.description }}
+{{ else }}✅ <b>ArgoCD OK: {{ .Labels.name }}</b>
+{{ .Annotations.summary }}
+{{ end }}
+{{ end }}
+{{ end }}
+{{ define "telegram.ceph.message" }}
+{{ range .Alerts }}
+{{ if eq .Status "firing" }}{{ if eq .Labels.severity "critical" }}🚨{{ else }}⚠️{{ end }} <b>Ceph {{ .Labels.severity }}: {{ .Labels.alertname }}</b>
+{{ .Annotations.summary }}
+{{ .Annotations.description }}
+{{ else }}✅ <b>Ceph resolved: {{ .Labels.alertname }}</b>
+{{ .Annotations.summary }}
+{{ end }}
+{{ end }}
+{{ end }}
+{{ define "telegram.cnpg.message" }}
+{{ range .Alerts }}
+{{ if eq .Status "firing" }}{{ if eq .Labels.severity "critical" }}🚨{{ else }}⚠️{{ end }} <b>Postgres {{ .Labels.severity }}: {{ .Labels.alertname }}</b>
+{{ .Annotations.summary }}
+{{ .Annotations.description }}
+{{ else }}✅ <b>Postgres resolved: {{ .Labels.alertname }}</b>
+{{ .Annotations.summary }}
+{{ end }}
+{{ end }}
+{{ end }}
+{{ define "telegram.node.message" }}
+{{ range .Alerts }}
+{{ if eq .Status "firing" }}{{ if eq .Labels.severity "critical" }}🚨{{ else }}⚠️{{ end }} <b>Node {{ .Labels.severity }}: {{ .Labels.alertname }}</b>
+{{ .Annotations.summary }}
+{{ .Annotations.description }}
+{{ else }}✅ <b>Node resolved: {{ .Labels.alertname }}</b>
+{{ .Annotations.summary }}
+{{ end }}
+{{ end }}
+{{ end }}
+{{ define "telegram.workload.message" }}
+{{ range .Alerts }}
+{{ if eq .Status "firing" }}{{ if eq .Labels.severity "critical" }}🚨{{ else }}⚠️{{ end }} <b>Workload {{ .Labels.severity }}: {{ .Labels.alertname }}</b>
+{{ .Annotations.summary }}
+{{ .Annotations.description }}
+{{ else }}✅ <b>Workload resolved: {{ .Labels.alertname }}</b>
+{{ .Annotations.summary }}
+{{ end }}
+{{ end }}
+{{ end }}

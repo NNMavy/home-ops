@@ -34,6 +34,8 @@ spec:
           global:
             resolveTimeout: 5m
         externalUrl: https://alertmanager.codewalker.dev
+        configMaps:
+          - alertmanager-templates
         storage:
           volumeClaimTemplate:
             spec:
