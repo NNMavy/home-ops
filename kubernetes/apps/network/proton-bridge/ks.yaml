@@ -19,6 +19,8 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      KOPIUR_MOVER_UID: "0"
+      KOPIUR_MOVER_GID: "0"
   prune: true
   retryInterval: 2m
   sourceRef:
