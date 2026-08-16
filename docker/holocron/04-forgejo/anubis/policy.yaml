@@ -1,0 +1,8 @@
+bots:
+- import: (data)/apps/gitea-rss-feeds.yaml
+- import: (data)/clients/git.yaml
+- import: (data)/clients/docker-client.yaml
+- name: allow-api
+  path_regex: ^/api/.*
+  action: ALLOW
+- import: (data)/meta/default-config.yaml
