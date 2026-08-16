@@ -49,13 +49,13 @@ spec:
         enabled: true
         replicas: 1
         rollOutPods: true
-        httpRoute:
-          enabled: true
-          parentRefs:
-            - name: envoy-internal
-              namespace: network
-          hostnames:
-            - hubble-ui.codewalker.dev
+      httpRoute:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        hostnames:
+          - hubble-ui.codewalker.dev
       metrics:
         enabled:
           - dns
