@@ -19,6 +19,7 @@ spec:
     ### Component values
     ###
     alertmanager:
+      tplConfig: true
       templateFiles:
         telegram.tmpl: |-
             {{ define "telegram.default.message" }}
