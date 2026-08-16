@@ -1,0 +1,32 @@
+networks:
+  apps:
+    name: apps
+    external: false
+
+services:
+  forgejo:
+    image: codeberg.org/forgejo/forgejo:15
+    container_name: forgejo
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+    restart: always
+    networks:
+      - apps
+    ports:
+      - '3000:3000'
+      - '22:22'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.forgejo.loadbalancer.server.port=3000"
+      - "traefik.http.routers.forgejo.rule=Host(`forgejo.codewalker.dev`)"
+      - "traefik.http.routers.forgejo.entrypoints=websecure"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - bind:
+          create_host_path: False
+          propagation: rprivate
+        read_only: False
+        source: /mnt/vmdata-ssd/container-data/forgejo
+        target: /data
+        type: bind
