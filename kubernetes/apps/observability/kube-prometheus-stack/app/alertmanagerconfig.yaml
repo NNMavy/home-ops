@@ -64,6 +64,6 @@ spec:
           parseMode: HTML
           disableNotifications: false
           sendResolved: true
-          message: '{{ template "/etc/alertmanager/configmaps/alertmanager-templates/telegram.tmpl" . }}'
+          message: '{{ template "telegram.tmpl" . }}'
           httpConfig:
             followRedirects: true
