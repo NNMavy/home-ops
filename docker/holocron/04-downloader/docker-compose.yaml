@@ -14,6 +14,12 @@ services:
       POLICY_FNAME: "/etc/anubis/policy.yaml"
       OG_PASSTHROUGH: "true"
       OG_EXPIRY_TIME: "24h"
+    healthcheck:
+      test: ["CMD", "anubis", "--healthcheck"]
+      interval: 5s
+      timeout: 30s
+      retries: 5
+      start_period: 500ms
     networks:
       - apps
     labels:
@@ -21,6 +27,8 @@ services:
       - traefik.http.routers.anubis.rule=Host(`downloader.codewalker.dev`)
       - traefik.http.routers.anubis.entrypoints=websecure
       - traefik.http.services.anubis.loadbalancer.server.port=9000
+    volumes:
+      - ./anubis/policy.yaml:/etc/anubis/policy.yaml:ro
 
   downloader:
     image: git.codewalker.dev/mavy/docker-downloader:0.1.0
@@ -28,8 +36,6 @@ services:
     restart: always
     networks:
       - apps
-    ports:
-      - '8080:8080'
     environment:
       PASSPHRASE: ${DOWNLOADER_PASSPHRASE}
     # labels:
