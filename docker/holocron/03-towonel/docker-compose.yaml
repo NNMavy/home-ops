@@ -8,4 +8,4 @@ services:
       TOWONEL_INVITE_TOKEN: ${TOWONEL_INVITE_TOKEN}
       TOWONEL_AGENT_HEALTH_LISTEN_ADDR: 0.0.0.0:9090
       TOWONEL_AGENT_SERVICES: |
-        [{"hostname":"*.codewalker.dev","origin":"127.0.0.1:443","proxy_protocol":"none"}}]
+        [{"hostname":"*.codewalker.dev","origin":"127.0.0.1:443","proxy_protocol":"none"}]
