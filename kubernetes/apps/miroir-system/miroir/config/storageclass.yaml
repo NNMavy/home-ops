@@ -38,4 +38,5 @@ parameters:
   miroir.home-operations.com/pool: fast
   miroir.home-operations.com/replicas: "2"
   miroir.home-operations.com/quorum: freeze
+  miroir.home-operations.com/allowRemoteVolumeAccess: "false"
   csi.storage.k8s.io/fstype: ext4
