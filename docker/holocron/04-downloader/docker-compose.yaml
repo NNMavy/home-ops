@@ -26,5 +26,5 @@ services:
           propagation: rprivate
         read_only: False
         source: /mnt/vmdata-ssd/container-data/downloader
-        target: /data
+        target: /out
         type: bind
