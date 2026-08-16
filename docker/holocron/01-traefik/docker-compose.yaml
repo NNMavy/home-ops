@@ -18,6 +18,10 @@ services:
       - --entrypoints.websecure.http.tls.domains[0].main=*.codewalker.dev
       - --providers.docker=true
       - --providers.docker.exposedByDefault=false
+      - --log.level=INFO
+      - --log.format=json
+      - --accesslog=true
+      - --accesslog.format=json
     container_name: traefik
     environment:
       - OVH_ENDPOINT=ovh-eu
