@@ -12,6 +12,8 @@ services:
       - apps
     ports:
       - '8080:8080'
+    env:
+      - PASSPHRASE=${DOWNLOADER_PASSPHRASE}
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.downloader.loadbalancer.server.port=8080"
