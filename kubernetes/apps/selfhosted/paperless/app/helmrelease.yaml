@@ -66,11 +66,11 @@ spec:
       app:
         ports:
           http:
-            port: &port 8000
+            port: 8000
 
     route:
       app:
-        hostnames: ["{{.Release.Name}}.codewalker.dev"]
+        hostnames: ["paperless.codewalker.dev"]
         parentRefs:
           - name: envoy-internal
             namespace: network
@@ -78,7 +78,7 @@ spec:
     persistence:
       nas-consume:
         type: nfs
-        server: nas.codewalker.dev
+        server: holocron.codewalker.dev
         path: /mnt/largepool/paperless
         globalMounts:
           - path: /library
