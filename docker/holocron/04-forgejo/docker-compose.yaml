@@ -24,9 +24,9 @@ services:
       - apps
     labels:
       - traefik.enable=true
-      - traefik.http.routers.anubis.rule=Host(`forgejo.codewalker.dev`)
-      - traefik.http.routers.anubis.entrypoints=websecure
-      - traefik.http.services.anubis.loadbalancer.server.port=9000
+      - traefik.http.routers.anubis-forgejo.rule=Host(`forgejo.codewalker.dev`)
+      - traefik.http.routers.anubis-forgejo.entrypoints=websecure
+      - traefik.http.services.anubis-forgejo.loadbalancer.server.port=9000
     volumes:
       - ./anubis/policy.yaml:/etc/anubis/policy.yaml:ro
 

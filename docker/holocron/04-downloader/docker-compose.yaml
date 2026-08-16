@@ -24,9 +24,9 @@ services:
       - apps
     labels:
       - traefik.enable=true
-      - traefik.http.routers.anubis.rule=Host(`downloader.codewalker.dev`)
-      - traefik.http.routers.anubis.entrypoints=websecure
-      - traefik.http.services.anubis.loadbalancer.server.port=9000
+      - traefik.http.routers.anubis-downloader.rule=Host(`downloader.codewalker.dev`)
+      - traefik.http.routers.anubis-downloader.entrypoints=websecure
+      - traefik.http.services.anubis-downloader.loadbalancer.server.port=9000
     volumes:
       - ./anubis/policy.yaml:/etc/anubis/policy.yaml:ro
 
