@@ -1,0 +1,28 @@
+networks:
+  apps:
+    name: apps
+    external: false
+
+services:
+  downloader:
+    image: git.codewalker.dev/mavy/docker-downloader:0.1.0
+    container_name: downloader
+    restart: always
+    networks:
+      - apps
+    ports:
+      - '8080:8080'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.downloader.loadbalancer.server.port=8080"
+      - "traefik.http.routers.downloader.rule=Host(`downloader.codewalker.dev`)"
+      - "traefik.http.routers.downloader.entrypoints=websecure"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - bind:
+          create_host_path: False
+          propagation: rprivate
+        read_only: False
+        source: /mnt/vmdata-ssd/container-data/downloader
+        target: /data
+        type: bind
