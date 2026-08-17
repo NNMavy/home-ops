@@ -1,3 +1,4 @@
+---
 networks:
   apps:
     name: apps
@@ -46,9 +47,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - bind:
-          create_host_path: False
+          create_host_path: false
           propagation: rprivate
-        read_only: False
+        read_only: false
         source: /mnt/vmdata-ssd/container-data/downloader
         target: /out
         type: bind

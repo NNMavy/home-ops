@@ -1,3 +1,4 @@
+---
 services:
   urbackup:
     container_name: urbackup
@@ -8,28 +9,28 @@ services:
     group_add:
       - 568
     healthcheck:
-      disable: True
+      disable: true
     image: >-
       uroni/urbackup-server:2.5.x@sha256:e2fdc0d59071b0e9438ebb05fe163a839f767c4477851e87dcc3efa8df7ab299
     network_mode: host
     platform: linux/amd64
-    privileged: False
+    privileged: false
     pull_policy: missing
     restart: 'no'
-    stdin_open: False
-    tty: False
+    stdin_open: false
+    tty: false
     volumes:
       - bind:
-          create_host_path: False
+          create_host_path: false
           propagation: rprivate
-        read_only: False
+        read_only: false
         source: /mnt/largepool/backups
         target: /backups
         type: bind
       - bind:
-          create_host_path: False
+          create_host_path: false
           propagation: rprivate
-        read_only: False
+        read_only: false
         source: /mnt/vmdata-ssd/container-data/urbackup
         target: /var/urbackup
         type: bind

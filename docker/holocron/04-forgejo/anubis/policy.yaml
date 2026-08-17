@@ -1,3 +1,4 @@
+---
 bots:
 - import: (data)/apps/gitea-rss-feeds.yaml
 - import: (data)/clients/git.yaml

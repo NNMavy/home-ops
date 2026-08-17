@@ -1,3 +1,4 @@
+---
 services:
   towonel-agent:
     image: codeberg.org/towonel/towonel-agent:1.5.2

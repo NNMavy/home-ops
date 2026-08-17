@@ -1,3 +1,4 @@
+---
 networks:
   apps:
     name: apps
@@ -40,13 +41,13 @@ services:
     networks:
       - apps
     ports:
-      - '22:22'
+      - "22:22"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - bind:
-          create_host_path: False
+          create_host_path: false
           propagation: rprivate
-        read_only: False
+        read_only: false
         source: /mnt/vmdata-ssd/container-data/forgejo
         target: /data
         type: bind
