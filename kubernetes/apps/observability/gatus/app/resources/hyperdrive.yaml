@@ -9,3 +9,5 @@ endpoints:
       hide-hostname: true
     conditions:
       - "[CONNECTED] == true"
+    alerts:
+      - type: ntfy

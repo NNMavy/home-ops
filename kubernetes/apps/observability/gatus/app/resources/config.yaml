@@ -23,6 +23,8 @@ endpoints:
     interval: 1m
     conditions:
       - "[CONNECTED] == true"
+    alerts:
+      - type: ntfy
 
   - name: Google
     group: connectivity
@@ -30,6 +32,8 @@ endpoints:
     interval: 1m
     conditions:
       - "[CONNECTED] == true"
+    alerts:
+      - type: ntfy
 
   - name: Quad9
     group: connectivity
@@ -37,6 +41,8 @@ endpoints:
     interval: 1m
     conditions:
       - "[CONNECTED] == true"
+    alerts:
+      - type: ntfy
 
 metrics: true
 
