@@ -1,8 +1,8 @@
 ---
 alerting:
   ntfy:
-    url: ${NTFY_URL}
-    topic: ${NTFY_TOPIC}
+    url: http://ntfy.observability.svc.cluster.local:8080
+    topic: gatusAlerts
     token: ${NTFY_TOKEN}
     priority: 3
     default-alert:

@@ -46,6 +46,9 @@ spec:
               GATUS_DELAY_START_SECONDS: 5
               GATUS_CONFIG_PATH: /config
               GATUS_WEB_PORT: &httpPort 8080
+            envFrom:
+              - secretRef:
+                  name: ntfy-secret
             probes:
               liveness: &probes
                 enabled: true
