@@ -36,6 +36,9 @@ spec:
               NTFY_AUTH_FILE: /var/lib/ntfy/auth.db
               NTFY_AUTH_DEFAULT_ACCESS: deny-all
               NTFY_ENABLE_LOGIN: "true"
+            envFrom:
+              - secretRef:
+                  name: ntfy-secret
             probes:
               liveness: &probes
                 enabled: true
