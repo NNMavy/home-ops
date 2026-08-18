@@ -32,4 +32,4 @@ ntfy:
         # Action buttons (ntfy allows up to 3): jump to Prometheus, the Grafana
         # Alert History dashboard, or a pre-filled Alertmanager silence for this alert.
         X-Actions: |-
-          view, Prometheus, {{ .GeneratorURL }}; view, Grafana, https://grafana.chelonianlabs.com/d/alert-history; view, Silence, https://alertmanager.chelonianlabs.com/#/silences/new?filter=%7Balertname%3D%22{{ index .Labels "alertname" }}%22%7D
+          view, Prometheus, {{ .GeneratorURL }}; view, Grafana, https://grafana.codewalker.dev/d/alert-history; view, Silence, https://alertmanager.codewalker.dev/#/silences/new?filter=%7Balertname%3D%22{{ index .Labels "alertname" }}%22%7D
