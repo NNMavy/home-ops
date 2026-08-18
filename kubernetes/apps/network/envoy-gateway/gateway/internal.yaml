@@ -7,6 +7,8 @@ metadata:
   annotations:
     external-dns.alpha.kubernetes.io/target: &hostname ingress-int.codewalker.dev
     gatus.home-operations.com/endpoint: |-
+      alerts:
+        - type: ntfy
       group: internal
       ui:
         hide-hostname: true

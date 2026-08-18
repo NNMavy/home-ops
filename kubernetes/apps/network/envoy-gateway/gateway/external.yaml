@@ -7,6 +7,8 @@ metadata:
   annotations:
     external-dns.alpha.kubernetes.io/target: &hostname ingress-ext.codewalker.dev
     gatus.home-operations.com/endpoint: |-
+      alerts:
+        - type: ntfy
       client:
         dns-resolver: tcp://5.196.41.1:53
       group: external
