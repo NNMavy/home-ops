@@ -85,7 +85,10 @@ spec:
             namespace: network
     persistence:
       data:
-        existingClaim: ntfy
+        type: persistentVolumeClaim
+        size: 20Gi
+        storageClass: miroir-slow
+        accessMode: ReadWriteOnce
         globalMounts:
           - path: /var/cache/ntfy
             subPath: cache

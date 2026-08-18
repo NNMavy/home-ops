@@ -1,4 +1,16 @@
 ---
+alerting:
+  ntfy:
+    url: ${NTFY_URL}
+    topic: ${NTFY_TOPIC}
+    token: ${NTFY_TOKEN}
+    priority: 3
+    default-alert:
+      enabled: true
+      send-on-resolved: true
+      failure-threshold: 3
+      success-threshold: 2
+
 connectivity:
   checker:
     target: 194.242.2.2:53

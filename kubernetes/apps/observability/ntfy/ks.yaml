@@ -9,11 +9,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
-  components:
-    - ../../../../components/kopiur/backup
-  dependsOn:
-    - name: kopiur
-      namespace: system
   path: "./kubernetes/apps/observability/ntfy/app"
   postBuild:
     substitute:
