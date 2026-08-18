@@ -27,7 +27,28 @@ spec:
           - name: alertname
             value: InfoInhibitor
             matchType: =
+      # Channel-failure alerts must cross channels: a broken channel can't report
+      # its own death (EEMUA alarm-system health). The FailedToSendAlerts alerts
+      # carry an `integration` label, so split on it — webhook(=ntfy-bridge)
+      # failures page via telegram, telegram failures notify via ntfy. This also
+      # breaks the self-notify amplification loop in both directions. MUST precede
+      # the critical->telegram route (first match wins).
       - receiver: telegram
+        matchers:
+          - name: alertname
+            value: "Alertmanager(Cluster)?FailedToSendAlerts"
+            matchType: =~
+          - name: integration
+            value: webhook
+            matchType: =
+      - receiver: ntfy
+        matchers:
+          - name: alertname
+            value: "Alertmanager(Cluster)?FailedToSendAlerts"
+            matchType: =~
+      # Critical ->  ntfy (reliable, unlimited,
+      # self-hosted failover).
+      - receiver: ntfy
         matchers:
           - name: severity
             value: critical
@@ -55,6 +76,10 @@ spec:
           urlSecret:
             name: alertmanager-secret
             key: hyperdrive_home_heartbeat_url
+    - name: ntfy
+      webhookConfigs:
+        - sendResolved: true
+          url: http://alertmanager-ntfy.observability.svc.cluster.local:8000/hook
     - name: telegram
       telegramConfigs:
         - botToken:
