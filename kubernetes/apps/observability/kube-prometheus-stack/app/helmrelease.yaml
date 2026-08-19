@@ -123,6 +123,8 @@ spec:
     ###
     prometheus:
       prometheusSpec:
+        web:
+          enableAdminAPI: false
         externalUrl: https://prometheus.codewalker.dev
         version: v2.55.1 # override 'unsupported Prometheus version' error
         image:
