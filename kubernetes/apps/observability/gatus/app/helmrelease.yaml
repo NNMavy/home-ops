@@ -87,6 +87,8 @@ spec:
             subPath: config.yaml
           - path: /config/config-hyperdrive.yaml
             subPath: hyperdrive.yaml
+          - path: /config/config-heartbeat.yaml
+            subPath: heartbeat.yaml
     rbac:
       roles:
         gatus:

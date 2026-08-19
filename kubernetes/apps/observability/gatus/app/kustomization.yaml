@@ -12,6 +12,7 @@ configMapGenerator:
     files:
       - config.yaml=./resources/config.yaml
       - hyperdrive.yaml=./resources/hyperdrive.yaml
+      - heartbeat.yaml=./resources/heartbeat.yaml
 generatorOptions:
   disableNameSuffixHash: true
   annotations:

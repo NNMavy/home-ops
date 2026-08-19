@@ -44,15 +44,6 @@ endpoints:
     alerts:
       - type: ntfy
 
-  - name: healthchecks.io
-    group: heartbeat
-    url: ${GATUS_HEARTBEAT_URL}
-    interval: 5m
-    client:
-      dns-resolver: tcp://9.9.9.9:53
-    conditions:
-      - "[STATUS] == 200"
-
 metrics: true
 
 storage:
