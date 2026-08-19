@@ -1,7 +1,7 @@
 http:
   addr: :8000
 ntfy:
-  baseurl: http://ntfy.network.svc.cluster.local:8080
+  baseurl: http://ntfy.observability.svc.cluster.local:8080
   notification:
     # Topic routing via gval expression (alexbakker/alertmanager-ntfy v1.2.1):
     # media-namespace alerts (Plex) -> "plex" topic; everything else stays on
