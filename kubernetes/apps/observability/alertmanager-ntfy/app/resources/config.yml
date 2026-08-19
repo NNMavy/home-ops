@@ -13,6 +13,8 @@ ntfy:
       description: |-
         {{ if index .Annotations "description" }}{{ index .Annotations "description" }}{{ else if index .Annotations "summary" }}{{ index .Annotations "summary" }}{{ else }}{{ index .Labels "alertname" }}{{ end }}{{ if index .Labels "namespace" }}
         📍 {{ index .Labels "namespace" }}{{ if index .Labels "pod" }} / {{ index .Labels "pod" }}{{ end }}{{ end }}
+        Full: {{ .Alert }}
+        Payload: {{ .Payload }}
       headers:
         # Priority ladder: critical bypasses Do-Not-Disturb, warning makes sound,
         # info/resolved are silent. ntfy reads this as the X-Priority header.
@@ -27,5 +29,5 @@ ntfy:
           {{ .GeneratorURL }}
         # Action buttons (ntfy allows up to 3): jump to Prometheus, the Grafana
         # Alert History dashboard, or a pre-filled Alertmanager silence for this alert.
-        # X-Actions: |-
-        #   view, Prometheus, {{ .GeneratorURL }}
+        X-Actions: |-
+          view, Grafana, https://grafana.codewalker.dev/d/alert-history; view, Silence, https://alertmanager.codewalker.dev/#/silences/new?filter=%7Balertname%3D%22{{ index .Labels "alertname" }}%22%7D
