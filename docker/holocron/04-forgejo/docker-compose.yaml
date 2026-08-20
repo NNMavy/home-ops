@@ -49,5 +49,12 @@ services:
           propagation: rprivate
         read_only: false
         source: /mnt/vmdata-ssd/container-data/forgejo
+        target: /var/lib/forgejo
+        type: bind
+      - bind:
+          create_host_path: false
+          propagation: rprivate
+        read_only: false
+        source: /mnt/vmdata-ssd/container-data/forgejo
         target: /data
         type: bind
