@@ -32,7 +32,7 @@ services:
       - ./anubis/policy.yaml:/etc/anubis/policy.yaml:ro
 
   forgejo:
-    image: codeberg.org/forgejo/forgejo:15
+    image: codeberg.org/forgejo/forgejo:16
     container_name: forgejo
     environment:
       - USER_UID=1000

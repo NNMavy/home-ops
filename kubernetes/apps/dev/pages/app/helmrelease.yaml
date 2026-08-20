@@ -21,6 +21,7 @@ spec:
               tag: 0.9.1@sha256:bbcdd603ef3d3dc66aa254479b255674e51286921c02e9f6569dc188f8756594
             env:
               ENVIRONMENT: "production"
+              PAGES_SERVER_METRICS: "tcp/localhost:3002"
             probes:
               liveness: &probes
                 enabled: true
