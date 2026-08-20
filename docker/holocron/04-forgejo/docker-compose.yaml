@@ -25,7 +25,7 @@ services:
       - apps
     labels:
       - traefik.enable=true
-      - traefik.http.routers.anubis-forgejo.rule=Host(`forgejo.codewalker.dev`)
+      - traefik.http.routers.anubis-forgejo.rule=Host(`git.codewalker.dev`)
       - traefik.http.routers.anubis-forgejo.entrypoints=websecure
       - traefik.http.services.anubis-forgejo.loadbalancer.server.port=9000
     volumes:
@@ -44,13 +44,6 @@ services:
       - "22:22"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - bind:
-          create_host_path: false
-          propagation: rprivate
-        read_only: false
-        source: /mnt/vmdata-ssd/container-data/forgejo
-        target: /var/lib/forgejo
-        type: bind
       - bind:
           create_host_path: false
           propagation: rprivate
