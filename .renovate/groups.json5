@@ -19,16 +19,7 @@
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
-      minimumGroupSize: 3,
-    },
-    {
-      description: "kguardian group",
-      groupName: "kguardian",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["/kguardian-dev/"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      }
+      minimumGroupSize: 2,
     },
     {
       description: "Kubernetes group",
