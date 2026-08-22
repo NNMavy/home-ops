@@ -21,37 +21,39 @@
       },
       minimumGroupSize: 2,
     },
-    {
-      description: "Kubernetes group",
-      groupName: "Kubernetes",
-      matchDatasources: ["docker"],
-      matchPackageNames: [
-        "/kube-apiserver/",
-        "/kube-controller-manager/",
-        "/kube-proxy/",
-        "/kube-scheduler/",
-        "/kubelet/",
-      ],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-      minimumGroupSize: 5,
-    },
+    // Running manual updates for now
+    // {
+    //   description: "Kubernetes group",
+    //   groupName: "Kubernetes",
+    //   matchDatasources: ["docker"],
+    //   matchPackageNames: [
+    //     "/kube-apiserver/",
+    //     "/kube-controller-manager/",
+    //     "/kube-proxy/",
+    //     "/kube-scheduler/",
+    //     "/kubelet/",
+    //   ],
+    //   group: {
+    //     commitMessageTopic: "{{{groupName}}} group",
+    //   },
+    //   minimumGroupSize: 5,
+    // },
     {
       description: "Mise Tools Group",
       matchManagers: ["mise"],
       groupName: "mise tools",
       groupSlug: "mise-tools",
     },
-    {
-      description: "Talos group",
-      groupName: "Talos",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["/installer/", "/talosctl/"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-      minimumGroupSize: 2,
-    },
+    // Running manual updates for now
+    // {
+    //   description: "Talos group",
+    //   groupName: "Talos",
+    //   matchDatasources: ["docker"],
+    //   matchPackageNames: ["/installer/", "/talosctl/"],
+    //   group: {
+    //     commitMessageTopic: "{{{groupName}}} group",
+    //   },
+    //   minimumGroupSize: 2,
+    // },
   ],
 }
