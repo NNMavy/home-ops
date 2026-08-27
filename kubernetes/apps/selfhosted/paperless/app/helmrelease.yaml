@@ -39,7 +39,7 @@ spec:
           app:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
-              tag: 3.0.5
+              tag: 3.1.0
             envFrom:
               - secretRef:
                   name: paperless-secret
@@ -56,7 +56,7 @@ spec:
               repository: thecodingmachine/gotenberg
               tag: 8.30.1
             env:
-              - { name: DISABLE_GOOGLE_CHROME, value: "1" }
+              - {name: DISABLE_GOOGLE_CHROME, value: "1"}
           tika:
             image:
               repository: apache/tika
