@@ -7,7 +7,7 @@ metadata:
 spec:
   modelName: proton/lumo-max
   params:
-    model: lumo-max
+    model: openai/lumo-max
     apiBase: http://lumo-tamer:3003/v1
     apiKeyRef:
       name: litellm

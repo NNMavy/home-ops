@@ -5,9 +5,9 @@ kind: LiteLLMModel
 metadata:
   name: lumo-lite
 spec:
-  modelName: lumo-lite
+  modelName: proton/lumo-lite
   params:
-    model: lumo-lite
+    model: openai/lumo-lite
     apiBase: http://lumo-tamer:3003/v1
     apiKeyRef:
       name: litellm
