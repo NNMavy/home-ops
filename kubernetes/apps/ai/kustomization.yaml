@@ -14,5 +14,6 @@ resources:
   - ./litellm/ks.yaml
   - ./litellm-operator/ks.yaml
   - ./llmkube/ks.yaml
+  - ./lumo-tamer/ks.yaml
   - ./memini/ks.yaml
   - ./wyoming/ks.yaml

@@ -1,0 +1,63 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: lumo-tamer
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: lumo-tamer
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      lumo-tamer:
+        replicas: 1
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: git.codewalker.dev/mavy/lumo-tamer
+              tag: v0.6.0@sha256:2376ac63c7eddc08718c4984c361ea2795954417e3828b625a598445b8b7ca25
+            resources:
+              requests:
+                cpu: 5m
+                memory: 512Mi
+              limits:
+                memory: 1Gi
+    service:
+      app:
+        controller: lumo-tamer
+        ports:
+          http:
+            port: 3003
+
+    persistence:
+      vaultkey:
+        type: secret
+        name: lumo-tamer-secret
+        globalMounts:
+          - path: /run/secrets/lumo-vault-key
+            subPath: lumo-vault-key
+            readOnly: true
+      config:
+        type: secret
+        name: lumo-tamer-secret
+        globalMounts:
+          - path: /app/config.yaml
+            subPath: config.yaml
+            readOnly: true
+      sessions:
+        existingClaim: lumo-tamer
+        globalMounts:
+          - path: /app/sessions
