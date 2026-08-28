@@ -16,6 +16,8 @@ spec:
     substitute:
       APP: lumo-tamer
       KOPIUR_CAPACITY: 1Gi
+      KOPIUR_MOVER_UID: "0"
+      KOPIUR_MOVER_GID: "65532"
   prune: true
   retryInterval: 2m
   sourceRef:
