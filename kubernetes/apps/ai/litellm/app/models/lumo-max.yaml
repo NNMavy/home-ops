@@ -5,7 +5,7 @@ kind: LiteLLMModel
 metadata:
   name: lumo-max
 spec:
-  modelName: lumo-max
+  modelName: proton/lumo-max
   params:
     model: lumo-max
     apiBase: http://lumo-tamer:3003/v1
