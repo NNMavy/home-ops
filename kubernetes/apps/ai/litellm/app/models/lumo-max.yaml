@@ -1,0 +1,22 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmmodel_v1alpha1.json
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMModel
+metadata:
+  name: lumo-max
+spec:
+  modelName: lumo-max
+  params:
+    model: lumo-max
+    apiBase: https://lumo-tamer:3003/v1
+    apiKeyRef:
+      name: litellm
+      key: LUMO_TAMER_API_KEY
+    dropParams: true
+  info:
+    maxInputTokens: 131072
+    maxOutputTokens: 65536
+    supportsFunctionCalling: true
+    supportsPromptCaching: true
+    extra:
+      supports_reasoning: true
