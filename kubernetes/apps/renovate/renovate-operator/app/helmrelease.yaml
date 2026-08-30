@@ -20,3 +20,4 @@ spec:
           namespace: network
     webhook:
       enabled: true
+      unifiedWebhookHost: true
