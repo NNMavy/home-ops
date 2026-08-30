@@ -16,6 +16,9 @@ spec:
   interval: 1h
   path: ./kubernetes/apps/system/kopiur/app
   prune: true
+  postBuild:
+    substitute:
+      APP: kopiur-controller
   sourceRef:
     kind: GitRepository
     name: flux-system
