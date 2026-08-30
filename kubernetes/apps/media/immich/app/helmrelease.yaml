@@ -22,7 +22,7 @@ spec:
         pod:
           resourceClaims:
             - name: gpu
-              resourceClaimTemplateName: immich-gpu
+              resourceClaimTemplateName: immich-server-gpu
 
         strategy: Recreate
         containers:
