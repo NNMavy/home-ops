@@ -43,7 +43,7 @@ spec:
   uBatchSize: 4096
   resources:
     cpu: 100m
-    memory: 4Gi
+    memory: 2Gi
   extraArgs:
     # Qwen3-Embedding uses last-token pooling with left padding;
     # --embedding + --pooling last exposes the OpenAI-compatible
