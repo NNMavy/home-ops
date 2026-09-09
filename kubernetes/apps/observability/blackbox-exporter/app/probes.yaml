@@ -12,7 +12,6 @@ spec:
     staticConfig:
       static:
         - holocron.codewalker.dev
-        - bumblebee.codewalker.dev
         - haos.codewalker.dev
         - pikvm.codewalker.dev
         - kvm.codewalker.dev
