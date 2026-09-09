@@ -1,0 +1,72 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: homebox
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: homebox
+  interval: 30m
+  values:
+    controllers:
+      homebox:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          securityContext:
+            fsGroup: 2000
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: 2000
+            runAsNonRoot: true
+            runAsUser: 2000
+        containers:
+          app:
+            image:
+              repository: ghcr.io/sysadminsmedia/homebox
+              tag: v0.26.2
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 256Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: true
+            env:
+              - name: HBOX_OPTIONS_ALLOW_REGISTRATION
+                value: false
+              - name: HBOX_OPTIONS_ALLOW_ANALYTICS
+                value: false
+              - name: HBOX_MODE
+                value: production
+    persistence:
+      data:
+        existingClaim: homebox
+        globalMounts:
+          - path: /data
+      tmpfs:
+        globalMounts:
+          - path: /tmp
+        type: emptyDir
+    route:
+      app:
+        hostnames:
+          - homebox.codewalker.dev
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+    service:
+      app:
+        ports:
+          http:
+            port: 7745
