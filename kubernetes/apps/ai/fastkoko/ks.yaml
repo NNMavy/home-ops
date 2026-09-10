@@ -9,6 +9,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/kopiur/backup
   interval: 1h
   path: ./kubernetes/apps/ai/fastkoko/app
   postBuild:
