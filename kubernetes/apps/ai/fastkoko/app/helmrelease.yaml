@@ -18,6 +18,7 @@ spec:
       strategy: rollback
       retries: 3
   values:
+
     controllers:
       fastkoko:
         replicas: 1
@@ -31,11 +32,19 @@ spec:
             runAsGroup: 1000
             runAsNonRoot: true
             runAsUser: 1000
+
+        initContainers:
+          copy-voices:
+            image:
+              repository: &repository ghcr.io/remsky/kokoro-fastapi-cpu
+              tag: &tag v0.9.0@sha256:ee3111d6a2c903ed62f3b4fa19543c6901205ed39fce3c177e895b34a8386b9c
+            command: ["sh", "-c"]
+            args: ["cp", "-Rf", "/app/api/src/voices/v1_0/*", "/data/voices"]
         containers:
           app:
             image:
-              repository: ghcr.io/remsky/kokoro-fastapi-cpu
-              tag: v0.9.0@sha256:ee3111d6a2c903ed62f3b4fa19543c6901205ed39fce3c177e895b34a8386b9c
+              repository: *repository
+              tag: *tag
             env:
               ENABLE_INNO_TUNER: "true"
               ALLOW_LOCAL_VOICE_SAVING: "true"
