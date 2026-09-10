@@ -39,6 +39,7 @@ spec:
             env:
               ENABLE_INNO_TUNER: "true"
               ALLOW_LOCAL_VOICE_SAVING: "true"
+              VOICES_DIR: "/data/voices"
             resources:
               requests:
                 cpu: 5m
@@ -67,9 +68,9 @@ spec:
                 port: *port
 
     persistence:
-      voices:
+      data:
         existingClaim: fastkoko
         globalMounts:
-          - path: /app/api/src/voices
+          - path: /data
       tmp:
         type: emptyDir
