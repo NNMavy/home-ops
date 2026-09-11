@@ -42,6 +42,17 @@ spec:
           http:
             port: 3003
 
+    route:
+      app:
+        hostnames: ["lumo.codewalker.dev"]
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - name: "{{.Release.Name}}"
+                port: *port
+
     persistence:
       vaultkey:
         type: secret
