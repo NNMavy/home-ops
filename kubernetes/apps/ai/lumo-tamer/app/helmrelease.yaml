@@ -45,6 +45,9 @@ spec:
     route:
       app:
         hostnames: ["lumo.codewalker.dev"]
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == 401"]
         parentRefs:
           - name: envoy-internal
             namespace: network
