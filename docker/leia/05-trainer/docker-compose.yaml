@@ -1,0 +1,29 @@
+---
+services:
+  mww-trainer:
+    container_name: mww-trainer
+    image: ghcr.io/tatertotterson/microwakeword:v29
+    devices:
+      - /dev/dri:/dev/dri
+    volumes:
+      - /opt/mmw-trainer/data:/data
+    restart: always
+    environment:
+      - REC_PORT=8789
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.llama-cpp.loadbalancer.server.port=8789"
+      - "traefik.http.routers.llama-cpp.rule=Host(`leia-mww.codewalker.dev`)"
+      - "traefik.http.routers.llama-cpp.entrypoints=websecure"
+
+networks:
+  default:
+    name: edge
+    external: true
