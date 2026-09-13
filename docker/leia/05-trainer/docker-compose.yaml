@@ -10,6 +10,7 @@ services:
     restart: always
     environment:
       - REC_PORT=8789
+      - REC_PUBLIC_BASE_URL=https://leia-mww.codewalker.dev
     deploy:
       resources:
         reservations:
