@@ -18,6 +18,8 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
+    ports:
+      - 8789:8789
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.mww.loadbalancer.server.port=8789"
