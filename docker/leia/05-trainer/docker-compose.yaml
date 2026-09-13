@@ -19,9 +19,9 @@ services:
               capabilities: [gpu]
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.llama-cpp.loadbalancer.server.port=8789"
-      - "traefik.http.routers.llama-cpp.rule=Host(`leia-mww.codewalker.dev`)"
-      - "traefik.http.routers.llama-cpp.entrypoints=websecure"
+      - "traefik.http.services.mww.loadbalancer.server.port=8789"
+      - "traefik.http.routers.mww.rule=Host(`leia-mww.codewalker.dev`)"
+      - "traefik.http.routers.mww.entrypoints=websecure"
 
 networks:
   default:
