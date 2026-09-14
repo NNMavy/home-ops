@@ -6,7 +6,7 @@ services:
     devices:
       - /dev/dri:/dev/dri
     volumes:
-      - /opt/mmw-trainer/data:/data
+      - /mnt/mww-trainer/data:/data
     restart: always
     environment:
       - REC_PORT=8789
