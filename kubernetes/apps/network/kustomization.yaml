@@ -14,3 +14,4 @@ resources:
   - ./multus/ks.yaml
   - ./proton-bridge/ks.yaml
   - ./towonel-agent/ks.yaml
+  - ./vpn-proxy/ks.yaml
