@@ -5,7 +5,7 @@ kind: Gateway
 metadata:
   name: envoy-internal
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname ingress-int.codewalker.dev
+    external-dns.kubernetes.io/target: &hostname ingress-int.codewalker.dev
     gatus.home-operations.com/endpoint: |-
       alerts:
         - type: ntfy
@@ -17,7 +17,7 @@ spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: *hostname
+      external-dns.kubernetes.io/hostname: *hostname
       lbipam.cilium.io/ips: 172.16.50.121
   listeners:
     - name: http

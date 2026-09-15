@@ -55,7 +55,7 @@ kind: Gateway
 metadata:
   name: envoy-erasit
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname external.erasit.nl
+    external-dns.kubernetes.io/target: &hostname external.erasit.nl
     gatus.home-operations.com/endpoint: |-
       alerts:
         - type: ntfy
@@ -66,7 +66,7 @@ spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: *hostname
+      external-dns.kubernetes.io/hostname: *hostname
       lbipam.cilium.io/ips: 172.16.50.123
   listeners:
     - name: http

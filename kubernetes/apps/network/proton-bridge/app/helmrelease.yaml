@@ -54,7 +54,7 @@ spec:
         controller: *app
         type: LoadBalancer
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: "proton-bridge.codewalker.dev"
+          external-dns.kubernetes.io/hostname: "proton-bridge.codewalker.dev"
           lbipam.cilium.io/ips: 172.16.50.102
         externalTrafficPolicy: Cluster
         ports:
