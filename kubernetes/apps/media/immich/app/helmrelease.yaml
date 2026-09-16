@@ -89,7 +89,7 @@ spec:
             main:
               image:
                 repository: ghcr.io/immich-app/immich-server
-                tag: "v3.2.1"
+                tag: "v3.2.2"
               resources:
                 claims:
                   - name: gpu
@@ -136,7 +136,7 @@ spec:
                 privileged: true
               image:
                 repository: ghcr.io/immich-app/immich-machine-learning
-                tag: "v3.2.1-openvino"
+                tag: "v3.2.2-openvino"
               resources:
                 claims:
                   - name: gpu
