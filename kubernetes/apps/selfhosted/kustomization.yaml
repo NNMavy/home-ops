@@ -13,7 +13,6 @@ resources:
   - ./homebox/ks.yaml
   - ./it-tools/ks.yaml
   - ./karakeep/ks.yaml
-  - ./nitter/ks.yaml
   - ./paperless/ks.yaml
   - ./searxng/ks.yaml
   - ./spoolman/ks.yaml
