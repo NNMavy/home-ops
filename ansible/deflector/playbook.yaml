@@ -1,0 +1,73 @@
+---
+- name: Bootstrap deflector
+  hosts: all
+  become: true
+  gather_facts: false
+  vars:
+    ansible_user: ubuntu
+    ansible_python_interpreter: auto_silent
+    host_ssh_port: 22
+    ansible_port: 22
+
+  tasks:
+    - name: Check host connectivity
+      ansible.builtin.ping:
+
+    - name: "update hostnames"
+      tags:
+        - bootstrap
+      ansible.builtin.hostname:
+        name: deflector
+
+    - name: packages
+      tags:
+        - packages
+      block:
+        - name: packages | Install dnsutils
+          ansible.builtin.apt:
+            name: dnsutils
+            state: present
+            update_cache: false
+
+        - name: packages | Install unbound
+          ansible.builtin.apt:
+            name: unbound
+            state: present
+            update_cache: false
+
+        - name: unbound | Configure unbound
+          ansible.builtin.template:
+            src: deflector.conf.j2
+            dest: /etc/unbound/unbound.conf.d/deflector.conf
+            owner: root
+            group: root
+            mode: "0644"
+          notify: Restart unbound
+
+        - name: ssh | Harden sshd_config
+          ansible.builtin.copy:
+            dest: /etc/ssh/sshd_config.d/01-hardening.conf
+            content: |
+              PermitRootLogin no
+              PasswordAuthentication no
+              MaxAuthTries 3
+              LoginGraceTime 20
+            owner: root
+            group: root
+            mode: "0644"
+          notify: Restart ssh.socket
+
+  handlers:
+    - name: Reload systemd daemon
+      ansible.builtin.systemd:
+        daemon_reload: true
+
+    - name: Restart ssh.socket
+      ansible.builtin.service:
+        name: ssh.socket
+        state: restarted
+
+    - name: Restart unbound
+      ansible.builtin.service:
+        name: unbound.service
+        state: restarted
