@@ -3,7 +3,7 @@ server:
     # logfile: "/var/log/unbound/unbound.log"
     verbosity: 0
 
-    interface: 127.0.0.1
+    interface: 172.17.0.1
     port: 5335
     do-ip4: yes
     do-udp: yes
@@ -71,3 +71,5 @@ server:
     private-address: 203.0.113.0/24
     private-address: 255.255.255.255/32
     private-address: 2001:db8::/32
+
+    access-control: 172.16.0.0/12 allow
