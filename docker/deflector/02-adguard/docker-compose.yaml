@@ -5,6 +5,7 @@ services:
     image: adguard/adguardhome:v0.107.79
     restart: always
     ports:
+      - 53:53
       - 3000:3000
       - 5443:5443
     labels:
