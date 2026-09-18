@@ -1,0 +1,31 @@
+---
+services:
+  adguard:
+    container_name: adguard
+    image: adguard/adguardhome:v0.107.79
+    restart: always
+    environment:
+      - REC_PORT=8789
+      - REC_PUBLIC_BASE_URL=https://leia-mww.codewalker.dev
+    ports:
+      - 3000:3000
+      - 5443:5443
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.adguard.loadbalancer.server.port=3000"
+      - "traefik.http.routers.adguard.rule=Host(`adguard.codewalker.dev`)"
+      - "traefik.http.routers.adguard.entrypoints=websecure"
+      - "traefik.http.services.doh.loadbalancer.server.port=443"
+      - "traefik.http.routers.doh.rule=Host(`adguard.codewalker.dev`)"
+      - "traefik.http.routers.doh.entrypoints=websecure"
+    volumes:
+      - adguard_conf:/opt/adguardhome/conf
+      - adguard_data:/opt/adguardhome/work
+networks:
+  default:
+    name: edge
+    external: true
+
+volumes:
+  adguard_conf:
+  adguard_data:

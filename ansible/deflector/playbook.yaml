@@ -1,0 +1,170 @@
+---
+- name: Bootstrap deflector
+  hosts: all
+  become: true
+  gather_facts: false
+  vars:
+    ansible_user: ubuntu
+    ansible_python_interpreter: auto_silent
+    host_ssh_port: 22
+    ansible_port: 22
+
+  tasks:
+    - name: Check host connectivity
+      ansible.builtin.ping:
+
+    - name: "update hostnames"
+      tags:
+        - bootstrap
+      ansible.builtin.hostname:
+        name: deflector
+
+    - name: Read secrets from 1Password
+      ansible.builtin.shell: "op read 'op://{{ item.key }}' < /dev/null"
+      delegate_to: localhost
+      become: false
+      loop:
+        - key: services/op-starforge/doco-cd-serviceaccount
+          var: doco_1pw_sa_token
+        - key: automation/doco-cd/api_secret
+          var: doco_api_secret
+        - key: automation/doco-cd/webhook_secret
+          var: doco_webhook_secret
+      check_mode: false
+      changed_when: false
+      no_log: true
+      register: secrets_raw
+
+    - name: Set secret facts
+      ansible.builtin.set_fact:
+        doco_1pw_sa_token: "{{ secrets_raw.results[0].stdout }}"
+        doco_api_secret: "{{ secrets_raw.results[1].stdout }}"
+        doco_webhook_secret: "{{ secrets_raw.results[2].stdout }}"
+      no_log: true
+
+    - name: packages
+      tags:
+        - packages
+      block:
+        - name: packages | Install Docker
+          ansible.builtin.shell: curl -fsSL https://get.docker.com | sh
+          args:
+            executable: /bin/bash
+            creates: /usr/bin/docker
+
+        - name: packages | Install dnsutils
+          ansible.builtin.apt:
+            name: dnsutils
+            state: present
+            update_cache: false
+
+        - name: packages | Install unbound
+          ansible.builtin.apt:
+            name: unbound
+            state: present
+            update_cache: false
+
+        - name: unbound | Configure unbound
+          ansible.builtin.template:
+            src: deflector.conf.j2
+            dest: /etc/unbound/unbound.conf.d/deflector.conf
+            owner: root
+            group: root
+            mode: "0644"
+          notify: Restart unbound
+
+        - name: ssh | Harden sshd_config
+          ansible.builtin.copy:
+            dest: /etc/ssh/sshd_config.d/01-hardening.conf
+            content: |
+              PermitRootLogin no
+              PasswordAuthentication no
+              MaxAuthTries 3
+              LoginGraceTime 20
+            owner: root
+            group: root
+            mode: "0644"
+          notify: Restart ssh.socket
+
+    - name: docker
+      tags:
+        - docker
+      block:
+        - name: docker | Create edge docker network
+          community.docker.docker_network:
+            name: edge
+            driver: bridge
+            state: present
+
+    - name: doco-cd
+      tags:
+        - doco-cd
+      vars:
+        dococd_config_dir: /opt/doco-cd
+      block:
+        - name: doco-cd | Create directory
+          ansible.builtin.file:
+            path: "{{ dococd_config_dir }}"
+            state: directory
+            owner: ubuntu
+            group: ubuntu
+            mode: "0755"
+
+        - name: doco-cd | Copy docker-compose app file
+          ansible.builtin.copy:
+            src: ../../docker/leia/.doco-cd/docker-compose.app.yaml
+            dest: "{{ dococd_config_dir }}/docker-compose.yaml"
+            owner: ubuntu
+            group: ubuntu
+            mode: "0644"
+          register: compose_file
+
+        - name: doco-cd | Create secrets
+          ansible.builtin.copy:
+            dest: "{{ dococd_config_dir }}/{{ item.name }}"
+            content: |
+              {{ item.content }}
+            owner: ubuntu
+            group: ubuntu
+            mode: "0600"
+          no_log: true
+          loop:
+            - name: 1pw_token
+              content: "{{ doco_1pw_sa_token }}"
+            - name: api_secret
+              content: "{{ doco_api_secret }}"
+            - name: webhook_secret
+              content: "{{ doco_webhook_secret }}"
+
+        - name: doco-cd | Run docker-compose
+          community.docker.docker_compose_v2:
+            project_src: "{{ dococd_config_dir }}"
+            files:
+              - docker-compose.yaml
+            pull: always
+            state: present
+          when: not ansible_check_mode
+
+        - name: doco-cd | Wait for healthy
+          community.docker.docker_container_info:
+            name: doco-cd
+          register: dococd_info
+          until: dococd_info.container.State.Health.Status == "healthy"
+          retries: 30
+          delay: 10
+          when: not ansible_check_mode
+
+  handlers:
+    - name: Reload systemd daemon
+      ansible.builtin.systemd:
+        daemon_reload: true
+
+    - name: Restart ssh.socket
+      ansible.builtin.service:
+        name: ssh.socket
+        state: restarted
+
+    - name: Restart unbound
+      ansible.builtin.service:
+        name: unbound.service
+        state: restarted

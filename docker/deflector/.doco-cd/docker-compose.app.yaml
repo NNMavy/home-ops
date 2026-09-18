@@ -1,0 +1,55 @@
+---
+# This file is not managed by doco-cd because it can't manage itself
+
+secrets:
+  1pw_token:
+    file: /opt/doco-cd/1pw_token
+  api_secret:
+    file: /opt/doco-cd/api_secret
+  webhook_secret:
+    file: /opt/doco-cd/webhook_secret
+services:
+  app:
+    container_name: doco-cd
+    environment:
+      API_SECRET_FILE: /run/secrets/api_secret
+      DEPLOY_CONFIG_BASE_DIR: ./docker/deflector/
+      HTTP_PORT: 8880
+      LOG_LEVEL: info
+      POLL_CONFIG: |-
+        - url: https://git.codewalker.dev/starforge/home-ops.git
+          reference: main
+          interval: 3600
+      SECRET_PROVIDER: 1password
+      SECRET_PROVIDER_ACCESS_TOKEN_FILE: /run/secrets/1pw_token
+      TZ: Europe/Amsterdam
+      WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
+    healthcheck:
+      test:
+        - CMD
+        - /doco-cd
+        - healthcheck
+      start_period: 15s
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    image: ghcr.io/kimdre/doco-cd:0.119.0@sha256:c0eedd8e81bc7d8dc83753cf0b1c7bdedf588400d826154ccb641b25f12c7770
+    restart: unless-stopped
+    secrets:
+      - 1pw_token
+      - api_secret
+      - webhook_secret
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.doco-cd.loadbalancer.server.port=8880"
+      - "traefik.http.routers.doco-cd.rule=Host(`deflector-doco-cd.codewalker.dev`)"
+      - "traefik.http.routers.doco-cd.entrypoints=websecure"
+volumes:
+  data: {}
+networks:
+  default:
+    name: edge
+    external: true
