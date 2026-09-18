@@ -10,13 +10,9 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.adguard.loadbalancer.server.port=3000"
-      - "traefik.http.routers.adguard.rule=Host(`adguard.codewalker.dev`)"
+      - "traefik.http.routers.adguard.rule=Host(`dns.codewalker.dev`)"
       - "traefik.http.routers.adguard.entrypoints=websecure"
       - "traefik.http.routers.adguard.service=adguard"
-      - "traefik.http.services.doh.loadbalancer.server.port=443"
-      - "traefik.http.routers.doh.rule=Host(`doh.codewalker.dev`)"
-      - "traefik.http.routers.doh.entrypoints=websecure"
-      - "traefik.http.routers.doh.service=doh"
     volumes:
       - adguard_conf:/opt/adguardhome/conf
       - adguard_data:/opt/adguardhome/work
