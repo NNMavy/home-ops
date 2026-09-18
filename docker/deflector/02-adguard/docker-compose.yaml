@@ -4,9 +4,7 @@ services:
     container_name: adguard
     image: adguard/adguardhome:v0.107.79
     restart: always
-    network_mode: "host"
     ports:
-      - 53:53
       - 3000:3000
       - 5443:5443
     labels:
