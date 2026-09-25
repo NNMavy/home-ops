@@ -17,7 +17,7 @@ spec:
       kind: Restore
       expr: |-
         !(status.phase in ['Resolving', 'Restoring'])
-    - apiVersion: ceph.rook.io/v1
-      kind: CephCluster
+    - apiVersion: miroir.home-operations.com/v1alpha1
+      kind: MiroirVolume
       expr: |-
-        status.ceph.health in ['HEALTH_OK']
+          status.phase == 'Ready'
