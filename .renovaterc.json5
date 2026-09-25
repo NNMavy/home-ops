@@ -7,5 +7,21 @@
     "github>home-operations/renovate-presets//apps/talosFactory.json5#8.1.0",
     "local>starforge/home-ops//.renovate/groups.json5",
     "local>starforge/home-ops//.renovate/autoMerge.json5",
+  ],
+  // Small tweaks
+  packageRules: [
+    {
+      description: "1Password CLI is not resolvable on GitHub, bump manually",
+      matchManagers: ["mise"],
+      matchDepNames: ["1password-cli"],
+      enabled: false,
+    },
+    // Scheduling rules
+    {
+      description: "High-cadence mise tools monthly",
+      matchManagers: ["mise"],
+      matchDepNames: ["node", "oxfmt"],
+      schedule: ["before 3am on the first day of the month"],
+    },
   ]
 }

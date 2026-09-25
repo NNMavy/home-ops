@@ -21,39 +21,51 @@
       },
       minimumGroupSize: 2,
     },
-    // Running manual updates for now
-    // {
-    //   description: "Kubernetes group",
-    //   groupName: "Kubernetes",
-    //   matchDatasources: ["docker"],
-    //   matchPackageNames: [
-    //     "/kube-apiserver/",
-    //     "/kube-controller-manager/",
-    //     "/kube-proxy/",
-    //     "/kube-scheduler/",
-    //     "/kubelet/",
-    //   ],
-    //   group: {
-    //     commitMessageTopic: "{{{groupName}}} group",
-    //   },
-    //   minimumGroupSize: 5,
-    // },
     {
+      description: "Kubernetes Group",
+      groupName: "kubernetes",
+      matchDatasources: ["docker"],
+      matchPackageNames: [
+        "/kube-apiserver/",
+        "/kube-controller-manager/",
+        "/kube-proxy/",
+        "/kube-scheduler/",
+        "/kubelet/",
+      ],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      minimumGroupSize: 5,
+    },
+    {
+      // Scheduled tools stay out: a grouped branch takes its schedule from
+      // whichever update sorts first
       description: "Mise Tools Group",
       matchManagers: ["mise"],
+      matchDepNames: ["!node", "!oxfmt"],
       groupName: "mise tools",
       groupSlug: "mise-tools",
     },
-    // Running manual updates for now
-    // {
-    //   description: "Talos group",
-    //   groupName: "Talos",
-    //   matchDatasources: ["docker"],
-    //   matchPackageNames: ["/installer/", "/talosctl/"],
-    //   group: {
-    //     commitMessageTopic: "{{{groupName}}} group",
-    //   },
-    //   minimumGroupSize: 2,
-    // },
+    {
+      // After the mise tools catch-all so talos wins its own group; unites the
+      // mise pin, the factory installer image, and the tuppr upgrade version
+      description: "Talos Group",
+      groupName: "talos",
+      matchPackageNames: ["siderolabs/talos"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      minimumGroupSize: 2,
+    },
+    {
+      description: "Towonel group",
+      groupName: "Towonel",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/towonel/"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      minimumGroupSize: 2,
+    },
   ],
 }
