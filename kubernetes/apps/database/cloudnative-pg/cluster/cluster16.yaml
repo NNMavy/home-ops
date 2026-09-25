@@ -45,4 +45,3 @@ spec:
         parameters:
           barmanObjectName: pgbackup
           serverName: "main-postgres16-v3"
-

@@ -1,3 +1,4 @@
+---
 http:
   addr: :8000
 ntfy:
