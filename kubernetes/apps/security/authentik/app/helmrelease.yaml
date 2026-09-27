@@ -42,7 +42,7 @@ spec:
         host: "authentik-redis.security.svc.cluster.local"
         password: ""
       postgresql:
-        host: "postgres-pgbouncer-rw.database.svc.cluster.local"
+        host: "postgres-pgbouncer-rw.database.svc.cluster.local."
         name: "authentik"
 
     postgresql:
