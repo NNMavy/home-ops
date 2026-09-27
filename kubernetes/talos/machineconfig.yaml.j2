@@ -10,10 +10,6 @@ machine:
   features:
     apidCheckExtKeyUsage: true
     diskQuotaSupport: true
-    hostDNS:
-      enabled: true
-      forwardKubeDNSToHost: false
-      resolveMemberNames: true
     kubePrism:
       enabled: true
       port: 7445
@@ -186,6 +182,10 @@ apiVersion: v1alpha1
 kind: ResolverConfig
 searchDomains:
   domains: []
+hostDNS:
+  enabled: true
+  forwardKubeDNSToHost: true # Requires Cilium socketLB features
+  resolveMemberNames: true
 nameservers:
   - address: 172.16.20.9
 ---
