@@ -1,0 +1,12 @@
+loglevel = "ERROR"
+
+[backends]
+[backends.adguard]
+        [backends.adguard.servers.adguard]
+            url = "http://172.16.20.9:3000"
+
+[frontends]
+        [frontends.domain]
+                backend = "adguard"
+        [frontends.domain.routes.domain]
+                rule = "Host:dns.codewalker.dev"
