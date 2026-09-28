@@ -1,9 +1,0 @@
-################################################################
-# File configuration backend
-################################################################
-# Enable file configuration backend
-[file]
-        filename = "servers.toml"
-
-# Enable watch file changes
-        watch = true
