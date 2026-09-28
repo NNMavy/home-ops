@@ -2,7 +2,7 @@
 services:
   mww-trainer:
     container_name: mww-trainer
-    image: ghcr.io/tatertotterson/microwakeword:v30
+    image: ghcr.io/tatertotterson/microwakeword:v32
     devices:
       - /dev/dri:/dev/dri
     volumes:
