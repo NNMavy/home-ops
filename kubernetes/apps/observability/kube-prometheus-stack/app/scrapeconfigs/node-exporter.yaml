@@ -7,8 +7,10 @@ metadata:
 spec:
   staticConfigs:
     - targets:
-        - holocron.codewalker.dev:9100
+        - deflector.codewalker.dev:9100
         - haos.codewalker.dev:9100
+        - holocron.codewalker.dev:9100
+        - leia.codewalker.dev:9100
         - radio.d-tales.nl:9100
   metricsPath: /metrics
   relabelings:
