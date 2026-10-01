@@ -38,6 +38,6 @@ volumes:
   data:
     driver: local
     driver_opts:
-      device: /mnt/tank/apps/zot/data
+      device: /mnt/largepool/zot/data
       o: bind
       type: none
