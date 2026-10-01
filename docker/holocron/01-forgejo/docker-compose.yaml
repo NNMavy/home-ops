@@ -37,6 +37,9 @@ services:
     environment:
       - USER_UID=1000
       - USER_GID=1000
+      - FORGEJO__oauth2_client__ENABLE_AUTO_REGISTRATION=true
+      - FORGEJO__openid__ENABLE_OPENID_SIGNIN=false
+      - FORGEJO__openid__ENABLE_OPENID_SIGNUP=false
     restart: always
     networks:
       - apps
