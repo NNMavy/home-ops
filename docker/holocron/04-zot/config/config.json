@@ -128,8 +128,8 @@
         ],
         "providers": {
           "oidc": {
-            "name": "Kanidm",
-            "issuer": "https://authentik.codewalker.dev/application/o/zot",
+            "name": "Authentik",
+            "issuer": "https://authentik.codewalker.dev/application/o/zot/",
             "credentialsFile": "/etc/zot/openid-credentials.json",
             "scopes": [
               "openid",
