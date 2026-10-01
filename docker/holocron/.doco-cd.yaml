@@ -10,6 +10,11 @@ external_secrets:
   OVH_CONSUMER_KEY: op://services/OVHcloud/traefik-consumer-key
   TOWONEL_INVITE_TOKEN: op://automation/towonel-tunnel/holocron_token
   DOWNLOADER_PASSPHRASE: op://automation/downloader/passphrase
+  UNIFI_API_KEY: op://services/Unifi Controller/external_dns
+  ZOT_HTPASSWD: op://services/Zot/htpasswd
+  ZOT_OIDC_CLIENT_ID: op://automation/kanidm/zot_oidc_client_id
+  ZOT_OIDC_CLIENT_SECRET: op://automation/kanidm/zot_oidc_client_secret
+  ZOT_SESSION_KEYS: op://services/Zot/session-keys
 force_recreate: false
 reconciliation:
   enabled: true
