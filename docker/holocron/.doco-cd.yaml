@@ -11,10 +11,10 @@ external_secrets:
   TOWONEL_INVITE_TOKEN: op://automation/towonel-tunnel/holocron_token
   DOWNLOADER_PASSPHRASE: op://automation/downloader/passphrase
   UNIFI_API_KEY: op://services/Unifi Controller/external_dns
-  ZOT_HTPASSWD: op://services/zot/htpasswd
+  ZOT_HTPASSWD: op://automation/zot/htpasswd
   ZOT_OIDC_CLIENT_ID: op://automation/zot/zot_oidc_client_id
   ZOT_OIDC_CLIENT_SECRET: op://automation/zot/zot_oidc_client_secret
-  ZOT_SESSION_KEYS: op://services/zot/session-keys
+  ZOT_SESSION_KEYS: op://automation/zot/session-keys
 force_recreate: false
 reconciliation:
   enabled: true
