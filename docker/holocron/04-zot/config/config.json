@@ -11,7 +11,10 @@
         {
           "repositories": [
             "docker-hub/**",
-            "ghcr/**"
+            "ghcr/**",
+            "erwanleboucher/**",
+            "quay/**",
+            "k8s-io/**"
           ],
           "deleteReferrers": true,
           "deleteUntagged": true,
@@ -41,6 +44,17 @@
   },
   "http": {
     "accessControl": {
+      "adminPolicy": {
+          "users": [
+              "zot-admin"
+          ],
+          "actions": [
+              "read",
+              "create",
+              "update",
+              "delete"
+          ]
+      },
       "repositories": {
         "**": {
           "anonymousPolicy": [
@@ -50,7 +64,7 @@
             "read"
           ]
         },
-        "bjw-s/**": {
+        "starforge/**": {
           "policies": [
             {
               "users": [
@@ -64,7 +78,7 @@
             },
             {
               "groups": [
-                "registry-ui-users"
+                "zot-users"
               ],
               "actions": [
                 "read",
@@ -74,44 +88,6 @@
           ],
           "defaultPolicy": [
             "read"
-          ]
-        },
-        "docker-hub/**": {
-          "anonymousPolicy": [
-            "read"
-          ],
-          "defaultPolicy": [
-            "read"
-          ],
-          "policies": [
-            {
-              "groups": [
-                "registry-ui-users"
-              ],
-              "actions": [
-                "read",
-                "delete"
-              ]
-            }
-          ]
-        },
-        "ghcr/**": {
-          "anonymousPolicy": [
-            "read"
-          ],
-          "defaultPolicy": [
-            "read"
-          ],
-          "policies": [
-            {
-              "groups": [
-                "registry-ui-users"
-              ],
-              "actions": [
-                "read",
-                "delete"
-              ]
-            }
           ]
         }
       }
@@ -135,11 +111,10 @@
               "openid",
               "profile",
               "email",
-              "groups"
+              "zot"
             ],
             "claimMapping": {
-              "username": "preferred_username",
-              "groups": "zot_groups"
+              "username": "preferred_username"
             }
           }
         }
@@ -161,7 +136,9 @@
       "registries": [
         {
           "urls": [
-            "https://index.docker.io"
+            "https://index.docker.io",
+            "https://mirror.gcr.io",
+            "https://docker.io/library"
           ],
           "onDemand": true,
           "tlsVerify": true,
@@ -188,7 +165,54 @@
               "destination": "/ghcr"
             }
           ]
+        },
+        {
+          "urls": [
+            "https://git.erwanleboucher.dev"
+          ],
+          "onDemand": true,
+          "tlsVerify": true,
+          "maxRetries": 3,
+          "retryDelay": "5m",
+          "content": [
+            {
+              "prefix": "**",
+              "destination": "/erwanleboucher"
+            }
+          ]
+        },
+
+        {
+          "urls": [
+            "https://quay.io"
+          ],
+          "onDemand": true,
+          "tlsVerify": true,
+          "maxRetries": 3,
+          "retryDelay": "5m",
+          "content": [
+            {
+              "prefix": "**",
+              "destination": "/quay"
+            }
+          ]
+        },
+        {
+          "urls": [
+            "https://registry.k8s.io"
+          ],
+          "onDemand": true,
+          "tlsVerify": true,
+          "maxRetries": 3,
+          "retryDelay": "5m",
+          "content": [
+            {
+              "prefix": "**",
+              "destination": "/k8s-io"
+            }
+          ]
         }
+
       ]
     },
     "ui": {
