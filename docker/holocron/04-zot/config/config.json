@@ -157,7 +157,8 @@
         },
         {
           "urls": [
-            "https://git.erwanleboucher.dev"
+            "https://git.erwanleboucher.dev",
+            "https://registry.erwanleboucher.dev"
           ],
           "onDemand": true,
           "tlsVerify": true,
