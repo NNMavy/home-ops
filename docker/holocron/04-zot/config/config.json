@@ -44,22 +44,19 @@
   },
   "http": {
     "accessControl": {
-      "adminPolicy": {
-          "groups": [
-            "zot-admins"
-          ],
-          "actions": [
-              "read",
-              "create",
-              "update",
-              "delete"
-          ]
-      },
       "repositories": {
         "**": {
+          "policies": [{
+            "groups": ["zot-admins"],
+            "actions": ["read", "create", "update", "delete"]
+          }],
+          "defaultPolicy": [
+            "read"
+          ],
           "anonymousPolicy": [
             "read"
           ]
+
         },
         "starforge/**": {
           "policies": [
