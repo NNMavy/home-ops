@@ -235,3 +235,45 @@ configFiles:
         MONITOR ups@holocron.codewalker.dev 1 monuser secret secondary
         SHUTDOWNCMD "/sbin/poweroff"
     mountPath: /usr/local/etc/nut/upsmon.conf
+---
+apiVersion: v1alpha1
+kind: RegistryMirrorConfig
+name: docker.io
+endpoints:
+  - url: https://registry.codewalker.dev/v2/docker-hub/
+    overridePath: true
+---
+apiVersion: v1alpha1
+kind: RegistryMirrorConfig
+name: mirror.gcr.io
+endpoints:
+  - url: https://registry.codewalker.dev/v2/docker-hub/
+    overridePath: true
+---
+apiVersion: v1alpha1
+kind: RegistryMirrorConfig
+name: ghcr.io
+endpoints:
+  - url: https://registry.codewalker.dev/v2/ghcr/
+    overridePath: true
+---
+apiVersion: v1alpha1
+kind: RegistryMirrorConfig
+name: git.erwanleboucher.dev
+endpoints:
+  - url: https://registry.codewalker.dev/v2/erwanleboucher/
+    overridePath: true
+---
+apiVersion: v1alpha1
+kind: RegistryMirrorConfig
+name: quay.io
+endpoints:
+  - url: https://registry.codewalker.dev/v2/quay/
+    overridePath: true
+---
+apiVersion: v1alpha1
+kind: RegistryMirrorConfig
+name: registry.k8s.io
+endpoints:
+  - url: https://registry.codewalker.dev/v2/k8s-io/
+    overridePath: true
