@@ -259,13 +259,6 @@ endpoints:
 ---
 apiVersion: v1alpha1
 kind: RegistryMirrorConfig
-name: git.erwanleboucher.dev
-endpoints:
-  - url: https://registry.codewalker.dev/v2/erwanleboucher/
-    overridePath: true
----
-apiVersion: v1alpha1
-kind: RegistryMirrorConfig
 name: quay.io
 endpoints:
   - url: https://registry.codewalker.dev/v2/quay/
@@ -276,4 +269,18 @@ kind: RegistryMirrorConfig
 name: registry.k8s.io
 endpoints:
   - url: https://registry.codewalker.dev/v2/k8s-io/
+    overridePath: true
+---
+apiVersion: v1alpha1
+kind: RegistryMirrorConfig
+name: git.erwanleboucher.dev
+endpoints:
+  - url: https://registry.codewalker.dev/v2/erwanleboucher/
+    overridePath: true
+---
+apiVersion: v1alpha1
+kind: RegistryMirrorConfig
+name: registry.erwanleboucher.dev
+endpoints:
+  - url: https://registry.codewalker.dev/v2/erwanleboucher/
     overridePath: true
