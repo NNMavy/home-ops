@@ -45,8 +45,8 @@
   "http": {
     "accessControl": {
       "adminPolicy": {
-          "users": [
-              "zot-admin"
+          "groups": [
+            "zot-admins"
           ],
           "actions": [
               "read",
