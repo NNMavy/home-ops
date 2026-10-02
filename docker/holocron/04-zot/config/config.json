@@ -59,9 +59,6 @@
         "**": {
           "anonymousPolicy": [
             "read"
-          ],
-          "defaultPolicy": [
-            "read"
           ]
         },
         "starforge/**": {
