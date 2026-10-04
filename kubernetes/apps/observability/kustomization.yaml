@@ -9,6 +9,7 @@ resources:
   - ./namespace.yaml
   - ./alertmanager-ntfy/ks.yaml
   - ./blackbox-exporter/ks.yaml
+  - ./dns-canary/ks.yaml
   - ./grafana/ks.yaml
   - ./gatus/ks.yaml
   - ./kromgo/ks.yaml
