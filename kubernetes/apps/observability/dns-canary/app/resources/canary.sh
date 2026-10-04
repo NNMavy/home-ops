@@ -7,19 +7,19 @@
 # see the 2026-07-30 dragonfly incident). WAN counters, CoreDNS SERVFAILs and
 # spot probes are all clean, so the suspect is an invisible NOERROR-empty
 # (NODATA) A response. This canary queries the affected chart hosts via BOTH
-# the cluster DNS path (what real pods use) AND the UDM directly, and logs
+# the cluster DNS path (what real pods use) AND the unifigw directly, and logs
 # ONLY anomalies plus a 15-minute heartbeat. Promtail ships it to Loki.
 #
 # Correlate with:
 #   {namespace="observability", pod=~"dns-canary.*"} |= "ANOMALY"
 #   {namespace="flux-system"} |= "network is unreachable"
-# cluster-hit + udm-clean  => CoreDNS/cache layer
-# both-hit                 => UDM upstream resolver
+# cluster-hit + unifigw-clean  => CoreDNS/cache layer
+# both-hit                 => unifigw upstream resolver
 # canary-clean while flux still errors => not DNS; look at conntrack/dial path
 set -u
 
 HOSTS="${CANARY_HOSTS:-charts.goauthentik.io helm.openwebui.com raw.githubusercontent.com}"
-UPSTREAM="${CANARY_UPSTREAM:-192.168.0.1}"
+UPSTREAM="${CANARY_UPSTREAM:-172.16.1.254}"
 INTERVAL="${CANARY_INTERVAL_SECONDS:-15}"
 HEARTBEAT_EVERY=$(( 900 / INTERVAL ))
 
@@ -49,7 +49,7 @@ echo "$(ts) dns-canary start hosts=[$HOSTS] upstream=$UPSTREAM interval=${INTERV
 while true; do
   for h in $HOSTS; do
     probe cluster "$h" ""           || anomalies=$((anomalies+1))
-    probe udm     "$h" "@$UPSTREAM" || anomalies=$((anomalies+1))
+    probe unifigw     "$h" "@$UPSTREAM" || anomalies=$((anomalies+1))
     total=$((total+2))
   done
   i=$((i+1))
