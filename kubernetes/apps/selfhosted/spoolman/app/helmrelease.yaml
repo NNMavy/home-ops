@@ -60,7 +60,7 @@ spec:
           app:
             image:
               repository: ghcr.io/rdiger-36/bambulab-ams-spoolman-filamentstatus
-              tag: "1.2.1"
+              tag: "1.3.3"
             env:
               SPOOLMAN_ENDPOINT: "http://spoolman-app:8000"
               MODE: "automatic"
