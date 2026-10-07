@@ -10,11 +10,15 @@ KUBE_EDITOR = 'nvim'
 pipx.uvx = true
 
 [tools]
+# Pinned for workflows
+"actionlint" = "1.7.12"
+"github:home-operations/flate" = "v0.6.5"
+talos = "1.14.1"
+yq = "4.54.1"
+# Only used locally
 "aqua:astral-sh/uv" = "latest"
 "aqua:cilium/hubble" = "latest"
 "aqua:google/yamlfmt" = "latest"
-"aqua:rhysd/actionlint" = "latest"
-"github:home-operations/flate" = "latest"
 "pipx:ansible" = "latest"
 "pipx:ansible-core" = "latest"
 

@@ -57,6 +57,7 @@ spec:
           - ubuntu-24.04:k8s:///config/podspec-default.yaml
           - default:k8s:///config/podspec-default.yaml
           - docker:k8s:///config/podspec-dind.yaml
+          - home-ops:k8s:///config/podspec-home-ops.yaml
         timeout: 3h
         shutdown_timeout: 3m
     podSpecs:
@@ -136,3 +137,19 @@ spec:
           - name: docker-certs
             emptyDir: {}
         restartPolicy: Never
+      podspec-home-ops.yaml: |-
+        containers:
+          - env:
+              - name: DEBIAN_FRONTEND
+                value: noninteractive
+            image: ghcr.io/bjw-s-labs/forgejo-runner:ubuntu-24.04@sha256:12d016b9baa7e3f35e44e818beda2e4400d3b0792784488542894064301f330b
+            imagePullPolicy: IfNotPresent
+            name: main
+            resources:
+              limits:
+                memory: 2Gi
+              requests:
+                cpu: 100m
+                memory: 256Mi
+        restartPolicy: Never
+        serviceAccountName: home-ops-runner
