@@ -16,7 +16,7 @@ jobs:
     name: Image Pull - Filter
     runs-on: ubuntu-latest
     outputs:
-      all-changed: ${{ fromJSON(steps.changed-files.outputs.all_changed_files || '[]') }}
+      all-changed: ${{ steps.changed-files.outputs.all_changed_files }}
     steps:
       - name: Get Changed Files
         id: changed-files
@@ -25,9 +25,16 @@ jobs:
           files: kubernetes/**
           json: true
           escape_json: false
+      - name: Debug Changed Files
+        run: |
+          echo 'All changed files: ${{ steps.changed-files.outputs.all_changed_files }}'
 
   extract:
-    if: needs.filter.outputs.all-changed != '[]'
+    if: >-
+      ${{
+        needs.filter.outputs.all-changed != '[]' &&
+        github.event.pull_request.head.repo.full_name == github.repository
+      }}
     needs: [filter]
     name: Image Pull - Extract Images
     runs-on: ubuntu-latest
@@ -41,7 +48,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup Mise
-        uses: jdx/mise-action@94c60b39bc2d90ab2f9bab27f38d3cc4812c1834 # v5.1.0
+        uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
         with:
           cache: false
           install_args: github:home-operations/flate
@@ -54,7 +61,11 @@ jobs:
           echo 'EOF' >> $GITHUB_OUTPUT
 
   pull:
-    if: needs.extract.outputs.images != '[]'
+    if: >-
+      ${{
+        needs.extract.outputs.images != '[]' &&
+        github.event.pull_request.head.repo.full_name == github.repository
+      }}
     needs: [extract]
     name: Image Pull - Pull Images
     runs-on: home-ops
@@ -65,7 +76,7 @@ jobs:
       fail-fast: false
     steps:
       - name: Setup Mise
-        uses: jdx/mise-action@94c60b39bc2d90ab2f9bab27f38d3cc4812c1834 # v5.1.0
+        uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
         with:
           cache: false
           tool_versions: |
