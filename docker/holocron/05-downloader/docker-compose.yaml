@@ -32,7 +32,7 @@ services:
       - ./anubis/policy.yaml:/etc/anubis/policy.yaml:ro
 
   downloader:
-    image: git.codewalker.dev/mavy/docker-downloader:0.1.0
+    image: git.codewalker.dev/mavy/docker-downloader:0.2.0
     container_name: downloader
     restart: always
     networks:
