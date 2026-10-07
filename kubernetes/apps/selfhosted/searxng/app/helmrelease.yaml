@@ -28,7 +28,7 @@ spec:
           main:
             image:
               repository: ghcr.io/searxng/searxng
-              tag: 2026.10.2-19ffbcd30
+              tag: 2026.10.7-6671d89be
             env:
               SEARXNG_BASE_URL: https://search.codewalker.dev
               SEARXNG_URL: https://search.codewalker.dev
