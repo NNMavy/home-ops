@@ -11,34 +11,26 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
-
 jobs:
   filter:
     name: Image Pull - Filter
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: read
     outputs:
-      any-changed: ${{ steps.changed-files.outputs.any_changed }}
+      all-changed: ${{ fromJSON(steps.changed-files.outputs.all_changed_files || '[]') }}
     steps:
       - name: Get Changed Files
         id: changed-files
-        uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
+        uses: https://github.com/tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
         with:
           files: kubernetes/**
+          json: true
+          escape_json: false
 
   extract:
-    if: >-
-      ${{
-        needs.filter.outputs.any-changed == 'true' &&
-        github.event.pull_request.head.repo.full_name == github.repository
-      }}
-    needs: filter
+    if: needs.filter.outputs.all-changed != '[]'
+    needs: [filter]
     name: Image Pull - Extract Images
-    runs-on: ${{ github.event.repository.name }}-runner
+    runs-on: ubuntu-latest
     outputs:
       images: ${{ steps.extract.outputs.images }}
     steps:
@@ -62,12 +54,8 @@ jobs:
           echo 'EOF' >> $GITHUB_OUTPUT
 
   pull:
-    if: >-
-      ${{
-        needs.extract.outputs.images != '[]' &&
-        github.event.pull_request.head.repo.full_name == github.repository
-      }}
-    needs: extract
+    if: needs.extract.outputs.images != '[]'
+    needs: [extract]
     name: Image Pull - Pull Images
     runs-on: home-ops
     strategy:
