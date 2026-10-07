@@ -69,7 +69,7 @@ jobs:
       }}
     needs: extract
     name: Image Pull - Pull Images
-    runs-on: uhome-ops
+    runs-on: home-ops
     strategy:
       matrix:
         image: ${{ fromJSON(needs.extract.outputs.images) }}
