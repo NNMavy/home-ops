@@ -13,7 +13,7 @@ pipx.uvx = true
 # Pinned for workflows
 "actionlint" = "1.7.12"
 "github:home-operations/flate" = "v0.6.5"
-talos = "1.14.1"
+talos = "1.14.2"
 yq = "4.54.1"
 # Only used locally
 "aqua:astral-sh/uv" = "latest"
