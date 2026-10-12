@@ -54,7 +54,7 @@ spec:
             namespace: network
         rules:
           - backendRefs:
-              - name: "{{.Release.Name}}-app"
+              - name: "{{.Release.Name}}"
                 port: 4000
 
     persistence:
