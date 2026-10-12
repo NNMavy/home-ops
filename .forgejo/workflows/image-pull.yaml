@@ -25,7 +25,7 @@ jobs:
           files: kubernetes/**
       - name: Debug Changed Files
         run: |
-          echo '${{ fromJSON(steps.changed-files.outputs) }}'
+          echo '${{ toJSON(steps.changed-files.outputs) }}'
 
   extract:
     if: >-
