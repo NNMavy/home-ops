@@ -16,16 +16,18 @@ jobs:
     name: Image Pull - Filter
     runs-on: ubuntu-latest
     outputs:
-      all-changed: ${{ steps.changed-files.outputs.all_changed_files }}
+      all-changed: ${{ steps.changed-files.outputs.all_changed_and_modified_files }}
     steps:
       - name: Get Changed Files
         id: changed-files
         uses: https://github.com/tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
         with:
           files: kubernetes/**
+          json: true
+          escape_json: false
       - name: Debug Changed Files
         run: |
-          echo '${{ toJSON(steps.changed-files.outputs) }}'
+          echo 'All changed files: ${{ steps.changed-files.outputs.all_changed_and_modified_files }}'
 
   extract:
     if: >-
