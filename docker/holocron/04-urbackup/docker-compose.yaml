@@ -16,8 +16,8 @@ services:
     labels:
       dexd.enabled: 'true'
       traefik.enable: 'true'
-      traefik.http.routers.zot.rule: Host(`urbackup.codewalker.dev`)
-      traefik.http.services.zot.loadbalancer.server.port: '55414'
+      traefik.http.routers.urbackup.rule: Host(`urbackup.codewalker.dev`)
+      traefik.http.services.urbackup.loadbalancer.server.port: '55414'
     networks:
       - apps
     restart: unless-stopped
