@@ -22,7 +22,7 @@ jobs:
         id: changed-files
         uses: https://github.com/tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
         with:
-          files: kubernetes/**
+          files: kubernetes/**/*.yaml
           json: true
           escape_json: false
       - name: Debug Changed Files
