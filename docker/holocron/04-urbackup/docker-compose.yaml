@@ -1,4 +1,9 @@
 ---
+name: urbackup
+networks:
+  apps:
+    name: apps
+    external: true
 services:
   urbackup:
     container_name: urbackup
