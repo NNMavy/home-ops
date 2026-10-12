@@ -2,35 +2,33 @@
 services:
   urbackup:
     container_name: urbackup
-    environment:
-      BROADCAST_INTERFACES: '""'
-      NVIDIA_VISIBLE_DEVICES: void
-      TZ: Etc/UTC
     group_add:
       - 568
     healthcheck:
       disable: true
     image: >-
       uroni/urbackup-server:2.5.x@sha256:e2fdc0d59071b0e9438ebb05fe163a839f767c4477851e87dcc3efa8df7ab299
-    network_mode: host
-    platform: linux/amd64
-    privileged: false
-    pull_policy: missing
-    restart: 'no'
-    stdin_open: false
-    tty: false
+    labels:
+      dexd.enabled: 'true'
+      traefik.enable: 'true'
+      traefik.http.routers.zot.rule: Host(`urbackup.codewalker.dev`)
+      traefik.http.services.zot.loadbalancer.server.port: '55414'
+    networks:
+      - apps
+    restart: unless-stopped
     volumes:
-      - bind:
-          create_host_path: false
-          propagation: rprivate
-        read_only: false
-        source: /mnt/largepool/backups
-        target: /backups
-        type: bind
-      - bind:
-          create_host_path: false
-          propagation: rprivate
-        read_only: false
-        source: /mnt/vmdata-ssd/container-data/urbackup
-        target: /var/urbackup
-        type: bind
+      - backups:/backups
+      - data:/var/urbackup
+volumes:
+  backups:
+    driver: local
+    driver_opts:
+      device: /mnt/largepool/backups
+      o: bind
+      type: none
+  data:
+    driver: local
+    driver_opts:
+      device: /mnt/vmdata-ssd/container-data/urbackup
+      o: bind
+      type: none
