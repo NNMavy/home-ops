@@ -22,6 +22,7 @@ services:
       - apps
     expose:
       - 55414
+      - 55415
     restart: unless-stopped
     volumes:
       - backups:/backups
