@@ -20,9 +20,8 @@ services:
       traefik.http.services.urbackup.loadbalancer.server.port: '55414'
     networks:
       - apps
-    expose:
-      - 55414
-      - 55415
+    ports:
+      - "55415:55415"
     restart: unless-stopped
     volumes:
       - backups:/backups
