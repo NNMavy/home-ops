@@ -54,6 +54,8 @@ spec:
               PROWLARR__LOG__LEVEL: info
               PROWLARR__SERVER__PORT: &port 80
               PROWLARR__UPDATE__BRANCH: develop
+              PROWLARR__SERVER__ALLOWEDHOSTS: {{.Release.Name}}.codewalker.dev,prowlarr.downloads.svc.cluster.local
+              PROWLARR__SERVER__TRUSTEDNETWORKS: 10.42.0.0/16
             envFrom: *envFrom
             probes:
               liveness: &probes
@@ -63,6 +65,9 @@ spec:
                   httpGet:
                     path: /ping
                     port: *port
+                    httpHeaders:
+                      - name: Host
+                        value: localhost
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1

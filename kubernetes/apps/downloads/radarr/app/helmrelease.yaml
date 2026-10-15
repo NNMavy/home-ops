@@ -48,8 +48,8 @@ spec:
               RADARR__LOG__LEVEL: info
               RADARR__SERVER__PORT: &port 80
               RADARR__UPDATE__BRANCH: develop
-              FF_URL: http://fileflows.media.svc.cluster.local:5000
-              FF_FLOW_ID: cb8a6cb1-cb48-42e0-bf1c-356882ac55b2
+              RADARR__SERVER__ALLOWEDHOSTS: {{.Release.Name}}.codewalker.dev,radarr.downloads.svc.cluster.local
+              RADARR__SERVER__TRUSTEDNETWORKS: 10.42.0.0/16
             envFrom: *envFrom
             probes:
               liveness: &probes
@@ -59,6 +59,9 @@ spec:
                   httpGet:
                     path: /ping
                     port: *port
+                    httpHeaders:
+                      - name: Host
+                        value: localhost
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
