@@ -5,6 +5,7 @@ services:
     image: ghcr.io/tatertotterson/microwakeword:v36
     devices:
       - /dev/dri:/dev/dri
+    shm_size: 8g
     volumes:
       - /mnt/mww-trainer/data:/data
     restart: always
