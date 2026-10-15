@@ -47,7 +47,7 @@ spec:
               SONARR__LOG__LEVEL: info
               SONARR__SERVER__PORT: &port 80
               SONARR__UPDATE__BRANCH: develop
-              SONARR__SERVER__ALLOWEDHOSTS: {{.Release.Name}}.codewalker.dev,prowlarr.downloads.svc.cluster.local
+              SONARR__SERVER__ALLOWEDHOSTS: sonarr.codewalker.dev,sonarr.downloads.svc.cluster.local
               SONARR__SERVER__TRUSTEDNETWORKS: 10.42.0.0/16
             envFrom: *envFrom
             probes:
