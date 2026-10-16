@@ -22,6 +22,7 @@ services:
       - apps
     ports:
       - "55415:55415"
+      - "35623:35623/udp"
     restart: unless-stopped
     volumes:
       - backups:/backups
