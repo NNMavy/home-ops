@@ -51,7 +51,7 @@ spec:
           http:
             port: 3000
     persistence:
-      config:
+      data:
         enabled: true
         type: persistentVolumeClaim
         size: 5Gi
@@ -59,7 +59,13 @@ spec:
         accessMode: ReadWriteOnce
         globalMounts:
           - path: /app/data
-
+      config:
+        type: configMap
+        name: pages-configmap
+        globalMounts:
+          - path: /app/config.toml
+            subPath: config.toml
+            readOnly: true
     route:
       app:
         hostnames:

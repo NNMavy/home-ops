@@ -4,3 +4,9 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./ocirepository.yaml
+configMapGenerator:
+  - name: pages-configmap
+    files:
+      - ./resources/config.toml
+generatorOptions:
+  disableNameSuffixHash: true
