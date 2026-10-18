@@ -17,6 +17,7 @@ on:
       pr_number:
         description: PR number to (re-)review
         required: true
+        type: string
 
 enable-openid-connect: true
 
