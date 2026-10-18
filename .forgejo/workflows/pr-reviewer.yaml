@@ -36,7 +36,8 @@ jobs:
         id: prctx
         if: forgejo.event_name == 'workflow_dispatch'
         env:
-          GH_TOKEN: ${{ forgejo.token }}
+          FORGEJO_HOST: git.codewalker.dev
+          FORGEJO_TOKEN: ${{ forgejo.token }}
           PR_NUMBER: ${{ inputs.pr_number }}
         run: |
           # workflow_dispatch has no PR payload, so resolve the head SHA and
