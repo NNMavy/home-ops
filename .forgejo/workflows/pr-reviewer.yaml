@@ -80,22 +80,21 @@ jobs:
           # Primary model
           ai-base-url: http://litellm.ai.svc.cluster.local:4000/v1
           ai-api-format: openai
-          ai-model: proton/lumo-lite
+          ai-model: deepseek-v4-flash
           ai-api-key: ${{ secrets.LITELLM_API_KEY }}
-          ai-anthropic-effort-support: "false"
           ai-primary-reasoning-effort: medium
           primary-model-context-tokens: 131072
           # Fallback model
           ai-fallback-base-url: http://litellm.ai.svc.cluster.local:4000/v1
           ai-fallback-api-format: openai
-          ai-fallback-model: opencode-go/qwen3.6-plus
+          ai-fallback-model: gpt-6-luna
           ai-fallback-reasoning-effort: medium
           ai-fallback-stream: "false"
           # Smart model
           ai-smart-base-url: http://litellm.ai.svc.cluster.local:4000/v1
           ai-smart-api-key: ${{ secrets.LITELLM_API_KEY }}
           ai-smart-api-format: openai
-          ai-smart-model: opencode-go/deepseek-v4-flash
+          ai-smart-model: minimax-m3
           smart-model-context-tokens: 1000000
           # Action config
           ai-specialist-anthropic-effort-support: "false"
