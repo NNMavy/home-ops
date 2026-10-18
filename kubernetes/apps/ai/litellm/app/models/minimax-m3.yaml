@@ -5,18 +5,18 @@ kind: LiteLLMModel
 metadata:
   name: minimax-m3
 spec:
-  modelName: minimax/MiniMax-M3
+  modelName: minimax-m3
   params:
-    model: minimax/MiniMax-M3
-    apiBase: https://api.minimax.io/v1
+    model: anthropic/minimax-m3
+    apiBase: https://opencode.ai/zen/go
     apiKeyRef:
       name: litellm
-      key: MINIMAX_API_KEY
+      key: OPENCODE_GO_API_KEY
+    dropParams: true
     additional:
-      extra_body:
-        reasoning_split: true
+      extra_headers:
+        x-opencode-session: "litellm-proxy"
   info:
-    maxTokens: 1000000
     maxInputTokens: 1000000
     maxOutputTokens: 131072
     supportsFunctionCalling: true

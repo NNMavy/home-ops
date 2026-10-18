@@ -3,12 +3,12 @@
 apiVersion: litellm.home-operations.com/v1alpha1
 kind: LiteLLMModel
 metadata:
-  name: opencode-go-minimax-m3
+  name: gpt-6-luna
 spec:
-  modelName: opencode-go/minimax-m3
+  modelName: gpt-6-luna
   params:
-    model: anthropic/minimax-m3
-    apiBase: https://opencode.ai/zen/go
+    model: openai/gpt-6-luna
+    apiBase: https://opencode.ai/zen/go/v1
     apiKeyRef:
       name: litellm
       key: OPENCODE_GO_API_KEY
@@ -17,10 +17,9 @@ spec:
       extra_headers:
         x-opencode-session: "litellm-proxy"
   info:
-    maxInputTokens: 1000000
+    maxInputTokens: 1048560
     maxOutputTokens: 131072
     supportsFunctionCalling: true
     supportsPromptCaching: true
-    supportsVision: true
     extra:
       supports_reasoning: true

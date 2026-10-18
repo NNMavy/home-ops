@@ -3,21 +3,23 @@
 apiVersion: litellm.home-operations.com/v1alpha1
 kind: LiteLLMModel
 metadata:
-  name: minimax-m3-anthropic
+  name: deepseek-v4-flash
 spec:
-  modelName: minimax/MiniMax-M3-anthropic
+  modelName: deepseek-v4-flash
   params:
-    model: anthropic/MiniMax-M3
-    apiBase: https://api.minimax.io/anthropic
+    model: openai/deepseek-v4-flash
+    apiBase: https://opencode.ai/zen/go/v1
     apiKeyRef:
       name: litellm
-      key: MINIMAX_API_KEY
+      key: OPENCODE_GO_API_KEY
     dropParams: true
+    additional:
+      extra_headers:
+        x-opencode-session: "litellm-proxy"
   info:
-    maxInputTokens: 1000000
+    maxInputTokens: 1048560
     maxOutputTokens: 131072
     supportsFunctionCalling: true
     supportsPromptCaching: true
-    supportsVision: true
     extra:
       supports_reasoning: true
