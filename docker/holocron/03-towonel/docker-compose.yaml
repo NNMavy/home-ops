@@ -1,7 +1,7 @@
 ---
 services:
   towonel-agent:
-    image: codeberg.org/towonel/towonel-agent:1.13.2
+    image: codeberg.org/towonel/towonel-agent:1.13.3
     network_mode: host
     restart: unless-stopped
     environment:
