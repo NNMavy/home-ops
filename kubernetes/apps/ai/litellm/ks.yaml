@@ -13,6 +13,8 @@ spec:
       namespace: database
     - name: litellm-operator
       namespace: ai
+    - name: cloudnative-pg-cluster
+      namespace: database
   healthCheckExprs:
     - apiVersion: dragonflydb.io/v1alpha1
       kind: Dragonfly
