@@ -19,4 +19,4 @@ spec:
           image: ghcr.io/home-operations/postgres-init:18.6@sha256:b6d3af974df781c673d37e49bdddfa14a6f5be28b18d2cb7713f0449bea4057b
           envFrom:
             - secretRef:
-                name: litellm-secret
+                name: litellm
