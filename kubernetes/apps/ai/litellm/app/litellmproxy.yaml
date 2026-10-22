@@ -8,6 +8,8 @@ spec:
   # renovate: datasource=docker depName=ghcr.io/berriai/litellm
   image: ghcr.io/berriai/litellm:v1.106.2@sha256:7294b90f868c5c38c99b83021c7ba46f9b439e95f8e32964c925c7d2563a03f7
   replicas: 1
+  # Admin API access for DB-backed resources (LiteLLMVirtualKey). Models stay
+  # file-backed because applyMode is left at its default.
   apiAccess:
     masterKeyRef:
       name: litellm
@@ -22,6 +24,16 @@ spec:
           key: LITELLM_DATABASE_URL
     - name: GENERIC_AUTHORIZATION_ENDPOINT
       value: https://authentik.codewalker.dev/application/o/authorize
+    - name: GENERIC_CLIENT_ID
+      valueFrom:
+        secretKeyRef:
+          name: litellm
+          key: GENERIC_CLIENT_ID
+    - name: GENERIC_CLIENT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: litellm
+          key: GENERIC_CLIENT_SECRET
     - name: GENERIC_CLIENT_USE_PKCE
       value: "true"
     - name: GENERIC_SCOPE
@@ -61,7 +73,7 @@ spec:
           name: litellm
           key: LITELLM_MASTER_KEY
   generalSettings:
-    # SSO (Kanidm) is the only Admin UI login; the master key no longer works
+    # SSO (Authentik) is the only Admin UI login; the master key no longer works
     # as the UI password but still authenticates API calls.
     disable_env_credential_login: true
     health_check_endpoint: /v1/health
