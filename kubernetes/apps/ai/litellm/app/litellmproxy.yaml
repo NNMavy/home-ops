@@ -18,13 +18,13 @@ spec:
     - name: CHATGPT_TOKEN_DIR
       value: /app/chatgpt_tokens
     - name: GENERIC_AUTHORIZATION_ENDPOINT
-      value: https://authentik.codewalker.dev/application/o/authorize
+      value: https://authentik.codewalker.dev/application/o/authorize/
     - name: GENERIC_CLIENT_USE_PKCE
       value: "true"
     - name: GENERIC_SCOPE
       value: openid profile email litellm_role
     - name: GENERIC_TOKEN_ENDPOINT
-      value: https://authentik.codewalker.dev/application/o/token
+      value: https://authentik.codewalker.dev/application/o/token/
     - name: GENERIC_USER_DISPLAY_NAME_ATTRIBUTE
       value: name
     - name: GENERIC_USER_EMAIL_ATTRIBUTE
@@ -34,7 +34,7 @@ spec:
     - name: GENERIC_USER_ROLE_ATTRIBUTE
       value: litellm_role
     - name: GENERIC_USERINFO_ENDPOINT
-      value: https://authentik.codewalker.dev/application/o/userinfo
+      value: https://authentik.codewalker.dev/application/o/userinfo/
     - name: LITELLM_LOG
       value: INFO
     - name: LITELLM_MODE
@@ -45,6 +45,8 @@ spec:
       value: "6379"
     - name: PROXY_BASE_URL
       value: https://litellm.codewalker.dev
+    - name: PROXY_LOGOUT
+      value: https://authentik.codewalker.dev/application/o/litellm/end-session/
   envFrom:
     - secretRef:
         name: litellm
