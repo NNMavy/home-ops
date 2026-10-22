@@ -3,8 +3,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - deepseek-v4-flash.yaml
-  - gpt-6-luna.yaml
-  - lumo-lite.yaml
-  - lumo-max.yaml
-  - minimax-m3.yaml
+  - chatgpt-gpt-6-astra.yaml
+  - chatgpt-gpt-6-luna.yaml
+  - chatgpt-gpt-6-sol.yaml
+  - opencode-deepseek-v4-flash.yaml
+  - opencode-minimax-m3.yaml
+  - proton-lumo-lite.yaml
+  - proton-lumo-max.yaml

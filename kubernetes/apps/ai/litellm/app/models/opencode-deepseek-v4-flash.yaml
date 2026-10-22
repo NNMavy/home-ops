@@ -3,11 +3,11 @@
 apiVersion: litellm.home-operations.com/v1alpha1
 kind: LiteLLMModel
 metadata:
-  name: gpt-6-luna
+  name: opencode-deepseek-v4-flash
 spec:
-  modelName: gpt-6-luna
+  modelName: opencode/deepseek-v4-flash
   params:
-    model: openai/gpt-6-luna
+    model: openai/deepseek-v4-flash
     apiBase: https://opencode.ai/zen/go/v1
     apiKeyRef:
       name: litellm

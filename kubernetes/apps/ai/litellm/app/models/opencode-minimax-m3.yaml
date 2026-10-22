@@ -3,9 +3,9 @@
 apiVersion: litellm.home-operations.com/v1alpha1
 kind: LiteLLMModel
 metadata:
-  name: minimax-m3
+  name: opencode-minimax-m3
 spec:
-  modelName: minimax-m3
+  modelName: opencode/minimax-m3
   params:
     model: anthropic/minimax-m3
     apiBase: https://opencode.ai/zen/go
