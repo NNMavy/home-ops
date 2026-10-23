@@ -6,7 +6,7 @@ networks:
 
 services:
   anubis:
-    image: ghcr.io/techarohq/anubis:v1.28.1
+    image: ghcr.io/techarohq/anubis:v1.28.2
     environment:
       BIND: ":9000"
       DIFFICULTY: "4"
