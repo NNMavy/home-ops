@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: codeberg.org/git-pages/git-pages
-              tag: 0.9.1@sha256:bbcdd603ef3d3dc66aa254479b255674e51286921c02e9f6569dc188f8756594
+              tag: 0.10.1@sha256:882733e3fc4b5cde8cb3f83b786f8b85854c9ad951662b64fca23cbd34f79dc9
             env:
               ENVIRONMENT: "production"
             probes:
