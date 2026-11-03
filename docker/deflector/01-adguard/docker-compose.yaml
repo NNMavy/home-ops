@@ -2,7 +2,7 @@
 services:
   adguard:
     container_name: adguard
-    image: adguard/adguardhome:v0.107.79
+    image: adguard/adguardhome:v0.107.80
     restart: always
     network_mode: "host"
     volumes:
