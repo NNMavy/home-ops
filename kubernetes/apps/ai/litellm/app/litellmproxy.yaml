@@ -87,6 +87,20 @@ spec:
       memory: 256Mi
     limits:
       memory: 2Gi
+  route:
+    filters:
+      - requestHeaderModifier:
+          set:
+            - name: x-litellm-session-id
+              value: "%REQ(x-session-id)%"
+        type: RequestHeaderModifier
+    hostnames:
+      - litellm.codewalker.dev
+    parentRefs:
+      - group: gateway.networking.k8s.io
+        kind: Gateway
+        name: envoy-internal
+        namespace: network
   routerSettings:
     cooldown_time: 30
     enable_pre_call_checks: true
