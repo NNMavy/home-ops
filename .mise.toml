@@ -12,7 +12,7 @@ pipx.uvx = true
 [tools]
 # Pinned for workflows
 "actionlint" = "1.7.12"
-"github:home-operations/flate" = "v0.6.5"
+"github:home-operations/flate" = "v0.7.3"
 talos = "1.14.4"
 yq = "4.54.1"
 # Only used locally
