@@ -28,6 +28,8 @@ spec:
             value: *logLevel
           - name: UNIFI_HOST
             value: https://172.16.1.254
+          - name: UNIFI_SITE
+            value: default
           - name: UNIFI_API_KEY
             valueFrom:
               secretKeyRef:
