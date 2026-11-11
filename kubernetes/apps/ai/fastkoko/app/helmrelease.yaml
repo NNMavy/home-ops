@@ -36,7 +36,7 @@ spec:
           copy-voices:
             image:
               repository: &repository ghcr.io/remsky/kokoro-fastapi-cpu
-              tag: &tag v0.9.2@sha256:cbcc28802fb5d1eaaba8b91e38b0e872a669e85831c513cf6a29c709cbe25405
+              tag: &tag v0.10.0@sha256:f54c5960c2b9387f6349080a9944f8bc7e8cdb98a4ef9238cb0b0f9ff9795f44
             command: ["sh", "-c"]
             args: ["cp -avf /app/api/src/voices/v1_0/* /data/voices"]
         containers:
