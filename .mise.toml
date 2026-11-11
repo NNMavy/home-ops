@@ -14,7 +14,7 @@ pipx.uvx = true
 "actionlint" = "1.7.12"
 "github:home-operations/flate" = "v0.7.3"
 talos = "1.14.4"
-yq = "4.54.1"
+yq = "4.54.3"
 # Only used locally
 "aqua:astral-sh/uv" = "latest"
 "aqua:cilium/hubble" = "latest"
