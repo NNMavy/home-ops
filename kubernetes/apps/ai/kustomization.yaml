@@ -8,11 +8,13 @@ components:
   - ../../components/kopiur/secret
 resources:
   - ./namespace.yaml
-  - ./context7-mcp/ks.yaml
+  - ./agentgateway/ks.yaml
+  - ./cliproxyapi/ks.yaml
   - ./fastkoko/ks.yaml
-  - ./ha-mcp/ks.yaml
-  - ./litellm/ks.yaml
-  - ./litellm-operator/ks.yaml
-  - ./lumo-tamer/ks.yaml
-  - ./open-webui/ks.yaml
+  - ./flux-mcp/ks.yaml
+  - ./hermes/ks.yaml
+  - ./home-assistant-mcp/ks.yaml
+  - ./kubectl-mcp/ks.yaml
+  - ./kubesearch-mcp/ks.yaml
+  - ./unifi-network-mcp/ks.yaml
   - ./wyoming/ks.yaml
