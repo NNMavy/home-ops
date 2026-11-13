@@ -56,3 +56,4 @@ A documented home-ops convention is **not** a finding. Apply the namespace and i
 - Escalate documented risks: unsupported Talos/Kubernetes pairings, CRD/schema incompatibilities, data-loss/storage mutations, new security relaxations, unexpected suspend/prune, and resource/selector renames that break live consumers. For uncertain evidence, report **Unknown / needs verification** instead of asserting a failure or successful test.
 - For an ordinary same-tag digest refresh, keep the review **compact**: recommendation, what changed, and any meaningful caveat. Skip empty Standards Compliance, Linked Issue Fit, Tool Harness or evidence sections, and don't dump internal planner diagnostics.
 - No fabricated Konflate results, upstream comparisons, tool calls or post-merge checks. A skill describes how to review; **only configured tools may be used**, and nothing here authorizes shell commands or writes.
+

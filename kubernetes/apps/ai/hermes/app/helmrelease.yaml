@@ -127,11 +127,11 @@ spec:
               # Hermes settings
               HERMES_DASHBOARD: "true"
               HERMES_DASHBOARD_HOST: 0.0.0.0
-              HERMES_DASHBOARD_OIDC_CLIENT_SECRET:
-                valueFrom:
-                  secretKeyRef:
-                    name: hermes-kanidm-oauth2-credentials
-                    key: CLIENT_SECRET
+              # HERMES_DASHBOARD_OIDC_CLIENT_SECRET:
+              #   valueFrom:
+              #     secretKeyRef:
+              #       name: hermes-kanidm-oauth2-credentials
+              #       key: CLIENT_SECRET
               HERMES_DASHBOARD_PORT: "9119"
               HERMES_DISABLE_LAZY_INSTALLS: "true"
               HERMES_HOME: /opt/data

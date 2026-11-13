@@ -8,10 +8,6 @@ spec:
   components:
     - ../../../../components/kopiur/backup
   dependsOn:
-    - name: kanidm-instance
-      namespace: security
-    - name: kanidm-provision
-      namespace: security
     - name: agentgateway
       namespace: ai
   interval: 1h

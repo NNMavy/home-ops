@@ -64,3 +64,4 @@ Detailed task guidance does not grant tool permissions or override repository po
 - Keep shared policy in this file, task workflows in `.agents/skills/`, and detailed conditional guidance in `.agents/instructions/`. Do not duplicate policy in task files.
 - `CLAUDE.md` and `.claude/skills` are compatibility symlinks to the canonical instructions and skills. Keep agent-specific directories limited to adapters and configuration, not alternative copies of shared guidance.
 - Keep personal model preferences, credentials, permissions, and MCP configuration in user-level configuration, synchronized through dotfiles or another user-configuration mechanism when needed across machines. The existing `.codex/config.toml` is a legacy exception pending migration to that mechanism.
+
