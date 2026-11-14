@@ -15,14 +15,14 @@ spec:
       enabled: true
       bbr: true
     bpf:
-      datapathMode: netkit
+      datapathMode: veth # netkit unsupported by kata-containers: https://github.com/kata-containers/kata-containers/issues/12159
       masquerade: true
       preallocateMaps: true
     bpfClockProbe: true
     bgpControlPlane:
       enabled: true
     cgroup:
-      automount:
+      autoMount:
         enabled: false
       hostRoot: /sys/fs/cgroup
     cni:
@@ -75,11 +75,10 @@ spec:
     k8sServicePort: 7445
     kubeProxyReplacement: true
     kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
-    l2announcements:
-      enabled: false
     loadBalancer:
       algorithm: maglev
       mode: dsr
+      serviceTopology: true # spegel-registry relies on trafficDistribution: PreferSameNode
     localRedirectPolicies:
       enabled: true
     operator:
