@@ -66,6 +66,15 @@ spec:
                     protocol: TCP
                 serverNames:
                   - git.codewalker.dev
+          - # Public internet (HTTP/HTTPS); private ranges stay blocked
+            toCIDRSet:
+              - cidrGroupRef: internet
+            toPorts:
+              - ports:
+                  - port: "443"
+                    protocol: TCP
+                  - port: "80"
+                    protocol: TCP
         ingress:
           - fromEndpoints:
               - matchLabels:

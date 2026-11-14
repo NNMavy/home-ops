@@ -106,9 +106,11 @@ Ingress is allowed only from `envoy-internal` on 9119 and 9120. Egress is allowe
 | `selfhosted/searxng` | 8080 | Web search |
 | `envoy-external`, SNI `authentik.codewalker.dev` | 10443 | OIDC sign-in (envoy's 443 listener; policy sees the container port) |
 | `holocron` CiliumCIDRGroup, SNI `git.codewalker.dev` | 443 | Forgejo, which runs on holocron outside the cluster |
+| `internet` CiliumCIDRGroup | 80, 443 | Web page fetches, package installs and mise tools |
 
-Hermes therefore has no general internet access: web page fetches, package
-installs and new mise tools fail unless their destination is added here. The pod's
+The `internet` group is public IPv4 space excluding `10.0.0.0/8`, `172.16.0.0/12`
+and `192.168.0.0/16`, so LAN hosts and other services remain unreachable unless
+listed above. Other ports (for example SSH) are still blocked. The pod's
 `egress.policy.home.arpa/internet` label has no policy behind it in this
 repository and grants nothing. The authentik rule depends on split-horizon DNS:
 internally `authentik.codewalker.dev` resolves to envoy-external's LoadBalancer
