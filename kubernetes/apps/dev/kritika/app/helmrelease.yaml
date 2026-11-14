@@ -25,12 +25,12 @@ spec:
           # integration: kritika lists and polls repositories per account.
           accounts:
             - starforge
-          #audience:
+          audience: u:7:d009f268-5cda-4398-9bd2-12276b2be087
           privateKey:
             env: KRITIKA_FORGEJO_PRIVATE_KEY
           # A second integration scoped to read:repository alone, so runner
           # pods never hold a writable token.
-          #runnerAudience: u:7:459ca156-aa5f-45af-bbe2-7efad98f59c3
+          runnerAudience: u:7:459ca156-aa5f-45af-bbe2-7efad98f59c3
           webhookSecret:
             env: KRITIKA_FORGEJO_WEBHOOK_SECRET
       embedding:
