@@ -61,6 +61,10 @@ spec:
       egress:
         allow:
           - "*"
+          # "*" matches names only; private addresses need an explicit entry.
+          # git.codewalker.dev resolves to holocron on the LAN. kritika can't
+          # read CiliumCIDRGroups: keep in step with cidrgroup-holocron.yaml.
+          - 172.16.20.2
         deny:
           - 10.244.0.0/16
     env:
