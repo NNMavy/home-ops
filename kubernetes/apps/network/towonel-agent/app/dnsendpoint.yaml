@@ -4,6 +4,10 @@ apiVersion: externaldns.k8s.io/v1alpha1
 kind: DNSEndpoint
 metadata:
   name: towonel-agent
+  labels:
+    # Public records for the VPS relay: published to OVH only. externaldns-unifi
+    # skips them so internally ingress-ext resolves to envoy-external's LB IP.
+    dns.home.arpa/public-only: "true"
 spec:
   endpoints:
     - dnsName: ingress-ext.codewalker.dev

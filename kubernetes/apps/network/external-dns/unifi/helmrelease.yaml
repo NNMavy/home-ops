@@ -14,6 +14,12 @@ spec:
     logLevel: &logLevel info
     domainFilters:
       - codewalker.dev
+    extraArgs:
+      - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
+      - --crd-source-kind=DNSEndpoint
+      # Split horizon: leave public-only records (the VPS relay) to OVH, so the
+      # envoy-external Service record (172.16.50.122) wins for ingress-ext.
+      - --label-filter=dns.home.arpa/public-only!=true
     podAnnotations:
       secret.reloader.stakater.com/reload: externaldns-unifi-secret
     policy: sync
@@ -35,9 +41,6 @@ spec:
               secretKeyRef:
                 name: external-dns-unifi-secret
                 key: external_dns_api_key
-        extraArgs:
-          - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
-          - --crd-source-kind=DNSEndpoint
         livenessProbe:
           httpGet:
             path: /healthz
