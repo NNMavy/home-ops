@@ -51,7 +51,9 @@ spec:
                   gateway.networking.k8s.io/gateway-name: envoy-external
             toPorts:
               - ports:
-                  - port: "443"
+                  # Policy applies after Service translation: envoy's 443 listener
+                  # is container port 10443.
+                  - port: "10443"
                     protocol: TCP
                 serverNames:
                   - authentik.codewalker.dev
@@ -151,7 +153,7 @@ spec:
               FORGE_HOSTS_FILE: /opt/data/shared/forge-hosts.json
               FORGE_IDENTITIES_FILE: /opt/data/shared/forge-identities.json
               FORGE_REPOS_ROOT: /opt/data/workspace/repos
-              SEARXNG_URL: http://searxng.selfhosted.svc.cluster.local:8080
+              SEARXNG_URL: http://searxng-app.selfhosted.svc.cluster.local:8080
             envFrom:
               - secretRef:
                   name: hermes

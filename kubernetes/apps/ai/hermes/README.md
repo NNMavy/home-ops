@@ -78,7 +78,7 @@ secrets:
       set -eu
       printf 'AGENTGATEWAY_API_KEY='
       /bin/cat /mnt/secrets/agentgateway/key
-      printf '\nSEARXNG_URL=http://searxng.selfhosted.svc.cluster.local:8080\n'
+      printf '\nSEARXNG_URL=http://searxng-app.selfhosted.svc.cluster.local:8080\n'
     helper_timeout_seconds: 3
     override_existing: true
 
@@ -102,7 +102,7 @@ Ingress is allowed only from `envoy-internal` on 9119 and 9120. Egress is allowe
 | Cluster DNS (`kube-system/kube-dns`) | 53 | Name resolution |
 | `ai/agentgateway` | 8080, 8081 | Models (LLM) and MCP servers |
 | `selfhosted/searxng` | 8080 | Web search |
-| `envoy-external`, SNI `authentik.codewalker.dev` | 443 | OIDC sign-in |
+| `envoy-external`, SNI `authentik.codewalker.dev` | 10443 | OIDC sign-in (envoy's 443 listener; policy sees the container port) |
 | `holocron` CiliumCIDRGroup, SNI `git.codewalker.dev` | 443 | Forgejo, which runs on holocron outside the cluster |
 
 Hermes therefore has no general internet access: web page fetches, package
