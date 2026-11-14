@@ -26,7 +26,9 @@ Both interfaces sign in through authentik's `hermes` application
 (`https://authentik.codewalker.dev/application/o/hermes/`), sharing one
 confidential client and using `/auth/callback` on their respective hostnames. The
 client ID and secret come from the 1Password `hermes` item (`oauth_client_id`,
-`oauth_client_secret`) through the `hermes` ExternalSecret. Who may sign in is
+`oauth_client_secret`) through the `hermes` ExternalSecret, as
+`HERMES_DASHBOARD_OIDC_CLIENT_ID` and `HERMES_DASHBOARD_OIDC_CLIENT_SECRET`. These
+environment variables take precedence over the overlay's placeholder `client_id`. Who may sign in is
 decided by the bindings on that authentik application, which live in authentik,
 not in this repository. Every admitted account has full agent access.
 
