@@ -32,6 +32,12 @@ environment variables take precedence over the overlay's placeholder `client_id`
 decided by the bindings on that authentik application, which live in authentik,
 not in this repository. Every admitted account has full agent access.
 
+The Hermes session is the authentik ID token, so it ends when that token expires
+unless authentik also issued a refresh token. The overlay requests the
+`offline_access` scope for this; the authentik provider must also have the
+`offline_access` scope mapping selected, or authentik silently omits the refresh
+token and users are signed out at every ID-token expiry.
+
 ## Configuration ownership
 
 `app/resources/config.yaml` is a read-only managed overlay mounted at

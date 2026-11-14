@@ -5,7 +5,8 @@ dashboard:
     provider: self-hosted
     self_hosted:
       issuer: https://authentik.codewalker.dev/application/o/hermes/
-      scopes: openid profile email
+      # offline_access makes authentik issue a refresh token; without it the session ends when the ID token expires.
+      scopes: openid profile email offline_access
   public_url: https://hermes-dash.codewalker.dev
 
 gateway:
