@@ -92,12 +92,11 @@ spec:
               - chatgpt/gpt-6.1-sol
               - mistral/large-4
               - mistral/small-4
-              - neuralwatt/dsv4.1f
             - key: ${KRITIKA_API_KEY}
               metadata:
                 client: kritika
               allowedModels:
-              - neuralwatt/dsv4.1f
+              - mistral/small-4
             - key: ${KGUARDIAN_API_KEY}
               metadata:
                 client: kguardian
@@ -136,12 +135,6 @@ spec:
             model: mistral-small-2603
           transformation:
             reasoning_effort: '!has(llmRequest.reasoning_effort) || llmRequest.reasoning_effort == "none" ? "none" : "high"'
-        - name: neuralwatt/dsv4.1f
-          provider: openAI
-          params:
-            apiKey: ${NEURALWATT_API_KEY}
-            baseUrl: https://api.neuralwatt.com/v1
-            model: deepseek-v4.1-flash
       gateways:
         mcp:
           port: 8081
@@ -186,31 +179,6 @@ spec:
             - name: flux
               mcp:
                 host: http://flux-mcp.ai.svc.cluster.local:8000/mcp
-        policies:
-          urlRewrite:
-            path:
-              prefix: /mcp
-          apiKey:
-            mode: strict
-            keys:
-            - key: ${HERMES_API_KEY}
-              metadata:
-                client: hermes
-          mcpAuthorization:
-            rules:
-            - allow: apiKey.client == "hermes"
-      - name: mcp-grafana
-        gateways:
-        - mcp
-        matches:
-        - path:
-            pathPrefix: /mcp/grafana
-        backends:
-        - mcp:
-            targets:
-            - name: grafana
-              mcp:
-                host: http://grafana-mcp.observability.svc.cluster.local:8000/mcp
         policies:
           urlRewrite:
             path:

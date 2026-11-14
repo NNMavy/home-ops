@@ -14,6 +14,15 @@ spec:
       hermes:
         type: cilium
         egress:
+          - # Cluster DNS
+            toEndpoints:
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: kube-system
+                  k8s-app: kube-dns
+            toPorts:
+              - ports:
+                  - port: "53"
+                    protocol: ANY
           - # Agent Gateway (model provider)
             toEndpoints:
               - matchLabels:
@@ -35,27 +44,18 @@ spec:
               - ports:
                   - port: "8080"
                     protocol: TCP
-          - # Forgejo over HTTPS hairpins to envoy-external
+          - # Forgejo and authentik over HTTPS hairpin to envoy-external
             toEndpoints:
               - matchLabels:
                   k8s:io.kubernetes.pod.namespace: network
                   gateway.networking.k8s.io/gateway-name: envoy-external
             toPorts:
               - ports:
-                  - port: "10443"
-                    protocol: TCP
-                serverNames:
-                  - git.codewalker.dev
-          - # Kanidm's public ingress address. Keep in sync with public-edge-dnsendpoint.yaml.
-            # Restrict TLS SNI to the issuer hostname.
-            toCIDR:
-              -
-            toPorts:
-              - ports:
                   - port: "443"
                     protocol: TCP
                 serverNames:
                   - authentik.codewalker.dev
+                  - git.codewalker.dev
         ingress:
           - fromEndpoints:
               - matchLabels:
@@ -74,10 +74,6 @@ spec:
         pod:
           labels:
             egress.policy.home.arpa/internet: "true"
-          hostAliases:
-            - ip:
-              hostnames:
-                - authentik.codewalker.dev
           securityContext:
             fsGroup: 10000
             fsGroupChangePolicy: OnRootMismatch
@@ -127,11 +123,7 @@ spec:
               # Hermes settings
               HERMES_DASHBOARD: "true"
               HERMES_DASHBOARD_HOST: 0.0.0.0
-              # HERMES_DASHBOARD_OIDC_CLIENT_SECRET:
-              #   valueFrom:
-              #     secretKeyRef:
-              #       name: hermes-kanidm-oauth2-credentials
-              #       key: CLIENT_SECRET
+              HERMES_DASHBOARD_OIDC_ISSUER: "https://authentik.codewalker.dev/application/o/hermes/"
               HERMES_DASHBOARD_PORT: "9119"
               HERMES_DISABLE_LAZY_INSTALLS: "true"
               HERMES_HOME: /opt/data

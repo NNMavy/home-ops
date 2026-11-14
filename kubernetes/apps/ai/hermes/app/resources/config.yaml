@@ -5,7 +5,7 @@ dashboard:
     provider: self-hosted
     self_hosted:
       client_id: hermes
-      issuer:
+      issuer: https://authentik.codewalker.dev/application/o/hermes/
       scopes: openid profile email
   public_url: https://hermes-dash.codewalker.dev
 
