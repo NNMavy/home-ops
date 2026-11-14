@@ -8,6 +8,7 @@ customization:
   systemExtensions:
     officialExtensions:
       - siderolabs/drbd # Miroir DRBD9 Replication
+      - siderolabs/gvisor # kritika gVisor
       - siderolabs/i915 # Intel iGPU
       - siderolabs/intel-npu # Intel NPU
       - siderolabs/intel-ucode # Intel iGPU
