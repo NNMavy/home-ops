@@ -41,7 +41,7 @@ spec:
               UNIFI_MCP_PORT:
                 value: '3000'
               UNIFI_NETWORK_HOST:
-                value: 10.1.1.1
+                value: 172.16.1.254
             envFrom:
             - secretRef:
                 name: unifi-network-mcp

@@ -20,7 +20,7 @@ spec:
               protocol: TCP
   egress:
     - toCIDR:
-        - 10.1.1.1/32
+        - 172.16.1.254/32
       toPorts:
         - ports:
             - port: "443"

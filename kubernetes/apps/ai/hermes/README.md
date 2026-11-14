@@ -1,36 +1,43 @@
-# Hermes Webapp preview
+# Hermes
 
 Hermes exposes two interfaces from the same persistent profile:
 
 - Native Webapp: `https://hermes.codewalker.dev` (gateway port 9120).
 - Hermes Dashboard: `https://hermes-dash.codewalker.dev` (port 9119).
 
+Both are routed through `envoy-internal`, so they are reachable only on the LAN.
+
 The single application container runs the gateway and Dashboard under the image's
 s6 supervisor. `gateway run` starts the gateway, which serves the Webapp;
 `HERMES_DASHBOARD=true` enables the separate Dashboard process on port 9119.
 
-Connect Hermes Desktop to `https://hermes.codewalker.dev` and sign in through Kanidm.
+Connect Hermes Desktop to `https://hermes.codewalker.dev` and sign in through authentik.
 This endpoint uses the gateway's live session authority. The standalone Dashboard
 retains maintenance operations that require exclusive database access and can be
 refused while the gateway owns the profile, even when both processes share a container.
 
 ## Image and authentication
 
-The backend and Dashboard use upstream development revision
-`7020ea3e96c3fdbc768c5296493e186df46f075b`, not a stable release. Its published
-multi-architecture image includes the prebuilt Webapp and confidential OIDC
-support. Both interfaces share the existing Kanidm confidential client and
-generated Secret, using `/auth/callback` on their respective hostnames. Kanidm's
-scope map restricts access to `hermes_admins`. Every admitted account has full
-agent access.
+The backend and Dashboard run the released `docker.io/nousresearch/hermes-agent`
+image pinned by tag and digest in `app/helmrelease.yaml`; Renovate proposes updates.
+The image includes the prebuilt Webapp and confidential OIDC support.
+
+Both interfaces sign in through authentik's `hermes` application
+(`https://authentik.codewalker.dev/application/o/hermes/`), sharing one
+confidential client and using `/auth/callback` on their respective hostnames. The
+client ID and secret come from the 1Password `hermes` item (`oauth_client_id`,
+`oauth_client_secret`) through the `hermes` ExternalSecret. Who may sign in is
+decided by the bindings on that authentik application, which live in authentik,
+not in this repository. Every admitted account has full agent access.
 
 ## Configuration ownership
 
 `app/resources/config.yaml` is a read-only managed overlay mounted at
-`/etc/hermes/config.yaml` (Hermes' supported path). It pins Webapp and Dashboard
-addresses, Kanidm OIDC, the gateway topology, secret redaction, and the local
-terminal backend. Managed values take
-precedence over each profile's settings.
+`/etc/hermes/config.yaml` (Hermes' supported path). It pins the Webapp and
+Dashboard addresses, authentik OIDC, the gateway topology, secret redaction, the
+local terminal backend (passing `SEARXNG_URL` through to terminal sessions), and
+disables shared telemetry. Managed values take precedence over each profile's
+settings.
 
 Profile configuration, `.env`, and `SOUL.md` live on the PVC. The deployment
 does not seed or rewrite profile files at startup. Hermes' per-profile command
@@ -43,7 +50,8 @@ raw `config.yaml`, bypassing the machine-level overlay. `hermes doctor` likewise
 validates `model.provider` against the profile's raw `providers` section only. These settings must be
 owned exclusively by the profile: declaring them in `/etc/hermes/config.yaml`
 causes every Dashboard config save to strip them from the profile, even though
-their runtime readers cannot inherit the managed values.
+their runtime readers cannot inherit the managed values. Keep `secrets.command`,
+`skills.external_dirs` and `providers` out of the overlay.
 
 For each profile that needs Agent Gateway credentials and the shared toolkit, merge the
 following into `/opt/data/profiles/<name>/config.yaml` (or `/opt/data/config.yaml`
@@ -79,23 +87,31 @@ skills:
     - /opt/data/shared/skills
 ```
 
-### Recovery from stripped profile settings
-
-Deploy the overlay change removing `secrets.command` and `skills.external_dirs`
-before restoring either profile. Verify those sections are absent from the live
-`/etc/hermes/config.yaml`; otherwise the next Dashboard save will strip them again.
-
-With an explicitly authorized live repair, back up the current profile files,
-then merge only the settings above into `homelab-operator` and
-`home-assistant-helper`. Do not restore whole historical configs: that would undo
-recent Dashboard edits. Restart the gateway after restoration so it rebuilds
-profile credential scopes and MCP connections.
-
-Validate both profiles by saving an unrelated preference in the Dashboard and
-confirming these settings remain in their files. After a gateway restart, verify
-shared skills appear (subject to each profile's disabled list), Agent Gateway requests
-succeed, and MCP connections no longer report a missing `AGENTGATEWAY_API_KEY`. Never
+After changing a profile, restart the gateway so it rebuilds profile credential
+scopes and MCP connections. To confirm a profile kept these settings, save an
+unrelated preference in the Dashboard and check they are still in its file. Never
 print the helper output when checking credential availability.
+
+## Network
+
+The HelmRelease's `networkpolicies.hermes` (a CiliumNetworkPolicy) confines the pod.
+Ingress is allowed only from `envoy-internal` on 9119 and 9120. Egress is allowed only to:
+
+| Destination | Port | Purpose |
+| --- | --- | --- |
+| Cluster DNS (`kube-system/kube-dns`) | 53 | Name resolution |
+| `ai/agentgateway` | 8080, 8081 | Models (LLM) and MCP servers |
+| `selfhosted/searxng` | 8080 | Web search |
+| `envoy-external`, SNI `authentik.codewalker.dev` | 443 | OIDC sign-in |
+| `holocron` CiliumCIDRGroup, SNI `git.codewalker.dev` | 443 | Forgejo, which runs on holocron outside the cluster |
+
+Hermes therefore has no general internet access: web page fetches, package
+installs and new mise tools fail unless their destination is added here. The pod's
+`egress.policy.home.arpa/internet` label has no policy behind it in this
+repository and grants nothing. The authentik rule depends on split-horizon DNS:
+internally `authentik.codewalker.dev` resolves to envoy-external's LoadBalancer
+IP, which Cilium sends to the envoy-external pods; the public answer (the VPS
+relay) would not match.
 
 ## Shared forge toolkit and workspace
 
@@ -110,8 +126,9 @@ guides discovery; `forge-git repo path` resolves the canonical path and
 `/opt/data/workspace/repos/<host>/<owner>/<repo>`. Existing remotes are checked;
 the helper does not reset or update an existing checkout.
 
-`hermes-forgejo` remains the source of the read-only
-`/mnt/secrets/forges/forgejo/git.codewalker.dev` credential. `forge-auth` selects a
+`hermes-forgejo` is the source of the read-only
+`/mnt/secrets/forges/forgejo/git.codewalker.dev` credential (1Password `forgejo`
+item, `lab_assistant_token`). `forge-auth` selects a
 CLI by both provider and hostname, while Git's shared global config uses
 `git-credential-forge` and disables synthesized identities. `forge-git` resolves
 commit identity from the authenticated account API or an operator-supplied
@@ -122,37 +139,32 @@ To add another forge, create an ExternalSecret only after its credential exists,
 mount the Secret read-only at
 `/mnt/secrets/forges/<provider>` with its key named for the forge hostname, and
 add the hostname/provider pair to the persistent host mapping. Add only the
-required egress for that forge, preserving the existing Forgejo route. Review
-the provider's documented CLI and API endpoints before enabling it. Do not put
-tokens in the host mapping or CLI configuration. The existing mise tools and
-Forge Toolkit files are operator-maintained on the PVC and are not refreshed by
-pod startup. Git and Python remain available from the Hermes image and mise
-shims on `PATH`.
+required egress for that forge to the network policy, preserving the existing
+Forgejo rule. Review the provider's documented CLI and API endpoints before
+enabling it. Do not put tokens in the host mapping or CLI configuration. The
+existing mise tools and Forge Toolkit files are operator-maintained on the PVC
+and are not refreshed by pod startup. Git and Python remain available from the
+Hermes image and mise shims on `PATH`.
 
-## Deployment checks
+## Upgrades
 
-Before merging, confirm a usable backup of the Hermes PVC: this changes the
-shared backend and can migrate configuration or session databases.
+The `config-migrate` init container runs the image's configuration migration
+before s6 starts. The image's own boot hook calls it through `s6-setuidgid`,
+which fails as non-root. The PVC is snapshotted by kopiur (`components/kopiur/backup`).
+Before a major image upgrade, confirm a recent usable snapshot: an upgrade can
+migrate configuration or session databases.
 
-After Flux deploys the PR, check:
+After an upgrade, check that:
 
-1. All init containers complete and the gateway heartbeat stays fresh.
-2. The Webapp and Dashboard require sign-in, and a permitted Kanidm account can
-   complete each flow.
-3. An account outside `hermes_admins` cannot obtain access.
-4. The Webapp lists the intended profiles and can create a chat, stream a reply,
-   and continue it after a browser reload. Check old-session adoption separately;
-   visibility of history does not prove interactive continuation.
-5. Hermex can authenticate against `hermes.codewalker.dev` and continue the same test
-   session; mobile compatibility is not established by a manifest render.
-6. Hermes Desktop can sign in to `hermes.codewalker.dev`, create a chat, stream a
-   reply, and resume it after reconnecting.
+1. `config-migrate` completes and the gateway heartbeat stays fresh (the probes
+   require `/opt/data/cron/ticker_heartbeat` to be under five minutes old).
+2. The Webapp and Dashboard require sign-in, a permitted authentik account
+   completes each flow, and an account not admitted by the `hermes`
+   application cannot obtain access.
+3. The Webapp lists the intended profiles and can create a chat, stream a reply,
+   and continue it after a browser reload.
 
-## Rollback
-
-Revert this PR through Git and let Flux deploy the previous manifests. This
-removes the preview and restores the pinned backend image and managed config.
-It does not undo persistent database migrations. If the old backend cannot read
-migrated state, restore the verified pre-upgrade PVC backup with an explicitly
-approved recovery procedure; do not delete or overwrite the PVC as a routine
-rollback step.
+Reverting the image through Git does not undo persistent database migrations. If
+the older image cannot read migrated state, restore a verified PVC snapshot with
+an explicitly approved recovery procedure; do not delete or overwrite the PVC as
+a routine rollback step.
