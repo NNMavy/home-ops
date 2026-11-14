@@ -82,7 +82,10 @@ spec:
         - 10.244.0.0/16
   http2:
     onInvalidMessage: TerminateStream
-  http3: {}
+  # No http3: Envoy Gateway also puts the proxy_protocol listener filter on the
+  # QUIC listener, which envoy rejects, while alt-svc h3 is still advertised.
+  # Browsers then try HTTP/3, hang and fall back late (breaking short-lived
+  # WebSocket tickets). PROXY protocol is needed for the towonel relay.
   proxyProtocol:
     optional: true
   targetSelectors:
