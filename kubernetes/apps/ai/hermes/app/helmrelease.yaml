@@ -44,7 +44,7 @@ spec:
               - ports:
                   - port: "8080"
                     protocol: TCP
-          - # Forgejo and authentik over HTTPS hairpin to envoy-external
+          - # authentik over HTTPS hairpin to envoy-external
             toEndpoints:
               - matchLabels:
                   k8s:io.kubernetes.pod.namespace: network
@@ -55,6 +55,14 @@ spec:
                     protocol: TCP
                 serverNames:
                   - authentik.codewalker.dev
+          - # Forgejo runs outside the cluster, behind traefik on holocron
+            toCIDRSet:
+              - cidrGroupRef: holocron
+            toPorts:
+              - ports:
+                  - port: "443"
+                    protocol: TCP
+                serverNames:
                   - git.codewalker.dev
         ingress:
           - fromEndpoints:

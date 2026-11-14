@@ -25,7 +25,7 @@ spec:
           # integration: kritika lists and polls repositories per account.
           accounts:
             - starforge
-          audience:
+          #audience:
           privateKey:
             env: KRITIKA_FORGEJO_PRIVATE_KEY
           # A second integration scoped to read:repository alone, so runner
@@ -36,6 +36,9 @@ spec:
       embedding:
         model: openrouter/voyageai/voyage-code-4
         dims: 1024
+        documentPrompt: "Represent the document for retrieval: "
+        queryPrompt: "Represent the query for retrieving supporting documents: "
+        similarFloor: 0.3
       providers:
         chatgpt:
           type: chatgpt
@@ -114,9 +117,9 @@ spec:
     networkPolicy:
       type: cilium
       postgres:
-        namespace: database
+        namespace: dev
         podSelector:
-          cnpg.io/cluster: postgres16
+          cnpg.io/cluster: kritika-postgres
       extraEgress:
         # A NetworkPolicy matches pods and their own ports, not a Service's.
         - to:
