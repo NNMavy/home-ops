@@ -44,6 +44,15 @@ spec:
               - ports:
                   - port: "8080"
                     protocol: TCP
+          - # In-cluster ntfy notifications
+            toEndpoints:
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: observability
+                  app.kubernetes.io/name: ntfy
+            toPorts:
+              - ports:
+                  - port: "8080"
+                    protocol: TCP
           - # authentik over HTTPS hairpin to envoy-external
             toEndpoints:
               - matchLabels:
