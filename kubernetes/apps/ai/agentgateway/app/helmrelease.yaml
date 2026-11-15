@@ -90,6 +90,9 @@ spec:
               allowedModels:
               - chatgpt/gpt-6-luna
               - chatgpt/gpt-6.1-sol
+              - claude/haiku-5.5
+              - claude/opus-5.5
+              - claude/sonnet-5.5
               - mistral/large-4
               - mistral/small-4
             - key: ${KRITIKA_API_KEY}
@@ -121,6 +124,24 @@ spec:
             apiKey: ${CLIPROXYAPI_API_KEY}
             baseUrl: http://cliproxyapi.ai.svc.cluster.local:8317/v1
             model: gpt-6.1-sol
+        - name: claude/haiku-5.5
+          provider: openAI
+          params:
+            apiKey: ${CLIPROXYAPI_API_KEY}
+            baseUrl: http://cliproxyapi.ai.svc.cluster.local:8317/v1
+            model: claude-haiku-5-5
+        - name: claude/opus-5.5
+          provider: openAI
+          params:
+            apiKey: ${CLIPROXYAPI_API_KEY}
+            baseUrl: http://cliproxyapi.ai.svc.cluster.local:8317/v1
+            model: claude-opus-5-5
+        - name: claude/sonnet-5.5
+          provider: openAI
+          params:
+            apiKey: ${CLIPROXYAPI_API_KEY}
+            baseUrl: http://cliproxyapi.ai.svc.cluster.local:8317/v1
+            model: claude-sonnet-5-5
         - name: mistral/large-4
           provider: openAI
           params:
