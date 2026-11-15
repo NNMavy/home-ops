@@ -148,6 +148,49 @@ spec:
           http:
             port: 7700
 
+    networkpolicies:
+      karakeep:
+        type: cilium
+        controller: karakeep
+        egress:
+          - toControllers: [chrome]
+            toPorts:
+              - ports:
+                  - port: "9222"
+                    protocol: TCP
+          - toControllers: [meilisearch]
+            toPorts:
+              - ports:
+                  - port: "7700"
+                    protocol: TCP
+        ingress:
+          - fromEndpoints:
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: network
+                  gateway.networking.k8s.io/gateway-name: envoy-internal
+            toPorts:
+              - ports:
+                  - port: "3000"
+                    protocol: TCP
+      chrome:
+        type: cilium
+        controller: chrome
+        ingress:
+          - fromControllers: [karakeep]
+            toPorts:
+              - ports:
+                  - port: "9222"
+                    protocol: TCP
+      meilisearch:
+        type: cilium
+        controller: meilisearch
+        ingress:
+          - fromControllers: [karakeep]
+            toPorts:
+              - ports:
+                  - port: "7700"
+                    protocol: TCP
+
     persistence:
       data:
         existingClaim: karakeep-data
