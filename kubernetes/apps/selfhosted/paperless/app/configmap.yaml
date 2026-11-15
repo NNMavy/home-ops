@@ -38,7 +38,7 @@ data:
   PAPERLESS_CONSUMER_ENABLE_ASN_BARCODE: "true"
 
   # Configure redis integration
-  PAPERLESS_REDIS: redis://paperless-dragonfly.selfhosted.svc.cluster.local:6379
+  PAPERLESS_REDIS: redis://paperless-valkey.selfhosted.svc.cluster.local:6379
 
   # Configure user permissions
   USERMAP_UID: "568"

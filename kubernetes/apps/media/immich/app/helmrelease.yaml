@@ -34,6 +34,7 @@ spec:
               MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__RECOGNITION: buffalo_l
               MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__DETECTION: buffalo_l
               LOG_LEVEL: verbose
+              REDIS_HOSTNAME: ${APP}-valkey.media.svc.cluster.local
               DB_HOSTNAME:
                 valueFrom:
                   secretKeyRef:
@@ -54,13 +55,6 @@ spec:
                   secretKeyRef:
                     name: immich-secret
                     key: DB_DATABASE_NAME
-
-    valkey:
-      enabled: true
-      resources:
-        requests:
-          cpu: 50m
-          memory: 16Mi
 
     immich:
       metrics:

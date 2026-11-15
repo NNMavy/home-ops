@@ -9,6 +9,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/valkey
   interval: 1h
   path: ./kubernetes/apps/selfhosted/searxng/app
   postBuild:
