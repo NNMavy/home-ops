@@ -37,3 +37,16 @@ spec:
         - ports:
             - port: "3003"
               protocol: TCP
+    - # authentik OIDC over HTTPS hairpin to envoy-external
+      toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: network
+            gateway.networking.k8s.io/gateway-name: envoy-external
+      toPorts:
+        - ports:
+            # Policy applies after Service translation: envoy's 443 listener
+            # is container port 10443.
+            - port: "10443"
+              protocol: TCP
+          serverNames:
+            - authentik.codewalker.dev
