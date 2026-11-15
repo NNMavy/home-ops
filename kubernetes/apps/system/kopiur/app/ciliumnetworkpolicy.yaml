@@ -1,0 +1,43 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: kopiur-controller
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/component: controller
+      app.kubernetes.io/instance: kopiur
+      app.kubernetes.io/name: kopiur
+  ingress:
+    - # Prometheus scrape
+      fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: observability
+            app.kubernetes.io/instance: kube-prometheus-stack
+            app.kubernetes.io/name: prometheus
+      toPorts:
+        - ports:
+            - port: "8081"
+              protocol: TCP
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: kopiur-webhook
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/component: webhook
+      app.kubernetes.io/instance: kopiur
+      app.kubernetes.io/name: kopiur
+  ingress:
+    - # Admission calls (Service 443 -> container 8443); failurePolicy is Fail
+      fromEntities:
+        - kube-apiserver
+      toPorts:
+        - ports:
+            - port: "8443"
+              protocol: TCP

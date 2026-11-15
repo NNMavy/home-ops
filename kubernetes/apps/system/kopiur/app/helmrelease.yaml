@@ -29,6 +29,11 @@ spec:
         enabled: true
       serviceMonitor:
         enabled: true
+    # Egress: DNS + kube-apiserver only. The NFS repository is mounted by the
+    # kubelet, not over the pod network.
+    podLabels:
+      egress.policy.home.arpa/block-all: "true"
+      egress.policy.home.arpa/kube-api: "true"
     podSecurityContext:
       runAsNonRoot: true
       runAsUser: 1000
@@ -40,3 +45,7 @@ spec:
         cpu: 100m
       limits:
         memory: 2Gi
+    webhook:
+      podLabels:
+        egress.policy.home.arpa/block-all: "true"
+        egress.policy.home.arpa/kube-api: "true"

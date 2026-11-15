@@ -12,6 +12,11 @@ spec:
   values:
     fullnameOverride: reloader
     reloader:
+      deployment:
+        # Egress: DNS + kube-apiserver only
+        labels:
+          egress.policy.home.arpa/block-all: "true"
+          egress.policy.home.arpa/kube-api: "true"
       readOnlyRootFileSystem: true
       podMonitor:
         enabled: true
