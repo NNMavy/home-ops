@@ -47,9 +47,6 @@ spec:
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
-        pod:
-          labels:
-            egress.policy.home.arpa/internet: "true"
 
         pod:
           labels:
