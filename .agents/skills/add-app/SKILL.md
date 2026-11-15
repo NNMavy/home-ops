@@ -11,7 +11,7 @@ Scaffolds `kubernetes/apps/<namespace>/<app>/` with a Flux Kustomization (`ks.ya
 | ------------------------------------- | ----------------------------------------------------------------------- |
 | `kubernetes/apps/network/echo-server` | Minimal stateless app + route                                           |
 | `kubernetes/apps/selfhosted/bichon`   | Secrets, kopiur-backed persistence                                      |
-| `kubernetes/apps/selfhosted/searxng`  | Custom probes, dragonfly dependency, config file via configMapGenerator |
+| `kubernetes/apps/selfhosted/searxng`  | Custom probes, valkey controller, config file via configMapGenerator    |
 
 ## Step 1: Gather details
 

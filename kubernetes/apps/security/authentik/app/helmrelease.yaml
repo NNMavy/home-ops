@@ -27,8 +27,6 @@ spec:
       envFrom:
         - secretRef:
             name: authentik-secret
-        - secretRef:
-            name: authentik-redis-secret
 
     authentik:
       log_level: info
@@ -38,9 +36,6 @@ spec:
       error_reporting:
         enabled: false
         send_pii: false
-      redis:
-        host: "authentik-redis.security.svc.cluster.local"
-        password: ""
       postgresql:
         host: "postgres-pgbouncer-rw.database.svc.cluster.local."
         name: "authentik"
@@ -51,9 +46,6 @@ spec:
     prometheus:
       rules:
         enabled: true
-
-    redis:
-      enabled: false
 
     server:
       initContainers:
