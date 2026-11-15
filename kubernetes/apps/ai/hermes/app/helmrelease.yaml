@@ -14,15 +14,6 @@ spec:
       hermes:
         type: cilium
         egress:
-          - # Cluster DNS
-            toEndpoints:
-              - matchLabels:
-                  k8s:io.kubernetes.pod.namespace: kube-system
-                  k8s-app: kube-dns
-            toPorts:
-              - ports:
-                  - port: "53"
-                    protocol: ANY
           - # Agent Gateway (model provider)
             toEndpoints:
               - matchLabels:
@@ -66,24 +57,6 @@ spec:
                     protocol: TCP
                 serverNames:
                   - authentik.codewalker.dev
-          - # Forgejo runs outside the cluster, behind traefik on holocron
-            toCIDRSet:
-              - cidrGroupRef: holocron
-            toPorts:
-              - ports:
-                  - port: "443"
-                    protocol: TCP
-                serverNames:
-                  - git.codewalker.dev
-          - # Public internet (HTTP/HTTPS); private ranges stay blocked
-            toCIDRSet:
-              - cidrGroupRef: internet
-            toPorts:
-              - ports:
-                  - port: "443"
-                    protocol: TCP
-                  - port: "80"
-                    protocol: TCP
         ingress:
           - fromEndpoints:
               - matchLabels:
