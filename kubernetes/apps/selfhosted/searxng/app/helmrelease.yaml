@@ -51,6 +51,15 @@ spec:
           labels:
             egress.policy.home.arpa/internet: "true"
 
+        pod:
+          labels:
+            egress.policy.home.arpa/internet: "true"
+          securityContext:
+            fsGroup: 977
+            fsGroupChangePolicy: "OnRootMismatch"
+            runAsGroup: 977
+            runAsUser: 977
+
         containers:
           main:
             image:
