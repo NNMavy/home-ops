@@ -20,6 +20,9 @@ spec:
     controllers:
       main:
         type: deployment
+        pod:
+          labels:
+            egress.policy.home.arpa/block-all: "true"
         replicas: 1
         initContainers:
           init-db:
@@ -49,6 +52,37 @@ spec:
                 spec:
                   failureThreshold: 30
                   periodSeconds: 5
+
+    networkpolicies:
+      zipline:
+        type: cilium
+        controller: main
+        egress:
+          - # Postgres via pgbouncer (app and init-db)
+            toEndpoints:
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: database
+                  cnpg.io/poolerName: postgres-pgbouncer-rw
+            toPorts:
+              - ports:
+                  - port: "5432"
+                    protocol: TCP
+        ingress:
+          - fromEndpoints:
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: network
+                  gateway.networking.k8s.io/gateway-name: envoy-external
+            toPorts:
+              - ports:
+                  - port: "4000"
+                    protocol: TCP
+          - # Host-network agents (miroir, kguardian) probing from other nodes
+            fromEntities:
+              - remote-node
+            toPorts:
+              - ports:
+                  - port: "4000"
+                    protocol: TCP
 
     service:
       app:
