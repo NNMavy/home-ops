@@ -1,0 +1,39 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: immich-server
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: immich
+      app.kubernetes.io/name: server
+  egress:
+    - # Postgres (vectorchord cluster, app and init-db)
+      toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: database
+            cnpg.io/cluster: postgres-vector
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+    - # Valkey
+      toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/instance: immich-server-valkey
+            app.kubernetes.io/name: immich-server-valkey
+      toPorts:
+        - ports:
+            - port: "6379"
+              protocol: TCP
+    - # Machine learning
+      toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/instance: immich
+            app.kubernetes.io/name: machine-learning
+      toPorts:
+        - ports:
+            - port: "3003"
+              protocol: TCP

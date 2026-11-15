@@ -24,6 +24,8 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         pod:
+          labels:
+            egress.policy.home.arpa/block-all: "true"
           enableServiceLinks: false
         initContainers:
           init-db:
@@ -53,6 +55,21 @@ spec:
                 memory: 16Mi
               limits:
                 memory: 256Mi
+    networkpolicies:
+      atuin:
+        type: cilium
+        controller: atuin
+        egress:
+          - # Postgres via pgbouncer (app and init-db)
+            toEndpoints:
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: database
+                  cnpg.io/poolerName: postgres-pgbouncer-rw
+            toPorts:
+              - ports:
+                  - port: "5432"
+                    protocol: TCP
+
     service:
       atuin:
         controller: atuin

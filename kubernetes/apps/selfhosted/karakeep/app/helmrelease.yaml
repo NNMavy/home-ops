@@ -23,6 +23,9 @@ spec:
         forceRename: karakeep
         annotations:
           reloader.stakater.com/auto: "true"
+        pod:
+          labels:
+            egress.policy.home.arpa/internet: "true"
         containers:
           app:
             image:
@@ -59,6 +62,9 @@ spec:
       chrome:
         annotations:
           reloader.stakater.com/auto: "true"
+        pod:
+          labels:
+            egress.policy.home.arpa/internet: "true"
         containers:
           app:
             image:
@@ -88,6 +94,8 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         pod:
+          labels:
+            egress.policy.home.arpa/block-all: "true"
           affinity:
             podAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
@@ -139,6 +147,69 @@ spec:
         ports:
           http:
             port: 7700
+
+    networkpolicies:
+      karakeep:
+        type: cilium
+        controller: karakeep
+        egress:
+          - toControllers: [chrome]
+            toPorts:
+              - ports:
+                  - port: "9222"
+                    protocol: TCP
+          - toControllers: [meilisearch]
+            toPorts:
+              - ports:
+                  - port: "7700"
+                    protocol: TCP
+          - # authentik OIDC over HTTPS hairpin to envoy-external
+            toEndpoints:
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: network
+                  gateway.networking.k8s.io/gateway-name: envoy-external
+            toPorts:
+              - ports:
+                  # Policy applies after Service translation: envoy's 443 listener
+                  # is container port 10443.
+                  - port: "10443"
+                    protocol: TCP
+                serverNames:
+                  - authentik.codewalker.dev
+        ingress:
+          - fromEndpoints:
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: network
+                  gateway.networking.k8s.io/gateway-name: envoy-internal
+            toPorts:
+              - ports:
+                  - port: "3000"
+                    protocol: TCP
+          - # Host-network agents (miroir, kguardian) probing from other nodes
+            fromEntities:
+              - remote-node
+            toPorts:
+              - ports:
+                  - port: "3000"
+                    protocol: TCP
+      chrome:
+        type: cilium
+        controller: chrome
+        ingress:
+          - fromControllers: [karakeep]
+            toPorts:
+              - ports:
+                  - port: "9222"
+                    protocol: TCP
+      meilisearch:
+        type: cilium
+        controller: meilisearch
+        ingress:
+          - fromControllers: [karakeep]
+            toPorts:
+              - ports:
+                  - port: "7700"
+                    protocol: TCP
 
     persistence:
       data:
