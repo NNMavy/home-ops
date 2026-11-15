@@ -18,6 +18,30 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    networkpolicies:
+      searxng:
+        type: cilium
+        egress:
+          - toEndpoints:
+              - matchLabels:
+                  app.kubernetes.io/name: searxng-valkey
+            toPorts:
+              - ports:
+                  - port: "6379"
+                    protocol: TCP
+        ingress:
+          - fromEndpoints:
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: network
+                  gateway.networking.k8s.io/gateway-name: envoy-internal
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: ai
+                  app.kubernetes.io/name: hermes
+            toPorts:
+              - ports:
+                  - port: "8080"
+                    protocol: TCP
+
     controllers:
       searxng:
         strategy: RollingUpdate
