@@ -25,6 +25,8 @@ spec:
           reloader.stakater.com/auto: "true"
 
         pod:
+          labels:
+            egress.policy.home.arpa/internet: "true"
           resourceClaims:
             - name: gpu
               resourceClaimTemplateName: jellyfin-gpu

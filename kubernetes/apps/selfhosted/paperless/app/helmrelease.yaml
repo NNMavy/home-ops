@@ -26,6 +26,10 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
 
+        pod:
+          labels:
+            egress.policy.home.arpa/internet: "true"
+
         initContainers:
           init-db:
             image:

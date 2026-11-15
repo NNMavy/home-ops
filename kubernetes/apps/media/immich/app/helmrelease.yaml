@@ -73,6 +73,8 @@ spec:
       controllers:
         main:
           pod:
+            labels:
+              egress.policy.home.arpa/internet: "true"
             securityContext:
               supplementalGroups:
                 - 44
@@ -126,6 +128,8 @@ spec:
       controllers:
         main:
           pod:
+            labels:
+              egress.policy.home.arpa/internet: "true"
             securityContext:
               supplementalGroups:
                 - 44

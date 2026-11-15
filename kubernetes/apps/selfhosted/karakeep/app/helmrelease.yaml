@@ -23,6 +23,9 @@ spec:
         forceRename: karakeep
         annotations:
           reloader.stakater.com/auto: "true"
+        pod:
+          labels:
+            egress.policy.home.arpa/internet: "true"
         containers:
           app:
             image:
@@ -59,6 +62,9 @@ spec:
       chrome:
         annotations:
           reloader.stakater.com/auto: "true"
+        pod:
+          labels:
+            egress.policy.home.arpa/internet: "true"
         containers:
           app:
             image:
@@ -88,6 +94,8 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         pod:
+          labels:
+            egress.policy.home.arpa/block-all: "true"
           affinity:
             podAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
