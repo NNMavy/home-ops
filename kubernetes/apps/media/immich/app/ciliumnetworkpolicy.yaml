@@ -22,8 +22,8 @@ spec:
     - # Valkey
       toEndpoints:
         - matchLabels:
-            app.kubernetes.io/instance: immich
-            app.kubernetes.io/name: valkey
+            app.kubernetes.io/instance: immich-server-valkey
+            app.kubernetes.io/name: immich-server-valkey
       toPorts:
         - ports:
             - port: "6379"

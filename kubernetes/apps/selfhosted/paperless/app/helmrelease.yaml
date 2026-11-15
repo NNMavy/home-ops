@@ -80,10 +80,10 @@ spec:
               - ports:
                   - port: "5432"
                     protocol: TCP
-          - # Dragonfly (redis)
+          - # Valkey (redis)
             toEndpoints:
               - matchLabels:
-                  app: paperless-dragonfly
+                  app.kubernetes.io/name: paperless-valkey
             toPorts:
               - ports:
                   - port: "6379"
