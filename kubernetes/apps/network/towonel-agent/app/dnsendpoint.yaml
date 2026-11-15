@@ -4,20 +4,14 @@ apiVersion: externaldns.k8s.io/v1alpha1
 kind: DNSEndpoint
 metadata:
   name: towonel-agent
-  labels:
-    # Public records for the VPS relay: published to OVH only. externaldns-unifi
-    # skips them so internally ingress-ext resolves to envoy-external's LB IP.
-    dns.home.arpa/public-only: "true"
 spec:
+  # Relay records published to both OVH and UniFi: the agent must resolve twnl
+  # in-cluster to bootstrap the tunnel.
   endpoints:
-    - dnsName: ingress-ext.codewalker.dev
-      recordType: A
-      targets:
-        - &vps_ip 141.227.131.76
     - dnsName: twnl.codewalker.dev
       recordType: A
       targets:
-        - *vps_ip
+        - &vps_ip 141.227.131.76
     - dnsName: hyperdrive-doco-cd.codewalker.dev
       recordType: A
       targets:
@@ -26,3 +20,19 @@ spec:
       recordType: A
       targets:
         - *vps_ip
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/externaldns.k8s.io/dnsendpoint_v1alpha1.json
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: towonel-agent-ingress
+  labels:
+    # Public record for the VPS relay: published to OVH only. externaldns-unifi
+    # skips it so internally ingress-ext resolves to envoy-external's LB IP.
+    dns.home.arpa/public-only: "true"
+spec:
+  endpoints:
+    - dnsName: ingress-ext.codewalker.dev
+      recordType: A
+      targets:
+        - 141.227.131.76
