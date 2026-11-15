@@ -8,5 +8,6 @@ spec:
   endpointSelector:
     matchLabels:
       egress.policy.home.arpa/block-all: "true"
+  # Allow all so we dont break anything while implementing policies.
   egress:
     - {}
