@@ -49,6 +49,27 @@ spec:
                 drop:
                   - ALL
               readOnlyRootFilesystem: true
+    networkpolicies:
+      it-tools:
+        type: cilium
+        controller: it-tools
+        ingress:
+          - fromEndpoints:
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: network
+                  gateway.networking.k8s.io/gateway-name: envoy-internal
+            toPorts:
+              - ports:
+                  - port: "8080"
+                    protocol: TCP
+          - # Host-network agents (miroir, kguardian) probing from other nodes
+            fromEntities:
+              - remote-node
+            toPorts:
+              - ports:
+                  - port: "8080"
+                    protocol: TCP
+
     service:
       app:
         controller: it-tools

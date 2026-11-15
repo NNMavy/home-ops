@@ -28,7 +28,7 @@ spec:
 
         pod:
           labels:
-            egress.policy.home.arpa/internet: "true"
+            egress.policy.home.arpa/block-all: "true"
 
         initContainers:
           init-db:
@@ -110,6 +110,31 @@ spec:
                     protocol: TCP
                 serverNames:
                   - authentik.codewalker.dev
+          - # Public HTTP(S) downloads
+            toEntities:
+              - world
+            toPorts:
+              - ports:
+                  - port: "80"
+                    protocol: TCP
+                  - port: "443"
+                    protocol: TCP
+        ingress:
+          - fromEndpoints:
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: network
+                  gateway.networking.k8s.io/gateway-name: envoy-internal
+            toPorts:
+              - ports:
+                  - port: "8000"
+                    protocol: TCP
+          - # Host-network agents (miroir, kguardian) probing from other nodes
+            fromEntities:
+              - remote-node
+            toPorts:
+              - ports:
+                  - port: "8000"
+                    protocol: TCP
 
     service:
       app:

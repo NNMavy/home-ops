@@ -15,6 +15,8 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         pod:
+          labels:
+            egress.policy.home.arpa/block-all: "true"
           securityContext:
             fsGroup: 2000
             fsGroupChangePolicy: OnRootMismatch
@@ -45,6 +47,34 @@ spec:
             envFrom:
               - secretRef:
                   name: homebox-secret
+    networkpolicies:
+      homebox:
+        type: cilium
+        controller: homebox
+        egress:
+          - # GitHub release check
+            toEntities:
+              - world
+            toPorts:
+              - ports:
+                  - port: "443"
+                    protocol: TCP
+        ingress:
+          - fromEndpoints:
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: network
+                  gateway.networking.k8s.io/gateway-name: envoy-internal
+            toPorts:
+              - ports:
+                  - port: "7745"
+                    protocol: TCP
+          - # Host-network agents (miroir, kguardian) probing from other nodes
+            fromEntities:
+              - remote-node
+            toPorts:
+              - ports:
+                  - port: "7745"
+                    protocol: TCP
     persistence:
       data:
         existingClaim: homebox

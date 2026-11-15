@@ -25,7 +25,7 @@ spec:
           reloader.stakater.com/auto: "true"
         pod:
           labels:
-            egress.policy.home.arpa/internet: "true"
+            egress.policy.home.arpa/block-all: "true"
         containers:
           app:
             image:
@@ -64,7 +64,7 @@ spec:
           reloader.stakater.com/auto: "true"
         pod:
           labels:
-            egress.policy.home.arpa/internet: "true"
+            egress.policy.home.arpa/block-all: "true"
         containers:
           app:
             image:
@@ -153,6 +153,15 @@ spec:
         type: cilium
         controller: karakeep
         egress:
+          - # Crawler assets, adblock lists and Gemini inference API
+            toEntities:
+              - world
+            toPorts:
+              - ports:
+                  - port: "80"
+                    protocol: TCP
+                  - port: "443"
+                    protocol: TCP
           - toControllers: [chrome]
             toPorts:
               - ports:
@@ -195,6 +204,16 @@ spec:
       chrome:
         type: cilium
         controller: chrome
+        egress:
+          - # Headless browser fetching bookmarked pages
+            toEntities:
+              - world
+            toPorts:
+              - ports:
+                  - port: "80"
+                    protocol: TCP
+                  - port: "443"
+                    protocol: TCP
         ingress:
           - fromControllers: [karakeep]
             toPorts:

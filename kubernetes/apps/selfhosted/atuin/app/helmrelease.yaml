@@ -69,6 +69,22 @@ spec:
               - ports:
                   - port: "5432"
                     protocol: TCP
+        ingress:
+          - fromEndpoints:
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: network
+                  gateway.networking.k8s.io/gateway-name: envoy-internal
+            toPorts:
+              - ports:
+                  - port: "8888"
+                    protocol: TCP
+          - # Host-network agents (miroir, kguardian) probing from other nodes
+            fromEntities:
+              - remote-node
+            toPorts:
+              - ports:
+                  - port: "8888"
+                    protocol: TCP
 
     service:
       atuin:

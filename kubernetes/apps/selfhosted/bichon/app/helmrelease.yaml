@@ -15,6 +15,8 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         pod:
+          labels:
+            egress.policy.home.arpa/block-all: "true"
           securityContext:
             fsGroup: 2000
             fsGroupChangePolicy: OnRootMismatch
@@ -58,6 +60,45 @@ spec:
               capabilities:
                 drop:
                   - ALL
+    networkpolicies:
+      bichon:
+        type: cilium
+        controller: bichon
+        egress:
+          - # Mail provider APIs/OAuth (HTTPS) and IMAPS
+            toEntities:
+              - world
+            toPorts:
+              - ports:
+                  - port: "443"
+                    protocol: TCP
+                  - port: "993"
+                    protocol: TCP
+          - # IMAP via proton-bridge
+            toEndpoints:
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: network
+                  app.kubernetes.io/name: proton-bridge
+            toPorts:
+              - ports:
+                  - port: "143"
+                    protocol: TCP
+        ingress:
+          - fromEndpoints:
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: network
+                  gateway.networking.k8s.io/gateway-name: envoy-internal
+            toPorts:
+              - ports:
+                  - port: "15630"
+                    protocol: TCP
+          - # Host-network agents (miroir, kguardian) probing from other nodes
+            fromEntities:
+              - remote-node
+            toPorts:
+              - ports:
+                  - port: "15630"
+                    protocol: TCP
     service:
       app:
         ports:

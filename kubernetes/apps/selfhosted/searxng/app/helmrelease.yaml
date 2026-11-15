@@ -22,6 +22,17 @@ spec:
       searxng:
         type: cilium
         egress:
+          - # Upstream search engines (HTTP, HTTPS and QUIC)
+            toEntities:
+              - world
+            toPorts:
+              - ports:
+                  - port: "80"
+                    protocol: TCP
+                  - port: "443"
+                    protocol: TCP
+                  - port: "443"
+                    protocol: UDP
           - toEndpoints:
               - matchLabels:
                   app.kubernetes.io/name: searxng-valkey
@@ -41,6 +52,13 @@ spec:
               - ports:
                   - port: "8080"
                     protocol: TCP
+          - # Host-network agents (miroir, kguardian) probing from other nodes
+            fromEntities:
+              - remote-node
+            toPorts:
+              - ports:
+                  - port: "8080"
+                    protocol: TCP
 
     controllers:
       searxng:
@@ -50,7 +68,7 @@ spec:
 
         pod:
           labels:
-            egress.policy.home.arpa/internet: "true"
+            egress.policy.home.arpa/block-all: "true"
           securityContext:
             fsGroup: 977
             fsGroupChangePolicy: "OnRootMismatch"

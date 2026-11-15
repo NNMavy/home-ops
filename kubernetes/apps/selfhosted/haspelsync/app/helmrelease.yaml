@@ -22,7 +22,9 @@ spec:
       main:
         annotations:
           reloader.stakater.com/auto: "true"
-
+        pod:
+          labels:
+            egress.policy.home.arpa/block-all: "true"
         containers:
           app:
             image:
@@ -38,6 +40,43 @@ spec:
               limits:
                 memory: 512M
 
+    networkpolicies:
+      haspelsync:
+        type: cilium
+        controller: main
+        egress:
+          - toEndpoints:
+              - matchLabels:
+                  app.kubernetes.io/controller: main
+                  app.kubernetes.io/instance: spoolman
+                  app.kubernetes.io/name: spoolman
+            toPorts:
+              - ports:
+                  - port: "8000"
+                    protocol: TCP
+          - # Bambu printer MQTT (TLS) on the IoT VLAN (observed peer)
+            toCIDR:
+              - 172.16.15.146/32
+            toPorts:
+              - ports:
+                  - port: "8883"
+                    protocol: TCP
+        ingress:
+          - fromEndpoints:
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: network
+                  gateway.networking.k8s.io/gateway-name: envoy-internal
+            toPorts:
+              - ports:
+                  - port: "4000"
+                    protocol: TCP
+          - # Host-network agents (miroir, kguardian) probing from other nodes
+            fromEntities:
+              - remote-node
+            toPorts:
+              - ports:
+                  - port: "4000"
+                    protocol: TCP
 
     service:
       app:
