@@ -113,9 +113,15 @@ guides discovery; `forge-git repo path` resolves the canonical path and
 `/opt/data/workspace/repos/<host>/<owner>/<repo>`. Existing remotes are checked;
 the helper does not reset or update an existing checkout.
 
-`hermes-forgejo` is the source of the read-only
-`/mnt/secrets/forges/forgejo/git.codewalker.dev` credential (1Password `forgejo`
-item, `lab_assistant_token`). `forge-auth` selects a
+`hermes-forgejo` is the source of the
+`/mnt/secrets/forges/forgejo/git.codewalker.dev` credential, mounted read-only
+(1Password `forgejo` item, `c3po_token`). The token belongs to the `C3PO`
+Forgejo account. That account is not a site admin; its repository access comes
+from membership in the `starforge` org's `bots` team. The token needs repository
+and issue write access so Hermes can push branches, open pull requests, and
+comment and react on them.
+konflate and kritika still post as `lab-assistant`; do not reuse that account
+for Hermes. `forge-auth` selects a
 CLI by both provider and hostname, while Git's shared global config uses
 `git-credential-forge` and disables synthesized identities. `forge-git` resolves
 commit identity from the authenticated account API or an operator-supplied
