@@ -104,6 +104,12 @@ spec:
               metadata:
                 client: home-assistant
               allowedModels:
+              - chatgpt/gpt-6-astra
+              - chatgpt/gpt-6-luna
+              - chatgpt/gpt-6.1-sol
+              - claude/haiku-5.5
+              - claude/opus-5.5
+              - claude/sonnet-5.5
               - mistral/large-4
               - mistral/small-4
             - key: ${KRITIKA_API_KEY}
