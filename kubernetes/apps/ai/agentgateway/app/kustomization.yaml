@@ -6,3 +6,4 @@ resources:
   - ./ciliumnetworkpolicy.yaml
   - ./ocirepository.yaml
   - ./helmrelease.yaml
+  - ./httproute.yaml
