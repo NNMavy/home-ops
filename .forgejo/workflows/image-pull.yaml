@@ -71,7 +71,8 @@ jobs:
     runs-on: home-ops
     strategy:
       matrix:
-        image: ${{ fromJSON(needs.extract.outputs.images) }}
+        # Forgejo drops an empty matrix job, leaving "success" blocked; a placeholder entry is skipped by the job `if`
+        image: ${{ fromJSON(needs.extract.outputs.images == '[]' && '["none"]' || needs.extract.outputs.images) }}
       max-parallel: 4
       fail-fast: false
     steps:
