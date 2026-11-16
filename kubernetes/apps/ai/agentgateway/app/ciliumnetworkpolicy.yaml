@@ -30,6 +30,15 @@ spec:
         - ports:
             - port: "8080"
               protocol: TCP
+    - # agentgateway.codewalker.dev, used by Home Assistant outside the cluster
+      fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: network
+            gateway.networking.k8s.io/gateway-name: envoy-internal
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
   egress:
     - toEntities:
         - kube-apiserver

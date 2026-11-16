@@ -22,6 +22,11 @@ spec:
         secretKeyRef:
           name: agentgateway
           key: HERMES_API_KEY
+    - name: HOME_ASSISTANT_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: agentgateway
+          key: HOME_ASSISTANT_API_KEY
     - name: KRITIKA_API_KEY
       valueFrom:
         secretKeyRef:
@@ -93,6 +98,12 @@ spec:
               - claude/haiku-5.5
               - claude/opus-5.5
               - claude/sonnet-5.5
+              - mistral/large-4
+              - mistral/small-4
+            - key: ${HOME_ASSISTANT_API_KEY}
+              metadata:
+                client: home-assistant
+              allowedModels:
               - mistral/large-4
               - mistral/small-4
             - key: ${KRITIKA_API_KEY}

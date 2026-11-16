@@ -1,0 +1,22 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.networking.k8s.io/httproute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: agentgateway
+  annotations:
+    # Every LLM path requires an API key, so an unauthenticated probe gets 401.
+    gatus.home-operations.com/endpoint: |-
+      conditions: ["[STATUS] == 401"]
+      path: /v1/models
+spec:
+  hostnames:
+    - agentgateway.codewalker.dev
+  parentRefs:
+    - name: envoy-internal
+      namespace: network
+  rules:
+    # Only the LLM listener is exposed; the MCP listener (8081) stays in-cluster.
+    - backendRefs:
+        - name: agentgateway
+          port: 8080
