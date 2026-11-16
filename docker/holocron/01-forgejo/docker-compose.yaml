@@ -40,6 +40,7 @@ services:
       - FORGEJO__oauth2_client__ENABLE_AUTO_REGISTRATION=true
       - FORGEJO__openid__ENABLE_OPENID_SIGNIN=false
       - FORGEJO__openid__ENABLE_OPENID_SIGNUP=false
+      - FORGEJO__ui__REACTIONS=+1,-1,laugh,hooray,confused,heart,rocket,eyes,white_check_mark,x
       # Issuers whose JWKS Forgejo may fetch. kritika resolves to envoy-internal,
       # a private address that ALLOW_LOCALNETWORKS=false would otherwise block.
       # git.codewalker.dev keeps Forgejo Actions OIDC (PR reviewer) allowed.
