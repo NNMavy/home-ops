@@ -73,3 +73,7 @@ spec:
       enabled: true
     leaderElection:
       enabled: true
+    # Egress: DNS + kube-apiserver only (ciliumnetworkpolicy.yaml covers ingress)
+    podLabels:
+      egress.policy.home.arpa/block-all: "true"
+      egress.policy.home.arpa/kube-api: "true"
