@@ -29,7 +29,7 @@ spec:
           web:
             image:
               repository: ghcr.io/fluff2908/erasitwebsite
-              tag: 0.3.0@sha256:dbeae75bb1ffc82176c85c88156994668f856cd44513b09cc87c7622cd2fabd9
+              tag: 0.4.0@sha256:4c5325a84eaea9af3712d97ee9d7ef7b8e64f2c0c8be41e490bb7bdae36b3614
             resources:
               requests:
                 cpu: 5m
