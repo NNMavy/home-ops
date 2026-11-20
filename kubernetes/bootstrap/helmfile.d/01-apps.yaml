@@ -62,7 +62,7 @@ releases:
   - name: cert-manager-webhook-ovh
     namespace: cert-manager
     chart: oci://ghcr.io/aureq/charts/cert-manager-webhook-ovh
-    version: 0.9.19
+    version: 0.9.20
     values:
       - templates/values.yaml.gotmpl
     needs:
