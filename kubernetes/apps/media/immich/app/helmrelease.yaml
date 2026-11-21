@@ -86,6 +86,12 @@ spec:
               image:
                 repository: ghcr.io/immich-app/immich-server
                 tag: "v3.4.2"
+              env:
+                # v3.4.2 regression: with the default IMMICH_HOST (::) the Prometheus
+                # exporter rejects every scrape with 400 Bad Request.
+                # Remove once a release includes immich-app/immich#33480.
+                # https://github.com/immich-app/immich/issues/33466
+                IMMICH_HOST: 0.0.0.0
               resources:
                 claims:
                   - name: gpu
