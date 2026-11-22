@@ -43,9 +43,9 @@ token and users are signed out at every ID-token expiry.
 `app/resources/config.yaml` is a read-only managed overlay mounted at
 `/etc/hermes/config.yaml` (Hermes' supported path). It pins the Webapp and
 Dashboard addresses, authentik OIDC, the gateway topology, secret redaction, the
-local terminal backend (passing `SEARXNG_URL` through to terminal sessions), and
-disables shared telemetry. Managed values take precedence over each profile's
-settings.
+local terminal backend (passing `SEARXNG_URL` through to terminal sessions), a
+five-minute clarify-question timeout, and disables shared telemetry. Managed
+values take precedence over each profile's settings.
 
 Profile configuration, `.env`, and `SOUL.md` live on the PVC. The deployment
 does not seed or rewrite profile files at startup. Hermes' per-profile command

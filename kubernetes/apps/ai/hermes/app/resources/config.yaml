@@ -1,5 +1,9 @@
 ---
 # Managed infrastructure overlay; profile preferences remain on the PVC.
+agent:
+  # Seconds an unanswered clarify question blocks the agent (upstream default: 90).
+  clarify_timeout: 300
+
 dashboard:
   oauth:
     provider: self-hosted
