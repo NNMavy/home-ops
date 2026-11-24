@@ -16,7 +16,7 @@ spec:
           reloader.stakater.com/auto: "true"
         pod:
           labels:
-            # Internet + home LAN (Cilium "world"); the CNP adds envoy-internal
+            # Internet + home LAN (Cilium "world"); the CNP adds the gateways
             egress.policy.home.arpa/internet: "true"
           # s6-overlay (/init) must start as root to chown /config and drop to
           # abc (PUID/PGID); explicit so no default can force non-root.
@@ -69,12 +69,16 @@ spec:
         type: cilium
         controller: webtop
         egress:
-          - # Browse internal apps: ingress-int resolves to the envoy-internal
-            # LB VIP, which Cilium translates to the gateway pods (not world)
+          - # Browse cluster apps: ingress-int/ingress-ext resolve to the
+            # envoy-internal/envoy-external LB VIPs, which Cilium translates to
+            # the gateway pods (not world)
             toEndpoints:
               - matchLabels:
                   k8s:io.kubernetes.pod.namespace: network
                   gateway.networking.k8s.io/gateway-name: envoy-internal
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: network
+                  gateway.networking.k8s.io/gateway-name: envoy-external
             toPorts:
               - ports:
                   # Policy applies after Service translation: envoy's 80/443
