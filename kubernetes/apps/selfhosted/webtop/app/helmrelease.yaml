@@ -29,7 +29,7 @@ spec:
           app:
             image:
               repository: ghcr.io/linuxserver/webtop
-              tag: debian-xfce@sha256:8bb9f1ac0bcf64d6e0be56bcd65dbfa985ee8c2b09c16820ddae29d3e44aeaa3
+              tag: ubuntu-xfce@sha256:723d89eb297e3c4096e3f96416acad3ea060e875923988ab42dee1bd974af152
             env:
               PGID: "2000"
               PUID: "2000"
@@ -72,7 +72,7 @@ spec:
           - fromEndpoints:
               - matchLabels:
                   k8s:io.kubernetes.pod.namespace: network
-                  gateway.networking.k8s.io/gateway-name: envoy-internal
+                  gateway.networking.k8s.io/gateway-name: envoy-external
             toPorts:
               - ports:
                   - port: "3000"
