@@ -17,4 +17,5 @@ resources:
   - ./paperless/ks.yaml
   - ./searxng/ks.yaml
   - ./spoolman/ks.yaml
+  - ./webtop/ks.yaml
   - ./zipline/ks.yaml
