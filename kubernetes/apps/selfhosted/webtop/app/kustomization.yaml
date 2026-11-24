@@ -1,0 +1,22 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ./externalsecret.yaml
+  - ./ocirepository.yaml
+  - ./helmrelease.yaml
+  - ./securitypolicy.yaml
+patches:
+  - # Keep the browser/desktop cache out of backups. An explicit list replaces
+    # kopiur's defaults, so the Linux-relevant default is re-added.
+    patch: |-
+      - op: add
+        path: /spec/files
+        value:
+          ignoreRules:
+            - /lost+found
+            - /.cache
+    target:
+      group: kopiur.home-operations.com
+      kind: SnapshotPolicy
