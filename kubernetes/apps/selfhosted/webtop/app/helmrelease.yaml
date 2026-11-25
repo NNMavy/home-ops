@@ -18,6 +18,10 @@ spec:
           labels:
             # Internet + home LAN (Cilium "world"); the CNP adds the gateways
             egress.policy.home.arpa/internet: "true"
+          # Shared Intel iGPU (DRA admin access) for Selkies hardware encoding
+          resourceClaims:
+            - name: gpu
+              resourceClaimTemplateName: webtop-gpu
           # s6-overlay (/init) must start as root to chown /config and drop to
           # abc (PUID/PGID); explicit so no default can force non-root.
           securityContext:
@@ -43,6 +47,8 @@ spec:
               readiness:
                 enabled: true
             resources:
+              claims:
+                - name: gpu
               requests:
                 cpu: 100m
                 memory: 1Gi
