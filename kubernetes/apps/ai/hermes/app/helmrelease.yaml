@@ -68,6 +68,15 @@ spec:
                     protocol: TCP
                   - port: "9119"
                     protocol: TCP
+          - # Public webhook listener (Forgejo and other event sources)
+            fromEndpoints:
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: network
+                  gateway.networking.k8s.io/gateway-name: envoy-external
+            toPorts:
+              - ports:
+                  - port: "8644"
+                    protocol: TCP
     controllers:
       hermes:
         annotations:
@@ -267,6 +276,28 @@ spec:
           - backendRefs:
               - identifier: app
                 port: dashboard
+      webhook:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == 404"]
+        hostnames:
+          - hermes-hooks.codewalker.dev
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        rules:
+          # Only the webhook endpoints (HMAC-verified per route); /health and
+          # everything else on the listener stays private.
+          - backendRefs:
+              - identifier: app
+                port: webhook
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /webhooks/
+              - path:
+                  type: RegularExpression
+                  value: ^/p/[^/]+/webhooks/[^/]+$
     service:
       app:
         ports:
@@ -276,3 +307,5 @@ spec:
           dashboard:
             appProtocol: kubernetes.io/wss
             port: 9119
+          webhook:
+            port: 8644
