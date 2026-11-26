@@ -51,10 +51,11 @@ spec:
                 - name: gpu
               requests:
                 cpu: 100m
-                memory: 1Gi
+                memory: 3Gi
               limits:
-                # Includes the 1Gi memory-backed /dev/shm
-                memory: 4Gi
+                # Includes the 1Gi memory-backed /dev/shm. 4Gi OOM-killed a
+                # normal desktop session (working set averaged ~3.4Gi).
+                memory: 8Gi
             # s6-overlay starts as root, chowns /config and drops to abc (PUID).
             # No privilege escalation, so sudo inside the desktop does not work.
             securityContext:
