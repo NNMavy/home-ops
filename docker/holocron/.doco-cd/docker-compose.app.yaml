@@ -51,3 +51,7 @@ services:
       - "traefik.http.routers.doco-cd.entrypoints=websecure"
 volumes:
   data: {}
+networks:
+  default:
+    name: apps
+    external: false
