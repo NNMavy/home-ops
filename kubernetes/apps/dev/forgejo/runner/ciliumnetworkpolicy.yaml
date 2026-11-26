@@ -54,6 +54,19 @@ spec:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: network
             gateway.networking.k8s.io/gateway-name: envoy-external
+    - # Hairpinned in-cluster internal services (e.g. pages.codewalker.dev).
+      # The envoy-internal LB VIP is translated to the gateway pods (not world);
+      # policy applies after translation, so 80/443 are container ports 10080/10443.
+      toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: network
+            gateway.networking.k8s.io/gateway-name: envoy-internal
+      toPorts:
+        - ports:
+            - protocol: TCP
+              port: "10080"
+            - protocol: TCP
+              port: "10443"
     - # Talos API on nodes (image-pull workflow: talosctl --nodes "$NODE")
       toEntities:
         - host
