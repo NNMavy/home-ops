@@ -95,19 +95,47 @@ spec:
           terminationGracePeriodSeconds: 60
         strategy: Recreate
         initContainers:
+          # The volume root is created root-owned and fsGroup only fixes its group. Hermes refuses
+          # a gateway home not owned by the gateway user (unsafe_control_path), so named-profile
+          # clients (kanban workers) cannot reach the default multiplexer. Not recursive: only the
+          # root directory needs it.
+          chown-data:
+            image: &image
+              repository: docker.io/nousresearch/hermes-agent
+              tag: v0.23.4@sha256:ef0650d523ee1b5ab32c779acabc446d9936869a9932591553688a62bcf0c42f
+            command:
+              - chown
+              - 10000:10000
+              - /opt/data
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 64Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                add:
+                  - CHOWN
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: true
+              runAsGroup: 0
+              runAsNonRoot: false
+              runAsUser: 0
           # Run the image's config migration before s6 starts. Its own boot hook calls it through
           # `s6-setuidgid hermes`, which needs CAP_SETGID and fails as non-root. Skipped on first
           # boot only when no profile config exists yet.
           config-migrate:
-            image: &image
-              repository: docker.io/nousresearch/hermes-agent
-              tag: v0.23.4@sha256:ef0650d523ee1b5ab32c779acabc446d9936869a9932591553688a62bcf0c42f
+            image: *image
             command:
               - /bin/sh
               - -c
               - >-
                 [ ! -f /opt/data/config.yaml ] ||
                 exec /opt/hermes/.venv/bin/python /opt/hermes/scripts/docker_config_migrate.py
+            dependsOn:
+              - chown-data
             env:
               HOME: /opt/data
             resources:
@@ -209,6 +237,8 @@ spec:
         advancedMounts:
           hermes:
             app:
+              - path: /opt/data
+            chown-data:
               - path: /opt/data
             config-migrate:
               - path: /opt/data
