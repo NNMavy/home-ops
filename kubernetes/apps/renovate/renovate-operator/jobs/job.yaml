@@ -22,7 +22,7 @@ spec:
             "matchHost": "git.codewalker.dev"
           }
         ]
-  image: ghcr.io/renovatebot/renovate:44.257.9
+  image: ghcr.io/renovatebot/renovate:45.3.2
   parallelism: 5
   provider:
     name: forgejo
