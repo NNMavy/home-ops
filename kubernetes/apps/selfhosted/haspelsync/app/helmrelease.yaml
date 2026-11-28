@@ -37,7 +37,7 @@ spec:
           app:
             image:
               repository: ghcr.io/rdiger-36/haspelsync
-              tag: "1.4.0"
+              tag: "1.4.2"
             env:
               SPOOLMAN_ENDPOINT: "http://spoolman:8000"
               MODE: "automatic"
